@@ -7,9 +7,7 @@ categories: ["R"]
 tags: ["R Markdown", "plot", "regression"]
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
-```
+
 
 # R Markdown
 
@@ -20,9 +18,10 @@ You can embed an R code chunk like this:
 
 # Including Plots
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
+You can also embed plots. See Figure <a href="#fig:pie">1</a> for example:
 
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
+
+```r
 par(mar = c(0, 1, 0, 1))
 pie(
   c(280, 60, 20),
@@ -31,3 +30,8 @@ pie(
   init.angle = -50, border = NA
 )
 ```
+
+<div class="figure">
+<img src="{{< blogdown/postref >}}index_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
+<p class="caption"><span id="fig:pie"></span>Figure 1: A fancy pie chart.</p>
+</div>

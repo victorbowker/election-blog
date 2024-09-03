@@ -3,7 +3,7 @@
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Another Note on A blogdown Tutorial | A minimal Hugo website</title>
+    <title> | A minimal Hugo website</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     
@@ -28,14 +28,35 @@
     </nav>
 
 <div class="article-meta">
-<h1><span class="title">Another Note on A blogdown Tutorial</span></h1>
-<h2 class="author">Yihui Xie</h2>
-<h2 class="date">2017/06/14</h2>
+<h1><span class="title"></span></h1>
+
+
 </div>
 
 <main>
-<p>I just discovered <a href="https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/">an awesome tutorial</a> on <strong>blogdown</strong> written by Alison. I have to admit this is <em>the</em> best <strong>blogdown</strong> tutorial I have seen so far.</p>
-<p><img src="https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/03-blogdown-2021.png" alt="Alison&rsquo;s blogdown tutorial"></p>
+<h2 id="n">n</h2>
+<h2 id="tags-r-markdown-plot-regression">title: &ldquo;Hello R Markdown&rdquo;
+author: &ldquo;Frida Gomam&rdquo;
+date: 2020-12-01T21:13:14-05:00
+categories: [&ldquo;R&rdquo;]
+tags: [&ldquo;R Markdown&rdquo;, &ldquo;plot&rdquo;, &ldquo;regression&rdquo;]</h2>
+<h1 id="r-markdown">R Markdown</h1>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com">http://rmarkdown.rstudio.com</a>.</p>
+<p>You can embed an R code chunk like this:</p>
+<h1 id="including-plots">Including Plots</h1>
+<p>You can also embed plots. See Figure <a href="#fig:pie">1</a> for example:</p>
+<pre><code class="language-r">par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
+  col = c('#0292D8', '#F7EA39', '#C4B632'),
+  init.angle = -50, border = NA
+)
+</code></pre>
+<div class="figure">
+<img src="/post/1/01/01/index_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
+<p class="caption"><span id="fig:pie"></span>Figure 1: A fancy pie chart.</p>
+</div>
 
 </main>
 
