@@ -7,3 +7,5 @@ title: Election Blog 2024
 # Victor Bowker
 
 ## _This is just the beginning_
+
+Hello! This is me testing to see if this properly commits to my github site!

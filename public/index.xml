@@ -44,11 +44,11 @@
       <description>&lt;h2 id=&#34;n&#34;&gt;n&lt;/h2&gt;&#xA;&lt;h2 id=&#34;tags-r-markdown-plot-regression&#34;&gt;title: &amp;ldquo;Hello R Markdown&amp;rdquo;&#xA;author: &amp;ldquo;Frida Gomam&amp;rdquo;&#xA;date: 2020-12-01T21:13:14-05:00&#xA;categories: [&amp;ldquo;R&amp;rdquo;]&#xA;tags: [&amp;ldquo;R Markdown&amp;rdquo;, &amp;ldquo;plot&amp;rdquo;, &amp;ldquo;regression&amp;rdquo;]&lt;/h2&gt;&#xA;&lt;h1 id=&#34;r-markdown&#34;&gt;R Markdown&lt;/h1&gt;&#xA;&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;&#xA;&lt;h1 id=&#34;including-plots&#34;&gt;Including Plots&lt;/h1&gt;&#xA;&lt;p&gt;You can also embed plots. See Figure &lt;a href=&#34;#fig:pie&#34;&gt;1&lt;/a&gt; for example:&lt;/p&gt;</description>
     </item>
     <item>
-      <title>About Hugo XMin</title>
+      <title>About Victor Bowker</title>
       <link>http://localhost:4321/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:4321/about/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;XMin&lt;/strong&gt; is the first Hugo theme I have designed. The original reason that I wrote it was I needed a minimal example of Hugo themes when I was writing the  &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;&lt;strong&gt;blogdown&lt;/strong&gt;&lt;/a&gt; book. Basically I wanted a simple theme that supports a navigation menu, a home page, other single pages, lists of pages, blog posts, categories, tags, and RSS. That is all. Nothing fancy. In terms of CSS and JavaScript, I really want to keep them minimal. In fact, this theme does not contain any JavaScript code at all, although on this example website I did introduce some JavaScript code (still relatively simple anyway). The theme does not contain any images, either, and is pretty much a plain-text theme.&lt;/p&gt;</description>
+      <description></description>
     </item>
   </channel>
 </rss>
