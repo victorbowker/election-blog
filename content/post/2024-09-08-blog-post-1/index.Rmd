@@ -19,6 +19,26 @@ library(maps)
 library(tidyverse)
 ```
 
+my_custom_theme <- 
+  theme_bw() + 
+  theme(panel.border = element_blank(),
+        plot.title = element_text(size = 15, hjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text = element_text(size = 12),
+        strip.text = element_text(size = 18),
+        axis.line = element_line(colour = "black"),
+        legend.position = "top",
+        legend.text = element_text(size = 12))
+
+```{r}
+my_custom_theme <-
+  theme_minimal() +
+  theme(axis.text = element_text(size = 8),
+        strip.text = element_text(size = 13),
+          )
+  
+
+```
 ```{r, echo=FALSE, include=FALSE}
 d_popvote <- read_csv("popvote_1948-2020.csv")
 ```
@@ -51,7 +71,12 @@ d_popvote |>
   ggplot(aes(x = year, y = pv2p, color = party)) + 
   geom_line() + 
   scale_color_manual(values = c("dodgerblue", "firebrick")) + 
-  theme_bw()
+  my_custom_theme +
+  labs(x = "Year of Election Cycle",
+       y = "National Two Party Vote (%)",
+       title = "Past Party Share")
+
+knitr::kable(d_popvote)
 ```
 
 ```{r, echo=FALSE, include=FALSE}
@@ -85,7 +110,7 @@ pv_win_map |>
   ggplot(aes(long, lat, group = group)) + 
   geom_polygon(aes(fill = winner)) + 
   scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
-  theme_void()
+  my_custom_theme
 ```
 
 ```{r, echo=FALSE}
@@ -99,8 +124,8 @@ d_pvstate_wide |>
   scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
   theme_void() + 
   ggtitle("Presidential Vote Share (1980-2020)") + 
-  theme(strip.text = element_text(size = 12), 
-        aspect.ratio = 1)
+  theme(strip.text = element_text(size = 8), 
+        aspect.ratio = 1) 
 ```
 
 ```{r, echo=FALSE, include=FALSE}
@@ -121,6 +146,7 @@ state_abbr <- data.frame(
 ```
 ```{r, echo=FALSE, include=FALSE}
 # this does not seem to be accurate for me?
+# this section written in consulation with stackoverflow and chatgpt
 centers <- states_map |>
   group_by(region) |>
   summarize(long_center = mean(long), lat_center = mean(lat))
@@ -132,6 +158,8 @@ pv2p_2024_states <- pv2p_2024_states |>
 ```
 
 ```{r, echo=FALSE}
+
+# this section written in consulation with stackoverflow and chatgpt
 pv2p_2024_states |> 
   left_join(states_map, by = "region") |> 
   ggplot(aes(long, lat, group = group)) + 
@@ -144,7 +172,8 @@ pv2p_2024_states |>
                        limits = c(-50, 50)) + 
   theme_void() +
   geom_text(aes(x = long_center, y = lat_center, label = state_abbr), 
-            size = 2, color = "black")  
+            size = 2, color = "black") +
+  labs()
             
 ```
 
