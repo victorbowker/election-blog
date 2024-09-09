@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Victor Bowker</title>
-    <link>https://victorbowker.github.io/election-blog/tags/</link>
+    <link>http://localhost:4321/election-blog/tags/</link>
     <description>Recent content in Tags on Victor Bowker</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 14 Feb 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://victorbowker.github.io/election-blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:4321/election-blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blogdown</title>
-      <link>https://victorbowker.github.io/election-blog/tags/blogdown/</link>
+      <link>http://localhost:4321/election-blog/tags/blogdown/</link>
       <pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://victorbowker.github.io/election-blog/tags/blogdown/</guid>
+      <guid>http://localhost:4321/election-blog/tags/blogdown/</guid>
       <description></description>
     </item>
     <item>
       <title>Markdown</title>
-      <link>https://victorbowker.github.io/election-blog/tags/markdown/</link>
+      <link>http://localhost:4321/election-blog/tags/markdown/</link>
       <pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://victorbowker.github.io/election-blog/tags/markdown/</guid>
+      <guid>http://localhost:4321/election-blog/tags/markdown/</guid>
       <description></description>
     </item>
     <item>
       <title>MathJax</title>
-      <link>https://victorbowker.github.io/election-blog/tags/mathjax/</link>
+      <link>http://localhost:4321/election-blog/tags/mathjax/</link>
       <pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://victorbowker.github.io/election-blog/tags/mathjax/</guid>
+      <guid>http://localhost:4321/election-blog/tags/mathjax/</guid>
       <description></description>
     </item>
     <item>
       <title>Pandoc</title>
-      <link>https://victorbowker.github.io/election-blog/tags/pandoc/</link>
+      <link>http://localhost:4321/election-blog/tags/pandoc/</link>
       <pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://victorbowker.github.io/election-blog/tags/pandoc/</guid>
+      <guid>http://localhost:4321/election-blog/tags/pandoc/</guid>
       <description></description>
     </item>
     <item>
       <title>RStudio</title>
-      <link>https://victorbowker.github.io/election-blog/tags/rstudio/</link>
+      <link>http://localhost:4321/election-blog/tags/rstudio/</link>
       <pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://victorbowker.github.io/election-blog/tags/rstudio/</guid>
+      <guid>http://localhost:4321/election-blog/tags/rstudio/</guid>
       <description></description>
     </item>
   </channel>

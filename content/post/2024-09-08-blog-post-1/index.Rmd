@@ -6,4 +6,163 @@ slug: blog-post-1
 categories: []
 tags: []
 ---
-poop
+Hello all! I am so excited to begin on this journey of forecasting the 2024 Presidential Election. Please understand that this will be updated often, and I have no guarantee that this projection will be correct! Thanks for reading - VB
+
+
+_Past Vote Share - Overall_
+
+One of the more critical aspects of forecasting is understanding the past. Data can be an incredible tool in understanding past elections, will will allow us to predict the next ones. 
+
+```{r, echo=FALSE, include=FALSE}
+library(ggplot2)
+library(maps)
+library(tidyverse)
+```
+
+```{r, echo=FALSE, include=FALSE}
+d_popvote <- read_csv("popvote_1948-2020.csv")
+```
+
+```{r, echo=FALSE, include=FALSE}
+d_popvote |> 
+  filter(year == 2020) |> 
+  select(party, candidate, pv2p)
+```
+```{r, echo=FALSE, include=FALSE}
+(d_popvote_wide <- d_popvote |>
+    select(year, party, pv2p) |>
+    pivot_wider(names_from = party, values_from = pv2p))
+```
+
+```{r, echo=FALSE, include=FALSE}
+(d_popvote_wide <- d_popvote_wide |> 
+    mutate(winner = case_when(democrat > republican ~ "D",
+                              TRUE ~ "R")))
+```
+
+```{r, echo=FALSE, include=FALSE}
+d_popvote_wide |> 
+  group_by(winner) |>
+  summarise(races = n())
+```
+
+```{r, echo=FALSE}
+d_popvote |> 
+  ggplot(aes(x = year, y = pv2p, color = party)) + 
+  geom_line() + 
+  scale_color_manual(values = c("dodgerblue", "firebrick")) + 
+  theme_bw()
+```
+
+```{r, echo=FALSE, include=FALSE}
+states_map <- map_data("state")
+
+```
+
+```{r, echo=FALSE, include=FALSE}
+d_pvstate_wide <- read_csv("clean_wide_state_2pv_1948_2020.csv")
+
+```
+
+```{r, echo=FALSE, include=FALSE}
+d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+
+```
+
+```{r, echo=FALSE, include=FALSE}
+pv_map <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  left_join(states_map, by = "region")
+```
+
+```{r, echo=FALSE, include=FALSE}
+pv_win_map <- pv_map |> 
+  mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat"))
+```
+
+```{r, echo=FALSE}
+pv_win_map |> 
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = winner)) + 
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
+  theme_void()
+```
+
+```{r, echo=FALSE}
+d_pvstate_wide |> 
+  filter(year >= 1980) |> 
+  left_join(states_map, by = "region") |> 
+  mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  facet_wrap(facets = year ~.) + 
+  geom_polygon(aes(fill = winner), color = "white") + 
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
+  theme_void() + 
+  ggtitle("Presidential Vote Share (1980-2020)") + 
+  theme(strip.text = element_text(size = 12), 
+        aspect.ratio = 1)
+```
+
+```{r, echo=FALSE, include=FALSE}
+pv2p_2024_states <- d_pvstate_wide |> 
+  filter(year == 2020) |> 
+  group_by(state) |> 
+  summarize(R_pv2p_2024 = 0.75*R_pv2p + 0.25*R_pv2p_lag1, 
+            D_pv2p_2024 = 0.75*D_pv2p + 0.25*D_pv2p_lag1) |> 
+  mutate(pv2p_2024_margin = R_pv2p_2024 - D_pv2p_2024, 
+         winner = ifelse(R_pv2p_2024 > D_pv2p_2024, "R", "D"), 
+         region = tolower(state))
+```
+
+```{r, echo=FALSE, include=FALSE}
+state_abbr <- data.frame(
+  state_name = state.name,
+  state_abbr = state.abb)
+```
+```{r, echo=FALSE, include=FALSE}
+# this does not seem to be accurate for me?
+centers <- states_map |>
+  group_by(region) |>
+  summarize(long_center = mean(long), lat_center = mean(lat))
+```
+```{r, echo=FALSE, include=FALSE}
+pv2p_2024_states <- pv2p_2024_states |> 
+  left_join(state_abbr, by = c("state" = "state_name")) |> 
+  left_join(centers, by = "region") 
+```
+
+```{r, echo=FALSE}
+pv2p_2024_states |> 
+  left_join(states_map, by = "region") |> 
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = pv2p_2024_margin), color = "black") + 
+  scale_fill_gradient2(high = "firebrick1", 
+                       low = "dodgerblue4", 
+                       mid = "white", 
+                       name = "win margin", 
+                       breaks = c(-50, -25, 0, 25, 50), 
+                       limits = c(-50, 50)) + 
+  theme_void() +
+  geom_text(aes(x = long_center, y = lat_center, label = state_abbr), 
+            size = 2, color = "black")  
+            
+```
+
+
+
+
+```{r, echo=FALSE, include=FALSE}
+ec <- read_csv("ec_full.csv")
+
+```
+```{r, echo=FALSE, include=FALSE}
+pv2p_2024_states <- pv2p_2024_states |> 
+  mutate(year = 2024) |> 
+  left_join(ec, by = c("state", "year"))
+```
+
+```{r, echo=FALSE, include=FALSE}
+pv2p_2024_states |> 
+  group_by(winner) |> 
+  summarize(electoral_votes = sum(electors))
+```
