@@ -19,16 +19,6 @@ library(maps)
 library(tidyverse)
 ```
 
-my_custom_theme <- 
-  theme_bw() + 
-  theme(panel.border = element_blank(),
-        plot.title = element_text(size = 15, hjust = 0.5), 
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.text = element_text(size = 12),
-        strip.text = element_text(size = 18),
-        axis.line = element_line(colour = "black"),
-        legend.position = "top",
-        legend.text = element_text(size = 12))
 
 ```{r}
 my_custom_theme <-
@@ -66,7 +56,7 @@ d_popvote_wide |>
   summarise(races = n())
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 d_popvote |> 
   ggplot(aes(x = year, y = pv2p, color = party)) + 
   geom_line() + 
@@ -109,8 +99,8 @@ pv_win_map <- pv_map |>
 pv_win_map |> 
   ggplot(aes(long, lat, group = group)) + 
   geom_polygon(aes(fill = winner)) + 
-  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
-  my_custom_theme
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) +
+  theme_void()
 ```
 
 ```{r, echo=FALSE}
@@ -173,7 +163,7 @@ pv2p_2024_states |>
   theme_void() +
   geom_text(aes(x = long_center, y = lat_center, label = state_abbr), 
             size = 2, color = "black") +
-  labs()
+  labs(title = "Prediction for 2024, Week 1")
             
 ```
 
