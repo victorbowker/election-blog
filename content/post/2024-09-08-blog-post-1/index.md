@@ -11,19 +11,7 @@ Hello all! I am so excited to begin on this journey of forecasting the 2024 Pres
 
 _Past Vote Share - Overall_
 
-One of the more critical aspects of forecasting is understanding the past. Data can be an incredible tool in understanding past elections, will will allow us to predict the next ones. 
-
-
-
-
-
-```r
-my_custom_theme <-
-  theme_minimal() +
-  theme(axis.text = element_text(size = 8),
-        strip.text = element_text(size = 13),
-          )
-```
+One of the more critical aspects of forecasting is understanding the past. Data can be an incredible tool in understanding past elections, will will allow us to predict the next ones. Below, you will see the two party national vote distribution for the past ~70 years, from 1948 to 2020. You should note that elections are closer now than at most times in our recent history. This can make projections more difficult, as votes are less unanimous!
 
 
 
@@ -39,14 +27,22 @@ my_custom_theme <-
 
 
 
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 
 
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
+
+
+
+
+
+
+
+Next, see how this same presidential vote share can be broken down by each, by year. Comparing this with the historical winners of each respective election, you can better understand how states have historically voted, and how impactful their vote was. It is no secret that some states, like Wyoming, have so few votes that generally their electoral votes will not sway an election. Never the less, viewing by state vote share allows you to understand what public opinion can do to individual state's voting tendencies.
 
 ```
 ## Warning in left_join(filter(d_pvstate_wide, year >= 1980), states_map, by = "region"): Detected an unexpected many-to-many relationship between `x` and `y`.
@@ -56,7 +52,7 @@ my_custom_theme <-
 ##   "many-to-many"` to silence this warning.
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 
 
@@ -64,17 +60,28 @@ my_custom_theme <-
 
 
 
+
+
+Now, on to our current prediction, for the 2024 National Election. Per the tibble below, Kamala Harris and the Democrats will narrowly take the lead over Donald Trump. Now, what do we see? First, there are the expected Democrat strongholds in the Northeast and West Coast. In Wisconsin, my forecast agrees with the newest CNN poll that VP Harris will narrowly take the lead.* Interestingly, CNN is more confident in their projection that President Trump can clinch Arizona, where my data is not as certain. This race will be _close_, and I am excited to continue updating projections as we get closer to Election Day!
 
 ```
 ## Warning: Removed 12 rows containing missing values (`geom_text()`).
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+
+CNN Source: https://www.cnn.com/2024/09/04/politics/cnn-polls-battleground-states/index.html
+Some code utilized from TF Matthew Dardet as well as online sources included StackOverflow and ChatGPT 4
 
 
 
 
 
 
-
-
+```
+## # A tibble: 2 × 2
+##   winner electoral_votes
+##   <chr>            <dbl>
+## 1 D                  276
+## 2 R                  262
+```
