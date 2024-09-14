@@ -167,9 +167,6 @@ pv2p_2024_states |>
             
 ```
 
-CNN Source: https://www.cnn.com/2024/09/04/politics/cnn-polls-battleground-states/index.html
-Some code utilized from TF Matthew Dardet as well as online sources included StackOverflow and ChatGPT 4
-
 
 ```{r, echo=FALSE, include=FALSE}
 ec <- read_csv("ec_full.csv")
@@ -186,3 +183,7 @@ pv2p_2024_states |>
   group_by(winner) |> 
   summarize(electoral_votes = sum(electors))
 ```
+
+Some code utilized from Teaching Fellow Matthew Dardet as well as online sources included StackOverflow and ChatGPT 4
+CNN Source: https://www.cnn.com/2024/09/04/politics/cnn-polls-battleground-states/index.html
+Created for Gov 1347: Election Analytics at Harvard College

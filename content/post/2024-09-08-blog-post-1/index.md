@@ -70,9 +70,6 @@ Now, on to our current prediction, for the 2024 National Election. Per the tibbl
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
-CNN Source: https://www.cnn.com/2024/09/04/politics/cnn-polls-battleground-states/index.html
-Some code utilized from TF Matthew Dardet as well as online sources included StackOverflow and ChatGPT 4
-
 
 
 
@@ -85,3 +82,7 @@ Some code utilized from TF Matthew Dardet as well as online sources included Sta
 ## 1 D                  276
 ## 2 R                  262
 ```
+
+Some code utilized from Teaching Fellow Matthew Dardet as well as online sources included StackOverflow and ChatGPT 4
+CNN Source: https://www.cnn.com/2024/09/04/politics/cnn-polls-battleground-states/index.html
+Created for Gov 1347: Election Analytics at Harvard College
