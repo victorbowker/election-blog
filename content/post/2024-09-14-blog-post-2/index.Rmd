@@ -1,9 +1,191 @@
 ---
 title: Blog Post 2
-author: Package Build
+author: Victor Bowker
 date: '2024-09-14'
 slug: blog-post-2
 categories: []
 tags: []
 ---
-Testing :)
+
+## install via `install.packages("name")`
+```{r}
+library(car)
+library(tidyverse)
+library(readr)
+
+```
+```{r}
+d_popvote <- read_csv("popvote_1948-2020.csv")
+```
+
+```{r}
+d_fred <- read_csv("fred_econ.csv")
+```
+
+```{r}
+d_bea <- read_csv("bea_econ.csv") |> 
+  rename(year = "Year",
+         quarter = "Quarter", 
+         gdp = "Gross domestic product", 
+         gnp = "Gross national product", 
+         dpi = "Disposable personal income", 
+         consumption = "Personal consumption expenditures", 
+         goods = "Goods", 
+         durables = "Durable goods", 
+         nondurables = "Nondurable goods", 
+         services = "Services", 
+         pop = "Population (midperiod, thousands)")
+```
+
+
+```{r}
+d_inc_econ <- d_popvote |> 
+  filter(incumbent_party == TRUE) |> 
+  select(year, pv, pv2p, winner) |> 
+  left_join(d_fred |> filter(quarter == 2)) |> 
+  left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
+```
+
+```{r}
+d_inc_econ |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) +
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share") + 
+  theme_bw()
+```
+
+```{r}
+d_inc_econ_2 <- d_inc_econ |>
+  filter(year != 2020)
+```
+
+```{r}
+d_inc_econ_2 |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share") + 
+  theme_bw()
+```
+
+```{r}
+cor(d_inc_econ$GDP_growth_quarterly, 
+    d_inc_econ$pv2p)
+cor(d_inc_econ_2$GDP_growth_quarterly, 
+    d_inc_econ_2$pv2p)
+```
+```{r}
+reg_econ <- lm(pv2p ~ GDP_growth_quarterly, 
+               data = d_inc_econ)
+reg_econ |> summary()
+
+reg_econ_2 <- lm(pv2p ~ GDP_growth_quarterly, 
+                         data = d_inc_econ_2)
+reg_econ_2 |> summary()
+```
+
+```{r}
+# Can add bivariate regression lines to our scatterplots. 
+d_inc_econ |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share", 
+       title = "Y = 51.25 + 0.274 * X") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 18))
+```
+
+```{r}
+d_inc_econ_2 |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share", 
+       title = "Y = 49.38 + 0.737 * X") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 18))
+```
+
+```{r}
+summary(reg_econ_2)$r.squared
+summary(reg_econ_2)$adj.r.squared
+```
+
+```{r}
+plot(d_inc_econ$year, 
+     d_inc_econ$pv2p, 
+     type="l",
+     main="True Y (Line), Predicted Y (Dot) for Each Year")
+points(d_inc_econ$year, predict(reg_econ_2, d_inc_econ))
+```
+
+```{r}
+plot(reg_econ_2)
+```
+
+```{r}
+hist(reg_econ_2$model$pv2p - reg_econ_2$fitted.values, 
+     main = "Histogram of True Y - Predicted Y")
+mse <- mean((reg_econ_2$model$pv2p - reg_econ_2$fitted.values)^2)
+mse
+sqrt(mse)
+```
+```{r}
+(out_samp_pred <- predict(reg_econ_2, d_inc_econ[d_inc_econ$year == 2020,]))
+(out_samp_truth <- d_inc_econ |> filter(year == 2020) |> select(pv2p))
+out_samp_pred - out_samp_truth 
+```
+```{r}
+years_out_samp <- sample(d_inc_econ_2$year, 9) 
+mod <- lm(pv2p ~ GDP_growth_quarterly, 
+          d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+mean(out_samp_pred - out_samp_truth)
+```
+
+```{r}
+out_samp_errors <- sapply(1:1000, function(i) {
+  years_out_samp <- sample(d_inc_econ_2$year, 9) 
+  mod <- lm(pv2p ~ GDP_growth_quarterly, 
+            d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+  out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+  out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+  mean(out_samp_pred - out_samp_truth)
+})
+
+mean(abs(out_samp_errors))
+
+hist(out_samp_errors,
+     xlab = "",
+     main = "Mean Out-of-Sample Residual\n(1000 Runs of Cross-Validation)")
+```
+
+```{r}
+GDP_new <- d_fred |> 
+  filter(year == 2024 & quarter == 2) |> 
+  select(GDP_growth_quarterly)
+```
+
+```{r}
+predict(reg_econ_2, GDP_new)
+```
+
+```{r}
+predict(reg_econ_2, GDP_new, interval = "prediction")
+```
+
+
+
