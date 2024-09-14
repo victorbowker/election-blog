@@ -7,22 +7,22 @@ categories: []
 tags: []
 ---
 
-## install via `install.packages("name")`
-```{r}
+
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 library(car)
 library(tidyverse)
 library(readr)
 
 ```
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 d_popvote <- read_csv("popvote_1948-2020.csv")
 ```
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 d_fred <- read_csv("fred_econ.csv")
 ```
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 d_bea <- read_csv("bea_econ.csv") |> 
   rename(year = "Year",
          quarter = "Quarter", 
@@ -38,7 +38,7 @@ d_bea <- read_csv("bea_econ.csv") |>
 ```
 
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ <- d_popvote |> 
   filter(incumbent_party == TRUE) |> 
   select(year, pv, pv2p, winner) |> 
@@ -46,7 +46,7 @@ d_inc_econ <- d_popvote |>
   left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
@@ -57,12 +57,12 @@ d_inc_econ |>
   theme_bw()
 ```
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ_2 <- d_inc_econ |>
   filter(year != 2020)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ_2 |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
@@ -73,13 +73,13 @@ d_inc_econ_2 |>
   theme_bw()
 ```
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 cor(d_inc_econ$GDP_growth_quarterly, 
     d_inc_econ$pv2p)
 cor(d_inc_econ_2$GDP_growth_quarterly, 
     d_inc_econ_2$pv2p)
 ```
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 reg_econ <- lm(pv2p ~ GDP_growth_quarterly, 
                data = d_inc_econ)
 reg_econ |> summary()
@@ -89,8 +89,7 @@ reg_econ_2 <- lm(pv2p ~ GDP_growth_quarterly,
 reg_econ_2 |> summary()
 ```
 
-```{r}
-# Can add bivariate regression lines to our scatterplots. 
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
@@ -104,7 +103,7 @@ d_inc_econ |>
   theme(plot.title = element_text(size = 18))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_inc_econ_2 |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
@@ -118,12 +117,12 @@ d_inc_econ_2 |>
   theme(plot.title = element_text(size = 18))
 ```
 
-```{r}
+```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 summary(reg_econ_2)$r.squared
 summary(reg_econ_2)$adj.r.squared
 ```
 
-```{r}
+```{r,echo=FALSE, warning = FALSE, message = FALSE}
 plot(d_inc_econ$year, 
      d_inc_econ$pv2p, 
      type="l",
@@ -131,23 +130,23 @@ plot(d_inc_econ$year,
 points(d_inc_econ$year, predict(reg_econ_2, d_inc_econ))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 plot(reg_econ_2)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 hist(reg_econ_2$model$pv2p - reg_econ_2$fitted.values, 
      main = "Histogram of True Y - Predicted Y")
 mse <- mean((reg_econ_2$model$pv2p - reg_econ_2$fitted.values)^2)
 mse
 sqrt(mse)
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 (out_samp_pred <- predict(reg_econ_2, d_inc_econ[d_inc_econ$year == 2020,]))
 (out_samp_truth <- d_inc_econ |> filter(year == 2020) |> select(pv2p))
 out_samp_pred - out_samp_truth 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 years_out_samp <- sample(d_inc_econ_2$year, 9) 
 mod <- lm(pv2p ~ GDP_growth_quarterly, 
           d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
@@ -156,7 +155,7 @@ out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
 mean(out_samp_pred - out_samp_truth)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 out_samp_errors <- sapply(1:1000, function(i) {
   years_out_samp <- sample(d_inc_econ_2$year, 9) 
   mod <- lm(pv2p ~ GDP_growth_quarterly, 
@@ -173,17 +172,17 @@ hist(out_samp_errors,
      main = "Mean Out-of-Sample Residual\n(1000 Runs of Cross-Validation)")
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 GDP_new <- d_fred |> 
   filter(year == 2024 & quarter == 2) |> 
   select(GDP_growth_quarterly)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 predict(reg_econ_2, GDP_new)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 predict(reg_econ_2, GDP_new, interval = "prediction")
 ```
 
