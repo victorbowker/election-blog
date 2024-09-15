@@ -7,6 +7,10 @@ categories: []
 tags: []
 ---
 
+## Introduction
+It is no suprise, nor a secret, that most Americans vote with their pocketbook in mind. 
+According to the Pew Research Center in a poll from September 9th of this year, the _greatest_ concern among both Trump and Harris supporters is the economy. The next greatest issue, health care, is only ranked at highly concerning to 65% of voters, compared to the 81% when asked about the American economy.
+
 
 ```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
 library(car)
