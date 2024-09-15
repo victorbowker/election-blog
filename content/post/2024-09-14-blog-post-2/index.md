@@ -25,8 +25,7 @@ Today, I will walk you through analysis of the American economy, how it has hist
 
 
 
-## Understanding Post Results
-
+## Understanding Historical Results
   In the graph below, you will see historical trends with the X-axis consisting of GDP growth by quarter, and the Y-axis indicating the incumbent party's national popular vote share. Specifically, the data in the X-axis comes from the second economic quarter (Q2) of an election year. 
   Q2 was selected based on the idea of retrospective voting, where citizens consider past (and generally quite recent) history to decide how to vote now. In 1980, President Reagan embodied the retrospective voter well, asking "are you better off now than you were four years ago?" He reminded voters that incumbent Jimmy Carter was to blame for the past four years of turmoil, and who to celebrate for the past four of accomplishments. Luckily for Reagan, voters weighed Carter's failures higher than his accomplishments, eventually leading to Reagan's November win. You will see in the graph below how our data demonstrates that 1980 result.
   One clear issue is that of 2020, which perhaps adds a flavor of confusion to the seemingly positive correlation. So, what happened in 2020? Growth was slow, as Covid-19 led to some tough times financially. Companies were still shuttered, and it was not easy to both obey social distancing restrictions and run a functioning business. This does, however, make sense when you consider that growth was down, so the incumbent received a low share of the popular vote. Just because the difference in GDP growth is so substantial compared to other years, the general idea holds true! You will see the second graph in fact removes 2020 from the equation to draw a stronger picture.
@@ -36,7 +35,9 @@ Today, I will walk you through analysis of the American economy, how it has hist
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+## Linear Regression Model
 
+Then, as you will see below the same two graphs, but now with linear regression models attached. See the equation as well as line for each!
 
 
 
@@ -78,12 +79,12 @@ Today, I will walk you through analysis of the American economy, how it has hist
 ```
 
 ```
-## [1] 3.762483
+## [1] -1.241617
 ```
 
 
 ```
-## [1] 1.836573
+## [1] 1.826398
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
