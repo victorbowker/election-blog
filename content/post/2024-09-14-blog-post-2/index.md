@@ -25,6 +25,7 @@ Today, I will walk you through analysis of the American economy, how it has hist
 
 
 
+
 ## Understanding Historical Results
   In the graph below, you will see historical trends with the X-axis consisting of GDP growth by quarter, and the Y-axis indicating the incumbent party's national popular vote share. Specifically, the data in the X-axis comes from the second economic quarter (Q2) of an election year. 
   Q2 was selected based on the idea of retrospective voting, where citizens consider past (and generally quite recent) history to decide how to vote now. In 1980, President Reagan embodied the retrospective voter well, asking "are you better off now than you were four years ago?" He reminded voters that incumbent Jimmy Carter was to blame for the past four years of turmoil, and who to celebrate for the past four of accomplishments. Luckily for Reagan, voters weighed Carter's failures higher than his accomplishments, eventually leading to Reagan's November win. You will see in the graph below how our data demonstrates that 1980 result.
@@ -44,64 +45,38 @@ Then, as you will see below the same two graphs, but now with linear regression 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+## R Squared
 
+Looking above, you will see two graphs with different R^2. R^2 can be used to analyze how closely connected the independent variable is to the dependenent, signifiying how well the dependent can predict the independent.The graph including the 2020 data point has an R^2 value of 0.188, while the updated graph (without 2020) has a R^2 of 0.324. 
 
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-4.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-
-```
-## [1] 17.7027
+```r
+summary(reg_econ)$r.squared
 ```
 
 ```
-## [1] 4.207458
+## [1] 0.1880919
+```
+
+```r
+summary(reg_econ_2)$r.squared
 ```
 
 ```
-##        1 
-## 28.75101
+## [1] 0.3248066
 ```
-
-```
-## # A tibble: 1 × 1
-##    pv2p
-##   <dbl>
-## 1  47.7
-```
-
-```
-##        pv2p
-## 1 -18.97913
-```
-
-```
-## [1] -1.241617
-```
-
-
-```
-## [1] 1.826398
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 
 
 
-```
-##        1 
-## 51.58486
-```
+Interestingly, when evaluating a different economic factor, this time quartlerly Real Disposable Personal Income, there is incredibly little explanation. With a p-value of 0.822, it is clear that RDPI is not a reliable indicator of voting outcomes.
 
 
-```
-##        fit      lwr     upr
-## 1 51.58486 41.85982 61.3099
-```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
+
+
+
 
 
 Sources:

@@ -53,6 +53,7 @@ d_inc_econ <- d_popvote |>
 ```
 
 
+
 ## Understanding Historical Results
   In the graph below, you will see historical trends with the X-axis consisting of GDP growth by quarter, and the Y-axis indicating the incumbent party's national popular vote share. Specifically, the data in the X-axis comes from the second economic quarter (Q2) of an election year. 
   Q2 was selected based on the idea of retrospective voting, where citizens consider past (and generally quite recent) history to decide how to vote now. In 1980, President Reagan embodied the retrospective voter well, asking "are you better off now than you were four years ago?" He reminded voters that incumbent Jimmy Carter was to blame for the past four years of turmoil, and who to celebrate for the past four of accomplishments. Luckily for Reagan, voters weighed Carter's failures higher than his accomplishments, eventually leading to Reagan's November win. You will see in the graph below how our data demonstrates that 1980 result.
@@ -132,75 +133,57 @@ d_inc_econ_2 |>
   theme_bw() + 
   theme(plot.title = element_text(size = 18))
 ```
+## R Squared
 
-```{r,echo=FALSE, include=FALSE, warning = FALSE, message = FALSE}
+Looking above, you will see two graphs with different R^2. R^2 can be used to analyze how closely connected the independent variable is to the dependenent, signifiying how well the dependent can predict the independent.The graph including the 2020 data point has an R^2 value of 0.188, while the updated graph (without 2020) has a R^2 of 0.324. 
+```{r}
+summary(reg_econ)$r.squared
 summary(reg_econ_2)$r.squared
-summary(reg_econ_2)$adj.r.squared
 ```
 
-```{r,echo=FALSE, warning = FALSE, message = FALSE}
-plot(d_inc_econ$year, 
-     d_inc_econ$pv2p, 
-     type="l",
-     main="True Y (Line), Predicted Y (Dot) for Each Year")
-points(d_inc_econ$year, predict(reg_econ_2, d_inc_econ))
+
+
+
+Interestingly, when evaluating a different economic factor, this time quartlerly Real Disposable Personal Income, there is incredibly little explanation. With a p-value of 0.822, it is clear that RDPI is not a reliable indicator of voting outcomes.
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+d_inc_econ_rdpi <- d_popvote |> 
+  filter(incumbent_party == TRUE) |> 
+  select(year, pv, pv2p, winner) |> 
+  left_join(d_fred |> filter(quarter == 2)) |> 
+  left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
+
+d_inc_econ_rdpi
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+d_inc_econ_rdpi |> 
+  ggplot(aes(x = RDPI_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) +
+  labs(x = "Second Quarter RDPI Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share",
+       title = "Past Trends of RDPI and Incumbent Vote Share (1948-2020)") + 
+  theme_bw()
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-plot(reg_econ_2)
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+cor(d_inc_econ_rdpi$RDPI_growth_quarterly, 
+    d_inc_econ_rdpi$pv2p)
+cor(d_inc_econ_rdpi$RDPI_growth_quarterly, 
+    d_inc_econ_rdpi$pv2p)
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+reg_econ_rdpi <- lm(pv2p ~ RDPI_growth_quarterly, 
+               data = d_inc_econ_rdpi)
+reg_econ_rdpi |> summary()
+
+reg_econ_rdpi_2 <- lm(pv2p ~ RDPI_growth_quarterly, 
+                         data = d_inc_econ_2)
+reg_econ_rdpi_2 |> summary()
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-hist(reg_econ_2$model$pv2p - reg_econ_2$fitted.values, 
-     main = "Histogram of True Y - Predicted Y")
-mse <- mean((reg_econ_2$model$pv2p - reg_econ_2$fitted.values)^2)
-mse
-sqrt(mse)
-```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-(out_samp_pred <- predict(reg_econ_2, d_inc_econ[d_inc_econ$year == 2020,]))
-(out_samp_truth <- d_inc_econ |> filter(year == 2020) |> select(pv2p))
-out_samp_pred - out_samp_truth 
-```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-years_out_samp <- sample(d_inc_econ_2$year, 9) 
-mod <- lm(pv2p ~ GDP_growth_quarterly, 
-          d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
-out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
-out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
-mean(out_samp_pred - out_samp_truth)
-```
-
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-out_samp_errors <- sapply(1:1000, function(i) {
-  years_out_samp <- sample(d_inc_econ_2$year, 9) 
-  mod <- lm(pv2p ~ GDP_growth_quarterly, 
-            d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
-  out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
-  out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
-  mean(out_samp_pred - out_samp_truth)
-})
-
-mean(abs(out_samp_errors))
-
-hist(out_samp_errors,
-     xlab = "",
-     main = "Mean Out-of-Sample Residual\n(1000 Runs of Cross-Validation)")
-```
-
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-GDP_new <- d_fred |> 
-  filter(year == 2024 & quarter == 2) |> 
-  select(GDP_growth_quarterly)
-```
-
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-predict(reg_econ_2, GDP_new)
-```
-
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
-predict(reg_econ_2, GDP_new, interval = "prediction")
-```
 
 
 Sources:
