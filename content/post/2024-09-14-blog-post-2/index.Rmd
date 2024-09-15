@@ -123,9 +123,10 @@ d_inc_econ |>
   geom_vline(xintercept = 0.01, lty = 2) + 
   labs(x = "Second Quarter GDP Growth (%)", 
        y = "Incumbent Party's National Popular Vote Share", 
-       title = "Y = 51.25 + 0.274 * X") + 
+       title = "Linear Regression Model on Incumbent Party's National Vote Share (including 2020)") + 
   theme_bw() + 
-  theme(plot.title = element_text(size = 18))
+  theme(plot.title = element_text(size = 12
+                                ))
 ```
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE}
@@ -137,9 +138,9 @@ d_inc_econ_2 |>
   geom_vline(xintercept = 0.01, lty = 2) + 
   labs(x = "Second Quarter GDP Growth (%)", 
        y = "Incumbent Party's National Popular Vote Share", 
-       title = "Y = 49.38 + 0.737 * X") + 
+       title = "Linear Regression Model on Incumbent Party's National Vote Share (excluding 2020)") + 
   theme_bw() + 
-  theme(plot.title = element_text(size = 18))
+  theme(plot.title = element_text(size = 12))
 ```
 
 **R Squared**
