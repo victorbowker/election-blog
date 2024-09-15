@@ -1,0 +1,63 @@
+```{r,echo=FALSE, warning = FALSE, message = FALSE}
+plot(d_inc_econ$year, 
+     d_inc_econ$pv2p, 
+     type="l",
+     main="True Y (Line), Predicted Y (Dot) for Each Year")
+points(d_inc_econ$year, predict(reg_econ_2, d_inc_econ))
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+plot(reg_econ_2)
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+hist(reg_econ_2$model$pv2p - reg_econ_2$fitted.values, 
+     main = "Histogram of True Y - Predicted Y")
+mse <- mean((reg_econ_2$model$pv2p - reg_econ_2$fitted.values)^2)
+mse
+sqrt(mse)
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+(out_samp_pred <- predict(reg_econ_2, d_inc_econ[d_inc_econ$year == 2020,]))
+(out_samp_truth <- d_inc_econ |> filter(year == 2020) |> select(pv2p))
+out_samp_pred - out_samp_truth 
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+years_out_samp <- sample(d_inc_econ_2$year, 9) 
+mod <- lm(pv2p ~ GDP_growth_quarterly, 
+          d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+mean(out_samp_pred - out_samp_truth)
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+out_samp_errors <- sapply(1:1000, function(i) {
+  years_out_samp <- sample(d_inc_econ_2$year, 9) 
+  mod <- lm(pv2p ~ GDP_growth_quarterly, 
+            d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+  out_samp_pred <- predict(mod, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+  out_samp_truth <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+  mean(out_samp_pred - out_samp_truth)
+})
+
+mean(abs(out_samp_errors))
+
+hist(out_samp_errors,
+     xlab = "",
+     main = "Mean Out-of-Sample Residual\n(1000 Runs of Cross-Validation)")
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+GDP_new <- d_fred |> 
+  filter(year == 2024 & quarter == 2) |> 
+  select(GDP_growth_quarterly)
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+predict(reg_econ_2, GDP_new)
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+predict(reg_econ_2, GDP_new, interval = "prediction")
+```

@@ -58,16 +58,8 @@ Then, as you will see below the same two graphs, but now with linear regression 
 
 Looking above, you will see two graphs with different R^2. R^2 can be used to analyze how closely connected the independent variable is to the dependenent, signifiying how well the dependent can predict the independent.The graph including the 2020 data point has an R^2 value of 0.188, while the updated graph (without 2020) has a R^2 of 0.324. 
 
-```r
-summary(reg_econ)$r.squared
-```
-
 ```
 ## [1] 0.1880919
-```
-
-```r
-summary(reg_econ_2)$r.squared
 ```
 
 ```
@@ -88,6 +80,21 @@ Interestingly, when evaluating a different economic factor, this time quartlerly
 
 
 
+**Projections for 2024**
+
+Below, you will see a 2024 prediction using the previously created linear regression model. Remember that this is based on the rate of increase in GDP (gross domestic product) from the second financial quarter of 2024. This data is demonstrating what share the incumbent party will receive, so we see that _Democrats will narrowly win_, with 51.5% of the popular vote share!
+
+```
+##        fit      lwr     upr
+## 1 51.58486 41.85982 61.3099
+```
+
+
+**Conclusion**
+
+As you saw with the RDPI growth, not all economic factors are equally weighed when citizens go to the polls. Disposable Personal Income is all of the money a person has to spend after they pay taxes. It is difficult to know precisely why citizens weigh GDP much heavier than RDPI, but one possible answer is because of nationalism. In recent years, with an industrial race between the US and China and other nations, our standing on the international stage is greatly caused by the national GDP. Thanks to this, the national news media focuses heavily on GDP when they comment on the current success of the President. With the letters GDP constantly playing over the TV, it is not suprising that citizens weigh it quite heavily compared to other factors. 
+
 
 Sources:
 1: https://www.pewresearch.org/politics/2024/09/09/issues-and-the-2024-election/
+Code written in consultation with TF Matthew Dardet in 1347 Lab Session, as well as with the ultimate wisdom and guidance of fellow student Kaitlyn Vu.
