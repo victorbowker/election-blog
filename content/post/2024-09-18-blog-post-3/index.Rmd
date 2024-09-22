@@ -6,7 +6,7 @@ slug: blog-post-3
 categories: []
 tags: []
 ---
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 library(car)
 library(caret)
 library(CVXR)
@@ -15,13 +15,13 @@ library(tidyverse)
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 d_pollav_natl <- read_csv("national_polls_1968-2024.csv")
 d_pollav_state <- read_csv("state_polls_1968-2024.csv")
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_pollav_natl |> 
   filter(year == 2020) |> 
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -36,8 +36,7 @@ d_pollav_natl |>
 
 ```
 
-```{r}
-
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_pollav_natl |> 
   filter(year == 2020) |> 
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -56,7 +55,7 @@ d_pollav_natl |>
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_pollav_natl |> 
   filter(year == 2020) |> 
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -100,7 +99,7 @@ d_pollav_natl |>
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_pollav_natl |>
   filter(year == 1988) |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -127,7 +126,7 @@ d_pollav_natl |>
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 d_pollav_natl |> 
   filter(year == 2024) |> 
@@ -142,14 +141,14 @@ d_pollav_natl |>
   theme_classic()
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_vote <- read_csv("popvote_1948-2020.csv")
 d_vote$party[d_vote$party == "democrat"] <- "DEM"
 d_vote$party[d_vote$party == "republican"] <- "REP"
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_poll_nov <- d_vote |> 
   left_join(d_pollav_natl |> 
               group_by(year, party) |> 
@@ -161,19 +160,19 @@ d_poll_nov <- d_vote |>
   drop_na()
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ols.nov.1 <- lm(pv2p ~ nov_poll, 
                 data = subset(d_poll_nov, party == "DEM"))
 summary(ols.nov.1)
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ols.nov.2 <- lm(pv2p ~ nov_poll, 
                 data = d_poll_nov)
 summary(ols.nov.2)
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_poll_weeks <- d_pollav_natl |> 
   group_by(year, party, weeks_left) |>
   summarize(mean_poll_week = mean(poll_support)) |> 
@@ -182,7 +181,7 @@ d_poll_weeks <- d_pollav_natl |>
   left_join(d_vote, by = c("year", "party"))
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_poll_weeks_train <- d_poll_weeks |> 
   filter(year <= 2020)
 d_poll_weeks_test <- d_poll_weeks |> 
@@ -193,13 +192,13 @@ colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
 colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ols.pollweeks <- lm(paste0("pv2p ~ ", paste0( "poll_weeks_left_", 0:30, collapse = " + ")), 
                     data = d_poll_weeks_train)
 summary(ols.pollweeks) # N.B. Inestimable: p (31) > n (30)! 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 x.train <- d_poll_weeks_train |>
   ungroup() |> 
   select(all_of(starts_with("poll_weeks_left_"))) |> 
@@ -207,65 +206,65 @@ x.train <- d_poll_weeks_train |>
 y.train <- d_poll_weeks_train$pv2p
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ridge.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0) # Set ridge using alpha = 0. 
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 plot(ridge.pollsweeks, xvar = "lambda")
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 coef(ridge.pollsweeks, s = 0.1)
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 lasso.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 1) # Set lasso using alpha = 1.
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 plot(lasso.pollsweeks, xvar = "lambda")
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 coef(lasso.pollsweeks, s = 0.1)
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 enet.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0.5) # Set elastic net using alpha = 0.5.
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 plot(enet.pollsweeks, xvar = "lambda")
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 cv.ridge.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 0)
 cv.lasso.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
 cv.enet.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 lambda.min.ridge <- cv.ridge.pollweeks$lambda.min
 lambda.min.lasso <- cv.lasso.pollweeks$lambda.min
 lambda.min.enet <- cv.enet.pollweeks$lambda.min
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 (mse.ridge <- mean((predict(ridge.pollsweeks, s = lambda.min.ridge, newx = x.train) - y.train)^2))
 (mse.lasso <- mean((predict(lasso.pollsweeks, s = lambda.min.lasso, newx = x.train) - y.train)^2))
 (mse.enet <- mean((predict(enet.pollsweeks, s = lambda.min.enet, newx = x.train) - y.train)^2))
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d.coefplot <- data.frame("OLS" = coef(ols.pollweeks)[-1], 
                          "Ridge" = coef(ridge.pollsweeks, s = lambda.min.ridge)[-1], 
                          "Lasso" = coef(lasso.pollsweeks, s = lambda.min.lasso)[-1], 
@@ -287,7 +286,7 @@ d.coefplot |>
   theme_classic()
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_pollav_natl |> 
   filter(year == 2024) |> 
   select(weeks_left) |> 
@@ -305,23 +304,23 @@ x.test <- d_poll_weeks_test |>
   as.matrix()
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 set.seed(02138)
 enet.poll <- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
 lambda.min.enet.poll <- enet.poll$lambda.min
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 (polls.pred <- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test))
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_econ <- read_csv("fred_econ.csv") |> 
   filter(quarter == 2)
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_combined <- d_econ |> 
   left_join(d_poll_weeks, by = "year") |> 
   filter(year %in% c(unique(d_vote$year), 2024)) |> 
@@ -336,7 +335,7 @@ d_combined <- d_econ |>
          sp500_x_incumbent = sp500_close * incumbent) 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_fund <- d_combined |> 
   select("year", "pv2p", "GDP", "GDP_growth_quarterly", "RDPI", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
          "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", 
@@ -358,19 +357,19 @@ x.test.fund <- d_fund |>
   as.matrix()
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 set.seed(02138)
 enet.fund <- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
 lambda.min.enet.fund <- enet.fund$lambda.min
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 (fund.pred <- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 d_combo <- d_combined |> 
   select("year", "pv2p", "GDP", "GDP_growth_quarterly", "RDPI", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
          "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", 
@@ -394,24 +393,24 @@ x.test.combined <- d_combo |>
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 set.seed(02138)
 enet.combined <- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
 lambda.min.enet.combined <- enet.combined$lambda.min
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 (combo.pred <- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined))
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 (unweighted.ensemble.pred <- (polls.pred + fund.pred)/2)
 
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 election_day_2024 <- "2024-11-05"
 today <- "2024-09-18"
 days_left <- as.numeric(as.Date(election_day_2024) - as.Date(today))
@@ -422,10 +421,27 @@ days_left <- as.numeric(as.Date(election_day_2024) - as.Date(today))
 (ensemble.2.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight)  
 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 
 (poll_model_weight <- 1/sqrt(days_left))
 (fund_model_weight <- 1-(1/sqrt(days_left)))
 
 (ensemble.3.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight)
 ```
+
+**Extension Comparing Silver and Morris**
+
+  In 538’s polling, they have created a forecast model that ties many factors together for what they hope is the most accurate prediction of the election. First, they make some tweaks to the data to account for a few key events. In the days of and soon after a national convention, 538 makes downward adjustments to make up for the likely uptick in support. They made it clear that these recalibrations only occur if there was a substantial change in support, so candidates with little change are not impacted. 538 justifies this because both Trump and Clinton had their highest daily polling averages in the week during and after their respective national conventions. 
+	Additionally, 538 is not afraid to make calculated assumptions about certain regions of America. Their forecasting model will detect an uptick in support for Biden in Maine, and begin to raise projections for him in Vermont New Hampshire, or other like-minded New England states. 538 has set up a map of 10 regions across the US that represent geographically, economically, and socially similar groups of states. My favorite of those groups is Tex-ish, which includes the great states of Texas, Louisiana, and Oklahoma. 
+	Next, 538 polls on buckets of factors, like economic indicators including jobs, spending, personal income, and manufacturing. The motivation for these distinctions comes from the issue of only tracking GDP: it is too slow. The model has been trained on historical measures of this data, some of which go back nearly 100 years. Another bucket includes info on political factors, like office incumbency status or party incumbency status. By combining fundamental measures of economic growth and public opinion with this new, advanced forecast model, 538 is able to present an incredibly accurate prediction of the next election!
+
+  Nate Silver, a former 538 pollster, has a similar forecast model, with a few key differences. The last presidential election under Silver’s purview was 2020, meaning there were extensive COVID adjustments that have to now be subtracted from the equation. COVID is simply not a factor of any grand scale in this election.
+	Silver also has seen a change in who turns out for elections, leading to a change in the forecast model. With evidence from special elections and primaries, it is clear that Republicans no longer turn out in larger numbers than Democrats. Adjustments to scale who answer polls now have to shift from turning down Republican responses to Democratic ones. He is also planning to fully phase out this turnout measurement before Election Day. 
+	Another important factor that was phased out this term is the Cost of Voting Index. This measurement assumed that as states loosened laws surrounding voting, like same-day registration, Democrats would benefit. Alternatively, if a state was to shorten polling place hours, or restrict registration, Republicans would be likely to benefit. Silver has deemed this an ineffective metric and has removed it from his forecast. 
+	Next, Silver had to consider the presence of a third-party named candidate. In this race, Robert Kennedy Jr. was running as an Independent candidate before dropping out and supporting Former President Trump. 2020 had no impactful third-party candidate, but 2016 did have Gary Johnson, for whom the forecast was originally based. Silver found that third-party candidates usually started with decent polling, before slowly fading as Election Day loomed. Additionally, polls utilized varied wording for a third-party candidate, further confusing the ability to accurately measure popular opinion on less mainstream candidates. 
+	Finally, Silver had to consider this race being a presidential rematch, where Biden took on Trump a second time. This has since changed now that the Democratic candidate has switched from President Joe Biden to Vice President Kamala Harris. Now, the reliability of pre-dropout data is difficult to trust or demonstrate change. 
+
+Overall, I believe that 538’s approach is stronger, exactly because it glazes over some of Silver’s nuance. When you hyper-fixate on these small characteristics of an election, it is very possible that the forecast can be more accurate–but we are also fully aware that a very small amount of voters in key swing districts in key swing states will decide this election. 
+
+End of Story!
+
