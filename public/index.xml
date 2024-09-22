@@ -6,8 +6,15 @@
     <description>Recent content in Election Blog 2024 on Victor Bowker</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:4321/election-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 3</title>
+      <link>http://localhost:4321/election-blog/post/2024/09/18/blog-post-3/</link>
+      <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/election-blog/post/2024/09/18/blog-post-3/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(car)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Loading required package: carData&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(caret)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Loading required package: ggplot2&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Loading required package: lattice&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(CVXR)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Warning: package &#39;CVXR&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## &#xA;## Attaching package: &#39;CVXR&#39;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## The following object is masked from &#39;package:stats&#39;:&#xA;## &#xA;##     power&#xA;&lt;/code&gt;&lt;/pr</description>
+    </item>
     <item>
       <title>Blog Post 2</title>
       <link>http://localhost:4321/election-blog/post/2024/09/14/blog-post-2/</link>
