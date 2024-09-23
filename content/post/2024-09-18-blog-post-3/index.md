@@ -70,6 +70,21 @@ You will see below the data _so far_ from this election cycle. The data is loud,
 
 
 
+**Projection**
+
+Utilizing some intense code that was lovingly provided by Teaching Fellow Matthew Dardet, we run a regularized regression from current polling data to find who is looking best in the polls. Code is accesible via GitHub, but allow me to briefly explain.
+
+First, we are using a datset that includes all popular voteshare data from 1948 to 2020. Using poll data from the above datasets, we can start to merge and focus on November information. As we get closer to the election, every week counts, so we split up data by week. Nearly ever news cycle could reflect updated polling data, but lets not get _too_ intense. Then, we run regressions, with the normal foreceast as well as an OLS (ordinary least squares) forecast. Finally, with some intense math that a _mere_ Gov concentrator such as myself may not fully understand, we have results!  
+
+It looks as though Harris demonstrates an incredibly narrow edge, certainly within the margin of error. Lets keep watching to see!
+
+
+```
+##            s1
+## [1,] 51.79268
+## [2,] 50.65879
+```
+
 
 
 
