@@ -1,6 +1,6 @@
 ---
 title: Blog Post 3
-author: Package Build
+author: Victor Bowker
 date: '2024-09-18'
 slug: blog-post-3
 categories: []
@@ -10,13 +10,40 @@ tags: []
 
 
 
+
+**Poll Averages by Date from 2020**
+
+Take a look at this graph below, showing party polling in the year leading up to the Election in November of 2020. Check out the increases and decreases and scroll further to find some important dates and how that impacted polling!
+
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+
+
+Next, see where the DNC and RNC were held. Notice that while it was not instant, there is a minor increase in support for both parties following their debates. You will find in my analysis of 538's polling forecast tool that they specifically tone down polling increases in the week following a party's convention. 538 journalist G. Elliot Morris says that this section of the foreceast is important as both Clinton and Trump showed their greatest polling in the week following their respective conventions in 2016.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
+**Interesting Factors-Do They Matter?**
+
+
+
+Next, you will see some added dates that pollsters assumed might impact results. Check out how they really did impact it! 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+  Allow me to point you to a few key dates that had an incredible impact! First, when Bernie Sanders dropped out, Biden's polling first dropped, but then elevated quite quickly. I believe there was this delay because Sanders waited at least 6 days to officially endorse Biden, meaning his supporters had not yet moved to support Biden. 
+
+  Next, see where the elevation of COVID deaths, tied in with the death of George Floyd, Trump's poll approval dropped quite heavily, allowing the Democrats to swoop in and elevate their polling quite substantially. Also, the Dems rode an impressive wave of increasing approval through a serious of Presidential and Vice Presidential debates.
+  
+  Finally, Trump's bought with COVID did not help his polling. Especially considering his position on COVID, calling some victims weak or obese, it was not helpful for him to then fall ill with the very disease!
+  
+
+
+
+
+
+**Now Considering 2024 Facts**
+
+You will see below the data _so far_ from this election cycle. The data is loud, and it is telling us that the Democrats switching to Vice President Kamala Harris was the _only_ choice. We see the Dem's approval skyrocket from 40, to 45 percent points. Trump experienced some impressive gains as Biden fell, though VP Harris was able to take off quite well once she gained a footing in the race.
+
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 
