@@ -8,6 +8,8 @@ tags: []
 ---
 
 **Welcome**
+
+
 Hello and thank you for coming back to another week of election predictions! This week, I am primarily focusing on incumbency, and the impacts it can have on an election. In general ways, incumbents are given _a lot_ of advantages. This can make it very difficult for new, emerging canddiates to get a foothold in the race, lending an explanation to usually over 90% of all Congressional incumbents winning their re-election bids.[1]
 
 First, lets talk about why it is so easy for incumbents to win re-election. Simply put, their status as an incumbent can be incredibly helpful. Constituents are already familiar with the candidate's positions and track record. Additionally, there is a feeling of comfort with familiarity, meaning unless an incumbent committed an atrocity, its likely they will be re-elected [2]
@@ -18,12 +20,9 @@ So, you may wonder, could we just make a prediction that nearly all of Congress 
 
 That would simply be too easy--and ignoring too much information. We have seen many times where candidates lost as incumbents, like George H. W. Bush or Donald Trump. Additionally, there are many factors still at play that would be neglected if we simply look at past results. One example, which I looked into in past weeks, is the economy, where Goldman Sachs Political Economists have found that incumbents lose at higher rates during
 
-# Load libraries.
-## install via `install.packages("name")`
-library(viridis)
-library(sf)
 
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 library(car)
 library(caret)
 library(CVXR)
@@ -34,13 +33,9 @@ library(RColorBrewer)
 library(tidyverse)
 
 ```
-## set working directory here
-# setwd("~")
 
-####----------------------------------------------------------#
-#### Read, merge, and process data.
-####----------------------------------------------------------#
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read incumbency/vote data.
 d_vote <- read_csv("popvote_1948-2020.csv")
 d_state_vote <- read_csv("state_popvote_1948_2020.csv")
@@ -48,19 +43,19 @@ d_vote$party[d_vote$party == "democrat"] <- "DEM"
 d_vote$party[d_vote$party == "republican"] <- "REP"
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read economic data.
 d_econ <- read_csv("fred_econ.csv") |> 
   filter(quarter == 2)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read polling and election results data. 
 d_pollav_natl <- read_csv("national_polls_1968-2024.csv")
 d_pollav_state <- read_csv("state_polls_1968-2024.csv")
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Shape and merge polling and election data using November polls. 
 d_poll_nov <- d_vote |> 
   left_join(d_pollav_natl |> 
@@ -73,7 +68,7 @@ d_poll_nov <- d_vote |>
   drop_na()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Create dataset of polling average by week until the election. 
 d_poll_weeks <- d_pollav_natl |> 
   group_by(year, party, weeks_left) |>
@@ -83,11 +78,7 @@ d_poll_weeks <- d_pollav_natl |>
   left_join(d_vote, by = c("year", "party"))
 ```
 
-####----------------------------------------------------------#
-#### Descriptive statistics on the incumbency advantage. 
-####----------------------------------------------------------#
-
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # How many post-war elections (18 and 2024) have there been 
 # where an incumbent president won? 
 d_vote |> 
@@ -103,7 +94,7 @@ d_vote |>
   as.data.frame()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # A different way of assessing the incumbency advantage 
 # (out of 11 elections where there was at least one incumbent running). 
 inc_tab <- d_vote |> 
@@ -122,13 +113,13 @@ cat(paste0("Elections with At Least One Incumbent Running: ", nrow(inc_tab), "\n
                            nrow(inc_tab)*100, 2)))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # In the six elections since 2000?
 inc_tab |> 
   filter(year >= 2000)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # How many post-war elections have there been where the incumbent *party* won? 
 d_vote |> 
   filter(winner) |> 
@@ -143,22 +134,20 @@ d_vote |>
   as.data.frame()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # How many post-war elections have there been where winner served in 
 # previous administration?
 100*round(prop.table(table(`prev_admin` = d_vote$prev_admin[d_vote$year > 1948 & 
                                      d_vote$year < 2024 & 
                                      d_vote$winner == TRUE])), 4)
 ```
-####----------------------------------------------------------#
-#### Pork analysis. 
-####----------------------------------------------------------#
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read federal grants dataset from Kriner & Reeves (2008). 
 d_pork_state <- read_csv("fedgrants_bystate_1988-2008.csv")
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # What strategy do presidents pursue? 
 d_pork_state |> 
   filter(!is.na(state_year_type)) |> 
@@ -177,7 +166,7 @@ d_pork_state |>
         axis.text = element_text(size = 12))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Do presidents strategize for their successor as well? 
 d_pork_state |> 
   filter(!is.na(state_year_type2)) |> 
@@ -196,7 +185,7 @@ d_pork_state |>
         axis.text = element_text(size = 12))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Pork county model. 
 d_pork_county <- read_csv("fedgrants_bycounty_1988-2008.csv")
 
@@ -212,7 +201,7 @@ pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year
 summary(pork_mod_county_2)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Pork state model. 
 d_pork_state_model <- d_state_vote |>
   mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |>
@@ -232,11 +221,9 @@ pork_state_mod <- lm(change_inc_pv2p ~ is_comp*change_grant_mil + as.factor(year
                      data = d_pork_state_model)
 summary(pork_state_mod)
 ```
-####----------------------------------------------------------#
-#### Time for a change model. 
-####----------------------------------------------------------#
 
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Join data for time for change model.
 d_tfc_train <- d_vote |> 
   left_join(d_econ, by = "year") |> 
@@ -244,27 +231,21 @@ d_tfc_train <- d_vote |>
   mutate(incumbent = as.numeric(incumbent))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Estimate time for change model through 2016.
 tfc_mod_2016 <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
                    data = subset(d_tfc_train, year < 2020))
 summary(tfc_mod_2016)
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Estimate simplified time for change model for 2020. 
 # https://www-cambridge-org.ezp-prod1.hul.harvard.edu/core/services/aop-cambridge-core/content/view/47BBC0D5A2B7913DBB37FDA0542FD7E8/S1049096520001389a.pdf/its-the-pandemic-stupid-a-simplified-model-for-forecasting-the-2020-presidential-election.pdf
 tfc_mod_2020 <- lm(pv2p ~ juneapp, 
                    data = subset(d_tfc_train, year < 2024))
 summary(tfc_mod_2020)
 ```
-# Evaluate models and compare them to your own models/predictions. 
-# TODO: 
 
-####----------------------------------------------------------#
-#### Expert predictions. 
-####----------------------------------------------------------#
-
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read expert prediction data. 
 # Read data from Cook Political Report. 
 # Years: 1988-2020
@@ -287,7 +268,7 @@ d_cook <- read_csv("CPR_EC_Ratings.csv")[,-1] |>
 # N.B. Read important note above!
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read data from Sabato's Crystal Ball.
 # Years: 2004-2024
 d_sabato <- read_csv("sabato_crystal_ball_ratings.csv") |> 
@@ -311,15 +292,8 @@ d_sabato <- d_sabato |>
          safe_R = as.numeric(rating == 7))
 
 ```
-# Ratings: 
-# 1: Safe Democrat
-# 2: Likely Democrat
-# 3: Lean Democrat
-# 4: Toss Up
-# 5: Lean Republican
-# 6: Likely Republican
-# 7: Safe Republican
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # 2020 Comparison. 
 d_sabato_2020 <- d_sabato |> 
   filter(year == 2020) |> 
@@ -337,7 +311,7 @@ d_expert_2020$state[d_expert_2020$rating_match == 0 & !is.na(d_expert_2020$sabat
 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Why the NAs? Cook makes ratings for Maine and Nebraska districts separately. 
 # These may be important for the 2024 election, but are difficult to find data for. 
 
@@ -345,12 +319,12 @@ d_expert_2020 <- d_expert_2020 |>
   drop_na()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Compare rating mismatches for 2020.
 d_expert_2020[d_expert_2020$state %in% c(d_expert_2020$state[d_expert_2020$rating_match == 0]),]
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Merge in 2020 state vote data. 
 d_state_vote_2020 <- d_state_vote |> 
   filter(year == 2020) |> 
@@ -363,7 +337,7 @@ d_expert_2020 <- d_expert_2020 |>
   left_join(d_state_vote_2020, by = "state")
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # See which expert group was more accurate for 2020 (counting toss ups as misses). 
 d_expert_2020 <- d_expert_2020 |> 
   mutate(cook_correct = as.numeric((winner == "D" & cook_rating < 4) | 
@@ -375,49 +349,29 @@ d_expert_2020 |>
   select(cook_correct, sabato_correct) |> 
   colMeans()
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Which states did Cook miss? 
 d_expert_2020[d_expert_2020$cook_correct == 0,]$state
 d_expert_2020[d_expert_2020$cook_correct == 0,] |> view()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Sabato? 
 d_expert_2020[d_expert_2020$sabato_correct == 0,]$state
 d_expert_2020[d_expert_2020$sabato_correct == 0,] |> view()
 ```
 
-# 2024 Comparison:
 
-# 2024 toss-ups? 
-# 7 from Cook: https://www.cookpolitical.com/ratings/presidential-race-ratings
-
-# 191 EV (Solid D) + 34 (Likely D) + 1 (Lean D) = 226 EV Dem
-# 93 Toss Up EV
-  # 11 AZ
-  # 16 GA
-  # 15 MI
-  # 6 NV
-  # 16 NC
-  # 19 PA
-  # 10 WI
-# 148 (Solid R) + 71 (Likely R) + 0 (Lean R) = 219 EV Rep
-
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Sabato: 
 # https://centerforpolitics.org/crystalball/2024-president/
 d_sabato |> 
   filter(year == 2024 & rating == 4) |> 
   select(state)
 ```
-# 226 D EV
-# 93 ? EV
-# 219 R EV
 
-# Conclusion: Both have same set of states as each. 
-# Importance of these swing states!
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Combine expert predictions generally. 
 d_expert <- d_cook |> 
   select(year = Cycle, state = State, cook_rating = rating_numeric) |> 
@@ -430,7 +384,7 @@ d_expert |>
   summarize(mean_match_rate = mean(rating_match)) 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Merge in voting data. 
 d_state_vote_wide <- d_state_vote |> 
   select(state, year, R_pv2p, D_pv2p, R_pv2p_lag1, R_pv2p_lag2, D_pv2p_lag1, D_pv2p_lag2) |>
@@ -455,14 +409,9 @@ d_expert |>
   summarize(mean_cook_correct = mean(cook_correct),
             mean_sabato_correct = mean(sabato_correct))
 ```
-# How can we incorporate expert predictions into our models? 
-# TODO: 
 
-####----------------------------------------------------------#
-#### Ensembling at the national level (incumbents only).
-####----------------------------------------------------------#
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Split poll data into training and testing data based on inclusion or exclusion of 2024. 
 d_poll_weeks_train_inc <- d_poll_weeks |> 
   filter(incumbent & year <= 2020)
@@ -474,7 +423,7 @@ colnames(d_poll_weeks_train_inc)[3:33] <- paste0("poll_weeks_left_", 0:30)
 colnames(d_poll_weeks_test_inc)[3:33] <- paste0("poll_weeks_left_", 0:30)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # First check how many weeks of polling we have for 2024. 
 d_pollav_natl |> 
   filter(year == 2024) |> 
@@ -482,7 +431,7 @@ d_pollav_natl |>
   distinct() |> 
   range() # Let's take week 30 - 7 as predictors since those are the weeks we have polling data for 2024 and historically. 
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 x.train <- d_poll_weeks_train_inc |>
   ungroup() |> 
   select(all_of(paste0("poll_weeks_left_", 7:30))) |> 
@@ -494,26 +443,26 @@ x.test <- d_poll_weeks_test_inc |>
   as.matrix()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Using elastic-net for simplicity. 
 set.seed(02138)
 enet.poll <- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
 lambda.min.enet.poll <- enet.poll$lambda.min
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predict 2024 national pv2p share using elastic-net. 
 (polls.pred <- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Estimate models using polls alone, fundamentals alone, and combined fundamentals and polls. 
 # Read economic data. 
 d_econ <- read_csv("fred_econ.csv") |> 
   filter(quarter == 2)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Combine datasets and create vote lags. 
 d_combined <- d_econ |> 
   left_join(d_poll_weeks, by = "year") |> 
@@ -529,7 +478,7 @@ d_combined <- d_econ |>
          sp500_x_incumbent = sp500_close * incumbent) # Generate interaction effects.
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Create fundamentals-only dataset and split into training and test sets. 
 d_fund_inc <- d_combined |> 
   filter(incumbent) |> 
@@ -552,19 +501,19 @@ x.test.fund <- d_fund_inc |>
   as.matrix()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Estimate elastic-net using fundamental variables only.
 set.seed(02138)
 enet.fund <- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
 lambda.min.enet.fund <- enet.fund$lambda.min
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predict 2024 national pv2p share using elastic-net. 
 (fund.pred <- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Sequester data for combined model.
 d_combo_inc <- d_combined |> 
   filter(incumbent) |> 
@@ -588,24 +537,24 @@ x.test.combined <- d_combo_inc |>
   as.matrix()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Estimate combined model.
 set.seed(02138)
 enet.combined <- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
 lambda.min.enet.combined <- enet.combined$lambda.min
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predict 2024 national pv2p share using elastic-net.
 (combo.pred <- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Ensemble 1: Predict based on unweighted (or equally weighted) ensemble model between polls and fundamentals models. 
 (unweighted.ensemble.pred <- (polls.pred + fund.pred)/2)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Ensemble 2: Weight based on polls mattering closer to November. (Nate Silver)
 election_day_2024 <- "2024-11-05"
 today <- "2024-09-18"
@@ -617,22 +566,20 @@ days_left <- as.numeric(as.Date(election_day_2024) - as.Date(today))
 (ensemble.2.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight)  
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Ensemble 3. Weight based on fundamentals mattering closer to November. (Gelman & King, 1993)
 (poll_model_weight <- 1/sqrt(days_left))
 (fund_model_weight <- 1-(1/sqrt(days_left)))
 
 (ensemble.3.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight)
 ```
-####----------------------------------------------------------#
-#### Super learning at the state level for swing states.
-####----------------------------------------------------------#
-```{r}
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Get set of states where we have polling data for 2024 according to 538 poll averages.
 states_2024 <- d_pollav_state$state[d_pollav_state$year == 2024] |> unique()
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predicting for Democratic incumbents.
 # Simplifications and assumptions: 
   # Assuming Harris can be treated as incumbent for 2024 (could test either)
@@ -652,33 +599,33 @@ d_state_combo <- d_pollav_state |>
   left_join(d_state_vote_wide, by = c("year", "state")) 
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Model 1. Polling averages only. 
 # Estimate model.
 mod_1 <- lm(D_pv2p ~ latest_pollav + mean_pollav, 
             data = subset(d_state_combo, year < 2020))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Model 2. Lagged vote model. 
 mod_2 <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2, 
             data = subset(d_state_combo, year < 2020))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Model 3. Combined models. 
 mod_3 <- lm(D_pv2p ~ incumbent + latest_pollav + mean_pollav + D_pv2p_lag1 + D_pv2p_lag2, 
             data = subset(d_state_combo, year < 2020))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predictions from each model. 
 pred_1 <- as.numeric(predict(mod_1, newdata = subset(d_state_combo, year == 2020)))
 pred_2 <- as.numeric(predict(mod_2, newdata = subset(d_state_combo, year == 2020)))
 pred_3 <- as.numeric(predict(mod_3, newdata = subset(d_state_combo, year == 2020)))
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Get weights to build super learner. 
 d_weight <- data.frame("truth" = d_state_combo$D_pv2p[d_state_combo$year == 2020],
                        "polls" = pred_1,
@@ -686,13 +633,13 @@ d_weight <- data.frame("truth" = d_state_combo$D_pv2p[d_state_combo$year == 2020
                        "combo" = pred_3)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Constrained optimization for ensemble mod weights. 
 mod_ensemble <- lm(truth ~ polls + lag_vote + combo, 
                    data = d_weight)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Get weights and estimated weighted ensemble via constrained regression.
 c <- 3 # number of models
 predictions <- cbind(pred_1, pred_2, pred_3)
@@ -706,7 +653,7 @@ solution_prob <- solve(prob)
 weights <- solution_prob$getValue(beta)
 ```
 
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Predict using previous model output.
 ensemble_pred <- cbind("state" = subset(d_state_combo, year == 2020)$state,
                        "pred" = round(as.numeric(t(weights) %*% t(predictions)), 3)) |> 
@@ -717,11 +664,7 @@ ensemble_pred <- ensemble_pred |>
 
 ensemble_pred
 ```
-# Merge with electoral college dataset and make plots. 
-# TODO: 
-
-                             
-                             
+                           
  Citations
  [1] - https://www.opensecrets.org/elections-overview/reelection-rates
  [2] - https://slcc.pressbooks.pub/attenuateddemocracy/chapter/chapter-55/ 
