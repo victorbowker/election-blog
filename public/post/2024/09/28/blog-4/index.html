@@ -24,7 +24,1033 @@
 </div>
 
 <main>
-<p>testing push</p>
+<p><strong>Welcome</strong>
+Hello and thank you for coming back to another week of election predictions! This week, I am primarily focusing on incumbency, and the impacts it can have on an election. In general ways, incumbents are given <em>a lot</em> of advantages. This can make it very difficult for new, emerging canddiates to get a foothold in the race, lending an explanation to usually over 90% of all Congressional incumbents winning their re-election bids.[1]</p>
+<p>First, lets talk about why it is so easy for incumbents to win re-election. Simply put, their status as an incumbent can be incredibly helpful. Constituents are already familiar with the candidate&rsquo;s positions and track record. Additionally, there is a feeling of comfort with familiarity, meaning unless an incumbent committed an atrocity, its likely they will be re-elected [2]</p>
+<p>When you consider Political Action Committees, which funnel financial support to candidates, the picture becomes even clearer. There is a cycle of support from a PAC, then a Congressman does them favors (or simply votes as they would, coincidentally aligning with PAC views) by voting on bills, then the PAC gives more money. [3]</p>
+<p>So, you may wonder, could we just make a prediction that nearly all of Congress will win re-election (if they seek it) and there is a pretty good chance that the President will win? NO!</p>
+<p>That would simply be too easy&ndash;and ignoring too much information. We have seen many times where candidates lost as incumbents, like George H. W. Bush or Donald Trump. Additionally, there are many factors still at play that would be neglected if we simply look at past results. One example, which I looked into in past weeks, is the economy, where Goldman Sachs Political Economists have found that incumbents lose at higher rates during</p>
+<h1 id="load-libraries">Load libraries.</h1>
+<h2 id="install-via-installpackagesname">install via <code>install.packages(&quot;name&quot;)</code></h2>
+<p>library(viridis)
+library(sf)</p>
+<pre><code class="language-r">library(car)
+</code></pre>
+<pre><code>## Loading required package: carData
+</code></pre>
+<pre><code class="language-r">library(caret)
+</code></pre>
+<pre><code>## Loading required package: ggplot2
+</code></pre>
+<pre><code>## Loading required package: lattice
+</code></pre>
+<pre><code class="language-r">library(CVXR)
+</code></pre>
+<pre><code>## Warning: package 'CVXR' was built under R version 4.3.3
+</code></pre>
+<pre><code>## 
+## Attaching package: 'CVXR'
+</code></pre>
+<pre><code>## The following object is masked from 'package:stats':
+## 
+##     power
+</code></pre>
+<pre><code class="language-r">library(glmnet)
+</code></pre>
+<pre><code>## Loading required package: Matrix
+</code></pre>
+<pre><code>## Loaded glmnet 4.1-8
+</code></pre>
+<pre><code class="language-r">library(kableExtra)
+library(maps)
+library(RColorBrewer)
+library(tidyverse)
+</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ lubridate 1.9.2     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.0
+</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ tidyr::expand()     masks Matrix::expand()
+## ✖ dplyr::filter()     masks stats::filter()
+## ✖ dplyr::group_rows() masks kableExtra::group_rows()
+## ✖ dplyr::id()         masks CVXR::id()
+## ✖ purrr::is_vector()  masks CVXR::is_vector()
+## ✖ dplyr::lag()        masks stats::lag()
+## ✖ purrr::lift()       masks caret::lift()
+## ✖ purrr::map()        masks maps::map()
+## ✖ tidyr::pack()       masks Matrix::pack()
+## ✖ dplyr::recode()     masks car::recode()
+## ✖ purrr::some()       masks car::some()
+## ✖ tidyr::unpack()     masks Matrix::unpack()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+</code></pre>
+<h2 id="set-working-directory-here">set working directory here</h2>
+<h1 id="setwd">setwd(&quot;~&quot;)</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="read-merge-and-process-data">Read, merge, and process data.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Read incumbency/vote data.
+d_vote &lt;- read_csv(&quot;popvote_1948-2020.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 40 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): party, candidate
+## dbl (5): year, pv, pv2p, deminc, juneapp
+## lgl (4): winner, incumbent, incumbent_party, prev_admin
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">d_state_vote &lt;- read_csv(&quot;state_popvote_1948_2020.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 959 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (1): state
+## dbl (13): year, D_pv, R_pv, D_pv2p, R_pv2p, D_pv_lag1, R_pv_lag1, D_pv2p_lag...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">d_vote$party[d_vote$party == &quot;democrat&quot;] &lt;- &quot;DEM&quot;
+d_vote$party[d_vote$party == &quot;republican&quot;] &lt;- &quot;REP&quot;
+</code></pre>
+<pre><code class="language-r"># Read economic data.
+d_econ &lt;- read_csv(&quot;fred_econ.csv&quot;) |&gt; 
+  filter(quarter == 2)
+</code></pre>
+<pre><code>## Rows: 387 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (14): year, quarter, GDP, GDP_growth_quarterly, RDPI, RDPI_growth_quarte...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r"># Read polling and election results data. 
+d_pollav_natl &lt;- read_csv(&quot;national_polls_1968-2024.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 7378 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): state, party, candidate
+## dbl  (4): year, weeks_left, days_left, poll_support
+## lgl  (1): before_convention
+## date (1): poll_date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">d_pollav_state &lt;- read_csv(&quot;state_polls_1968-2024.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 204564 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): state, party, candidate
+## dbl  (4): year, weeks_left, days_left, poll_support
+## lgl  (1): before_convention
+## date (1): poll_date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r"># Shape and merge polling and election data using November polls. 
+d_poll_nov &lt;- d_vote |&gt; 
+  left_join(d_pollav_natl |&gt; 
+              group_by(year, party) |&gt; 
+              top_n(1, poll_date) |&gt; 
+              select(-candidate), 
+            by = c(&quot;year&quot;, &quot;party&quot;)) |&gt; 
+  rename(nov_poll = poll_support) |&gt; 
+  filter(year &lt;= 2020) |&gt; 
+  drop_na()
+</code></pre>
+<pre><code class="language-r"># Create dataset of polling average by week until the election. 
+d_poll_weeks &lt;- d_pollav_natl |&gt; 
+  group_by(year, party, weeks_left) |&gt;
+  summarize(mean_poll_week = mean(poll_support)) |&gt; 
+  filter(weeks_left &lt;= 30) |&gt; 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |&gt; 
+  left_join(d_vote, by = c(&quot;year&quot;, &quot;party&quot;))
+</code></pre>
+<pre><code>## `summarise()` has grouped output by 'year', 'party'. You can override using the
+## `.groups` argument.
+</code></pre>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="descriptive-statistics-on-the-incumbency-advantage">Descriptive statistics on the incumbency advantage.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># How many post-war elections (18 and 2024) have there been 
+# where an incumbent president won? 
+d_vote |&gt; 
+  filter(winner) |&gt; 
+  select(year, win_party = party, win_cand = candidate) |&gt; 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |&gt; 
+  mutate(reelect_president = win_cand_last == win_cand) |&gt; 
+  filter(year &gt; 1948 &amp; year &lt; 2024) |&gt; 
+  group_by(reelect_president) |&gt; 
+  summarize(N = n()) |&gt; 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |&gt;
+  as.data.frame()
+</code></pre>
+<pre><code>##   reelect_president  N Percent
+## 1             FALSE 12   66.67
+## 2              TRUE  6   33.33
+</code></pre>
+<pre><code class="language-r"># A different way of assessing the incumbency advantage 
+# (out of 11 elections where there was at least one incumbent running). 
+inc_tab &lt;- d_vote |&gt; 
+  filter(year &gt; 1948 &amp; year &lt; 2024) |&gt;
+  select(year, party, candidate, incumbent, winner) |&gt; 
+  pivot_wider(names_from = party, 
+              values_from = c(candidate, incumbent, winner)) |&gt; 
+  filter(incumbent_DEM == TRUE | incumbent_REP == TRUE)
+
+
+cat(paste0(&quot;Elections with At Least One Incumbent Running: &quot;, nrow(inc_tab), &quot;\n&quot;,
+   &quot;Incumbent Victories: &quot;, (sum(inc_tab$incumbent_REP &amp; inc_tab$winner_REP) + 
+                             sum(inc_tab$incumbent_DEM &amp; inc_tab$winner_DEM)), &quot;\n&quot;,
+    &quot;Percentage: &quot;, round((sum(inc_tab$incumbent_REP &amp; inc_tab$winner_REP) + 
+                           sum(inc_tab$incumbent_DEM &amp; inc_tab$winner_DEM))/
+                           nrow(inc_tab)*100, 2)))
+</code></pre>
+<pre><code>## Elections with At Least One Incumbent Running: 11
+## Incumbent Victories: 7
+## Percentage: 63.64
+</code></pre>
+<pre><code class="language-r"># In the six elections since 2000?
+inc_tab |&gt; 
+  filter(year &gt;= 2000)
+</code></pre>
+<pre><code>## # A tibble: 3 × 7
+##    year candidate_DEM    candidate_REP    incumbent_DEM incumbent_REP winner_DEM
+##   &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;            &lt;lgl&gt;         &lt;lgl&gt;         &lt;lgl&gt;     
+## 1  2004 Kerry, John      Bush, George W.  FALSE         TRUE          FALSE     
+## 2  2012 Obama, Barack H. Romney, Mitt     TRUE          FALSE         TRUE      
+## 3  2020 Biden, Joseph R. Trump, Donald J. FALSE         TRUE          TRUE      
+## # ℹ 1 more variable: winner_REP &lt;lgl&gt;
+</code></pre>
+<pre><code class="language-r"># How many post-war elections have there been where the incumbent *party* won? 
+d_vote |&gt; 
+  filter(winner) |&gt; 
+  select(year, win_party = party, win_cand = candidate) |&gt; 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |&gt; 
+  mutate(reelect_party = win_party_last == win_party) |&gt; 
+  filter(year &gt; 1948 &amp; year &lt; 2024) |&gt; 
+  group_by(reelect_party) |&gt; 
+  summarize(N = n()) |&gt; 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |&gt;
+  as.data.frame()
+</code></pre>
+<pre><code>##   reelect_party  N Percent
+## 1         FALSE 10   55.56
+## 2          TRUE  8   44.44
+</code></pre>
+<pre><code class="language-r"># How many post-war elections have there been where winner served in 
+# previous administration?
+100*round(prop.table(table(`prev_admin` = d_vote$prev_admin[d_vote$year &gt; 1948 &amp; 
+                                     d_vote$year &lt; 2024 &amp; 
+                                     d_vote$winner == TRUE])), 4)
+</code></pre>
+<pre><code>## prev_admin
+## FALSE  TRUE 
+## 72.22 27.78
+</code></pre>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="pork-analysis">Pork analysis.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Read federal grants dataset from Kriner &amp; Reeves (2008). 
+d_pork_state &lt;- read_csv(&quot;fedgrants_bystate_1988-2008.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 1251 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): state_abb, state_year_type, state_year_type2
+## dbl (4): year, elxn_year, grant_mil, state_incvote_avglast3
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r"># What strategy do presidents pursue? 
+d_pork_state |&gt; 
+  filter(!is.na(state_year_type)) |&gt; 
+  group_by(state_year_type) |&gt;
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |&gt; 
+  ggplot(aes(x = state_year_type, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;chartreuse4&quot;) + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = &quot;Type of State &amp; Year&quot;, 
+       y = &quot;Federal Grant Spending (Millions of $)&quot;, 
+       title = &quot;Federal Grant Spending (Millions $) by State Election Type&quot;) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12))
+</code></pre>
+<img src="/election-blog/post/2024/09/28/blog-4/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<pre><code class="language-r"># Do presidents strategize for their successor as well? 
+d_pork_state |&gt; 
+  filter(!is.na(state_year_type2)) |&gt; 
+  group_by(state_year_type2) |&gt;
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |&gt; 
+  ggplot(aes(x = state_year_type2, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;chartreuse4&quot;) + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = &quot;Type of State &amp; Year&quot;, 
+       y = &quot;Federal Grant Spending (Millions of $)&quot;, 
+       title = &quot;Federal Grant Spending (Millions $) by State Election Type&quot;) + 
+  theme_minimal() +
+  theme(plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12))
+</code></pre>
+<img src="/election-blog/post/2024/09/28/blog-4/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<pre><code class="language-r"># Pork county model. 
+d_pork_county &lt;- read_csv(&quot;fedgrants_bycounty_1988-2008.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 18465 Columns: 16
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): state, county, state_abb
+## dbl (13): year, state_FIPS, county_FIPS, dvoteswing_inc, dpct_grants, dpc_in...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">pork_mod_county_1 &lt;- lm(dvoteswing_inc  ~ dpct_grants*comp_state + as.factor(year), 
+                      d_pork_county)
+summary(pork_mod_county_1)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = dvoteswing_inc ~ dpct_grants * comp_state + as.factor(year), 
+##     data = d_pork_county)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -27.7179  -2.8547  -0.0047   2.7889  23.2187 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            -6.450079   0.084452 -76.376  &lt; 2e-16 ***
+## dpct_grants             0.004762   0.001036   4.595 4.35e-06 ***
+## comp_state              0.152687   0.076143   2.005 0.044949 *  
+## as.factor(year)1992     0.170688   0.115787   1.474 0.140458    
+## as.factor(year)1996     6.345396   0.115509  54.934  &lt; 2e-16 ***
+## as.factor(year)2000    -2.049544   0.116215 -17.636  &lt; 2e-16 ***
+## as.factor(year)2004     8.407388   0.115576  72.743  &lt; 2e-16 ***
+## as.factor(year)2008     3.136792   0.116122  27.013  &lt; 2e-16 ***
+## dpct_grants:comp_state  0.006391   0.001764   3.623 0.000292 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.495 on 18455 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.4027,	Adjusted R-squared:  0.4025 
+## F-statistic:  1556 on 8 and 18455 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+<pre><code class="language-r">pork_mod_county_2 &lt;- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year) +
+                          dpc_income + inc_ad_diff + inc_campaign_diff + 
+                          dhousevote_inc + iraq_cas2004 + iraq_cas2008 + 
+                          dpct_popl,
+                        data = d_pork_county)
+summary(pork_mod_county_2)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = dvoteswing_inc ~ dpct_grants * comp_state + as.factor(year) + 
+##     dpc_income + inc_ad_diff + inc_campaign_diff + dhousevote_inc + 
+##     iraq_cas2004 + iraq_cas2008 + dpct_popl, data = d_pork_county)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -27.321  -2.848  -0.025   2.728  22.994 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            -6.523210   0.084963 -76.777  &lt; 2e-16 ***
+## dpct_grants             0.003954   0.001043   3.792 0.000150 ***
+## comp_state              0.155418   0.077223   2.013 0.044173 *  
+## as.factor(year)1992    -0.156389   0.120591  -1.297 0.194699    
+## as.factor(year)1996     6.230500   0.119533  52.124  &lt; 2e-16 ***
+## as.factor(year)2000    -2.000293   0.118588 -16.868  &lt; 2e-16 ***
+## as.factor(year)2004     8.248378   0.119371  69.099  &lt; 2e-16 ***
+## as.factor(year)2008     3.574248   0.124060  28.811  &lt; 2e-16 ***
+## dpc_income              0.134285   0.022326   6.015 1.84e-09 ***
+## inc_ad_diff             0.061345   0.010851   5.654 1.60e-08 ***
+## inc_campaign_diff       0.161845   0.013166  12.292  &lt; 2e-16 ***
+## dhousevote_inc          0.012093   0.001952   6.196 5.91e-10 ***
+## iraq_cas2004           -0.153092   0.069585  -2.200 0.027816 *  
+## iraq_cas2008           -0.164783   0.021677  -7.602 3.07e-14 ***
+## dpct_popl               2.103344   0.530292   3.966 7.33e-05 ***
+## dpct_grants:comp_state  0.006411   0.001781   3.600 0.000319 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.452 on 17943 degrees of freedom
+##   (506 observations deleted due to missingness)
+## Multiple R-squared:  0.4199,	Adjusted R-squared:  0.4194 
+## F-statistic: 865.9 on 15 and 17943 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+<pre><code class="language-r"># Pork state model. 
+d_pork_state_model &lt;- d_state_vote |&gt;
+  mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |&gt;
+  inner_join(d_pork_state, by = c(&quot;year&quot;, &quot;state_abb&quot;)) |&gt;
+  left_join(d_vote, by = &quot;year&quot;) |&gt;
+  filter(incumbent_party == TRUE) |&gt;
+  mutate(inc_pv2p = ifelse(party == &quot;REP&quot;, R_pv2p, D_pv2p)) |&gt;
+  mutate(is_comp = case_when(state_year_type == &quot;swing + election year&quot; ~ 1,
+                             .default = 0)) |&gt;
+  group_by(state) |&gt;
+  mutate(change_grant_mil = (1-grant_mil/(lag(grant_mil, n = 1)))*100,
+         change_inc_pv2p = (1-inc_pv2p/(lag(inc_pv2p, n = 1)))*100) |&gt;
+  ungroup() |&gt;
+  select(state, year, is_comp, change_grant_mil, change_inc_pv2p)
+</code></pre>
+<pre><code>## Warning in left_join(inner_join(mutate(d_state_vote, state_abb = state.abb[match(d_state_vote$state, : Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 19 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.
+</code></pre>
+<pre><code class="language-r">pork_state_mod &lt;- lm(change_inc_pv2p ~ is_comp*change_grant_mil + as.factor(year),
+                     data = d_pork_state_model)
+summary(pork_state_mod)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = change_inc_pv2p ~ is_comp * change_grant_mil + as.factor(year), 
+##     data = d_pork_state_model)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -136.740   -6.628    0.341    7.176   64.748 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                9.6346     3.6317   2.653  0.00842 ** 
+## is_comp                   -0.4004     4.1498  -0.096  0.92319    
+## change_grant_mil           0.1138     0.1051   1.082  0.28001    
+## as.factor(year)1992        6.8952     6.7168   1.027  0.30548    
+## as.factor(year)1996      -21.3789     5.2732  -4.054 6.46e-05 ***
+## as.factor(year)2000        3.5773     5.6260   0.636  0.52537    
+## as.factor(year)2004      -30.1619     5.4753  -5.509 7.96e-08 ***
+## as.factor(year)2008        1.0850     4.8627   0.223  0.82360    
+## is_comp:change_grant_mil  -0.1027     0.1643  -0.625  0.53246    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 23.43 on 291 degrees of freedom
+##   (50 observations deleted due to missingness)
+## Multiple R-squared:  0.2675,	Adjusted R-squared:  0.2474 
+## F-statistic: 13.29 on 8 and 291 DF,  p-value: 2.299e-16
+</code></pre>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="time-for-a-change-model">Time for a change model.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Join data for time for change model.
+d_tfc_train &lt;- d_vote |&gt; 
+  left_join(d_econ, by = &quot;year&quot;) |&gt; 
+  filter(incumbent_party) |&gt;
+  mutate(incumbent = as.numeric(incumbent))
+</code></pre>
+<pre><code class="language-r"># Estimate time for change model through 2016.
+tfc_mod_2016 &lt;- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = subset(d_tfc_train, year &lt; 2020))
+summary(tfc_mod_2016)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+##     data = subset(d_tfc_train, year &lt; 2020))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8593 -1.1826 -0.2782  1.7858  3.9544 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          48.21244    1.06959  45.076  &lt; 2e-16 ***
+## GDP_growth_quarterly  0.46505    0.15494   3.001 0.009523 ** 
+## incumbent             2.22003    1.24448   1.784 0.096122 .  
+## juneapp               0.13177    0.02514   5.241 0.000125 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.486 on 14 degrees of freedom
+## Multiple R-squared:  0.8166,	Adjusted R-squared:  0.7773 
+## F-statistic: 20.78 on 3 and 14 DF,  p-value: 2.007e-05
+</code></pre>
+<pre><code class="language-r"># Estimate simplified time for change model for 2020. 
+# https://www-cambridge-org.ezp-prod1.hul.harvard.edu/core/services/aop-cambridge-core/content/view/47BBC0D5A2B7913DBB37FDA0542FD7E8/S1049096520001389a.pdf/its-the-pandemic-stupid-a-simplified-model-for-forecasting-the-2020-presidential-election.pdf
+tfc_mod_2020 &lt;- lm(pv2p ~ juneapp, 
+                   data = subset(d_tfc_train, year &lt; 2024))
+summary(tfc_mod_2020)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = pv2p ~ juneapp, data = subset(d_tfc_train, year &lt; 
+##     2024))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.0627 -1.9331 -0.1604  1.6453  6.9681 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 51.02572    0.72026  70.844  &lt; 2e-16 ***
+## juneapp      0.16501    0.02818   5.855 1.91e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.089 on 17 degrees of freedom
+## Multiple R-squared:  0.6685,	Adjusted R-squared:  0.649 
+## F-statistic: 34.28 on 1 and 17 DF,  p-value: 1.91e-05
+</code></pre>
+<h1 id="evaluate-models-and-compare-them-to-your-own-modelspredictions">Evaluate models and compare them to your own models/predictions.</h1>
+<h1 id="todo">TODO:</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="expert-predictions">Expert predictions.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Read expert prediction data. 
+# Read data from Cook Political Report. 
+# Years: 1988-2020
+# IMPORTANT: Please do not commit/push this data to GitHub or share it anywhere outside of this course!
+d_cook &lt;- read_csv(&quot;CPR_EC_Ratings.csv&quot;)[,-1] |&gt; 
+  mutate(rating_numeric = case_when(Rating == &quot;Solid D&quot; ~ 1,
+                                    Rating == &quot;Likely D&quot; ~ 2,
+                                    Rating == &quot;Lean D&quot; ~ 3,
+                                    Rating == &quot;Toss Up&quot; ~ 4,
+                                    Rating == &quot;Lean R&quot; ~ 5,
+                                    Rating == &quot;Likely R&quot; ~ 6,
+                                    Rating == &quot;Solid R&quot; ~ 7)) |&gt; 
+  mutate(solid_D = as.numeric(rating_numeric == 1),
+         likely_D = as.numeric(rating_numeric == 2),
+         lean_D = as.numeric(rating_numeric == 3),
+         toss_up = as.numeric(rating_numeric == 4),
+         lean_R = as.numeric(rating_numeric == 5),
+         likely_R = as.numeric(rating_numeric == 6),
+         solid_R = as.numeric(rating_numeric == 7))
+</code></pre>
+<pre><code>## New names:
+## Rows: 474 Columns: 26
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (15): Office, Abbreviation, Rating, PluralityParty, RepCandidate, RepSta... dbl
+## (6): ...1, Cycle, RepVotesMajorPercent, DemVotesMajorPercent, ThirdVote... num
+## (3): RepVotes, DemVotes, PluralityVotes lgl (2): Raw, Incumbent.Party
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -&gt; `...1`
+</code></pre>
+<pre><code class="language-r"># N.B. Read important note above!
+</code></pre>
+<pre><code class="language-r"># Read data from Sabato's Crystal Ball.
+# Years: 2004-2024
+d_sabato &lt;- read_csv(&quot;sabato_crystal_ball_ratings.csv&quot;) |&gt; 
+  rename(state_abb = state)
+</code></pre>
+<pre><code>## Rows: 306 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): state
+## dbl (2): year, rating
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">state_abb_xwalk &lt;- d_state_vote |&gt;
+  mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |&gt; 
+  select(state, state_abb) |&gt; 
+  distinct() 
+state_abb_xwalk[51,]$state &lt;- &quot;District of Columbia&quot;
+state_abb_xwalk[51,]$state_abb &lt;- &quot;DC&quot;
+
+d_sabato &lt;- d_sabato |&gt; 
+  left_join(state_abb_xwalk, by = &quot;state_abb&quot;) |&gt;
+  mutate(safe_D = as.numeric(rating == 1),
+         likely_D = as.numeric(rating == 2),
+         lean_D = as.numeric(rating == 3),
+         toss_up = as.numeric(rating == 4),
+         lean_R = as.numeric(rating == 5),
+         likely_R = as.numeric(rating == 6),
+         safe_R = as.numeric(rating == 7))
+</code></pre>
+<h1 id="ratings">Ratings:</h1>
+<h1 id="1-safe-democrat">1: Safe Democrat</h1>
+<h1 id="2-likely-democrat">2: Likely Democrat</h1>
+<h1 id="3-lean-democrat">3: Lean Democrat</h1>
+<h1 id="4-toss-up">4: Toss Up</h1>
+<h1 id="5-lean-republican">5: Lean Republican</h1>
+<h1 id="6-likely-republican">6: Likely Republican</h1>
+<h1 id="7-safe-republican">7: Safe Republican</h1>
+<pre><code class="language-r"># 2020 Comparison. 
+d_sabato_2020 &lt;- d_sabato |&gt; 
+  filter(year == 2020) |&gt; 
+  select(state, sabato_rating = rating)
+
+d_expert_2020 &lt;- d_cook |&gt; 
+  filter(Cycle == 2020) |&gt; 
+  select(state = State, cook_rating = rating_numeric) |&gt; 
+  left_join(d_sabato_2020, by = &quot;state&quot;) |&gt; 
+  mutate(rating_match = as.numeric(cook_rating == sabato_rating))
+
+d_expert_2020$rating_match |&gt; table()
+</code></pre>
+<pre><code>## 
+##  0  1 
+##  9 42
+</code></pre>
+<pre><code class="language-r">d_expert_2020$state[d_expert_2020$rating_match == 0 &amp; !is.na(d_expert_2020$sabato_rating)]
+</code></pre>
+<pre><code>## [1] &quot;Florida&quot;        &quot;Georgia&quot;        &quot;Iowa&quot;           &quot;Minnesota&quot;     
+## [5] &quot;New Hampshire&quot;  &quot;New Mexico&quot;     &quot;North Carolina&quot; &quot;Ohio&quot;          
+## [9] &quot;Texas&quot;
+</code></pre>
+<pre><code class="language-r"># Why the NAs? Cook makes ratings for Maine and Nebraska districts separately. 
+# These may be important for the 2024 election, but are difficult to find data for. 
+
+d_expert_2020 &lt;- d_expert_2020 |&gt; 
+  drop_na()
+</code></pre>
+<pre><code class="language-r"># Compare rating mismatches for 2020.
+d_expert_2020[d_expert_2020$state %in% c(d_expert_2020$state[d_expert_2020$rating_match == 0]),]
+</code></pre>
+<pre><code>## # A tibble: 9 × 4
+##   state          cook_rating sabato_rating rating_match
+##   &lt;chr&gt;                &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Florida                  4             5            0
+## 2 Georgia                  4             3            0
+## 3 Iowa                     4             5            0
+## 4 Minnesota                3             2            0
+## 5 New Hampshire            3             2            0
+## 6 New Mexico               1             2            0
+## 7 North Carolina           4             3            0
+## 8 Ohio                     4             5            0
+## 9 Texas                    4             5            0
+</code></pre>
+<pre><code class="language-r"># Merge in 2020 state vote data. 
+d_state_vote_2020 &lt;- d_state_vote |&gt; 
+  filter(year == 2020) |&gt; 
+  select(state, year, R_pv2p, D_pv2p) |&gt; 
+  mutate(margin = D_pv2p - R_pv2p, 
+         winner = ifelse(D_pv2p &gt; R_pv2p, &quot;D&quot;, &quot;R&quot;))
+d_state_vote_2020[d_state_vote_2020$state == &quot;District Of Columbia&quot;,]$state &lt;- &quot;District of Columbia&quot;
+
+d_expert_2020 &lt;- d_expert_2020 |&gt;
+  left_join(d_state_vote_2020, by = &quot;state&quot;)
+</code></pre>
+<pre><code class="language-r"># See which expert group was more accurate for 2020 (counting toss ups as misses). 
+d_expert_2020 &lt;- d_expert_2020 |&gt; 
+  mutate(cook_correct = as.numeric((winner == &quot;D&quot; &amp; cook_rating &lt; 4) | 
+                                   (winner == &quot;R&quot; &amp; cook_rating &gt; 4)),
+         sabato_correct = as.numeric((winner == &quot;D&quot; &amp; sabato_rating &lt; 4) | 
+                                     (winner == &quot;R&quot; &amp; sabato_rating &gt; 4)))
+
+d_expert_2020 |&gt;
+  select(cook_correct, sabato_correct) |&gt; 
+  colMeans()
+</code></pre>
+<pre><code>##   cook_correct sabato_correct 
+##      0.8823529      0.9803922
+</code></pre>
+<pre><code class="language-r"># Which states did Cook miss? 
+d_expert_2020[d_expert_2020$cook_correct == 0,]$state
+</code></pre>
+<pre><code>## [1] &quot;Florida&quot;        &quot;Georgia&quot;        &quot;Iowa&quot;           &quot;North Carolina&quot;
+## [5] &quot;Ohio&quot;           &quot;Texas&quot;
+</code></pre>
+<pre><code class="language-r">d_expert_2020[d_expert_2020$cook_correct == 0,] |&gt; view()
+</code></pre>
+<pre><code class="language-r"># Sabato? 
+d_expert_2020[d_expert_2020$sabato_correct == 0,]$state
+</code></pre>
+<pre><code>## [1] &quot;North Carolina&quot;
+</code></pre>
+<pre><code class="language-r">d_expert_2020[d_expert_2020$sabato_correct == 0,] |&gt; view()
+</code></pre>
+<h1 id="2024-comparison">2024 Comparison:</h1>
+<h1 id="2024-toss-ups">2024 toss-ups?</h1>
+<h1 id="7-from-cook-httpswwwcookpoliticalcomratingspresidential-race-ratings">7 from Cook: <a href="https://www.cookpolitical.com/ratings/presidential-race-ratings">https://www.cookpolitical.com/ratings/presidential-race-ratings</a></h1>
+<h1 id="191-ev-solid-d--34-likely-d--1-lean-d--226-ev-dem">191 EV (Solid D) + 34 (Likely D) + 1 (Lean D) = 226 EV Dem</h1>
+<h1 id="93-toss-up-ev">93 Toss Up EV</h1>
+<h1 id="11-az">11 AZ</h1>
+<h1 id="16-ga">16 GA</h1>
+<h1 id="15-mi">15 MI</h1>
+<h1 id="6-nv">6 NV</h1>
+<h1 id="16-nc">16 NC</h1>
+<h1 id="19-pa">19 PA</h1>
+<h1 id="10-wi">10 WI</h1>
+<h1 id="148-solid-r--71-likely-r--0-lean-r--219-ev-rep">148 (Solid R) + 71 (Likely R) + 0 (Lean R) = 219 EV Rep</h1>
+<pre><code class="language-r"># Sabato: 
+# https://centerforpolitics.org/crystalball/2024-president/
+d_sabato |&gt; 
+  filter(year == 2024 &amp; rating == 4) |&gt; 
+  select(state)
+</code></pre>
+<pre><code>## # A tibble: 7 × 1
+##   state         
+##   &lt;chr&gt;         
+## 1 Arizona       
+## 2 Georgia       
+## 3 Michigan      
+## 4 Nevada        
+## 5 North Carolina
+## 6 Pennsylvania  
+## 7 Wisconsin
+</code></pre>
+<h1 id="226-d-ev">226 D EV</h1>
+<h1 id="93--ev">93 ? EV</h1>
+<h1 id="219-r-ev">219 R EV</h1>
+<h1 id="conclusion-both-have-same-set-of-states-as-each">Conclusion: Both have same set of states as each.</h1>
+<h1 id="importance-of-these-swing-states">Importance of these swing states!</h1>
+<pre><code class="language-r"># Combine expert predictions generally. 
+d_expert &lt;- d_cook |&gt; 
+  select(year = Cycle, state = State, cook_rating = rating_numeric) |&gt; 
+  left_join(d_sabato |&gt; select(year, state, sabato_rating = rating), by = c(&quot;year&quot;, &quot;state&quot;)) |&gt; 
+  mutate(rating_match = as.numeric(cook_rating == sabato_rating)) |&gt; 
+  drop_na()
+
+d_expert |&gt; 
+  group_by(year) |&gt; 
+  summarize(mean_match_rate = mean(rating_match)) 
+</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##    year mean_match_rate
+##   &lt;dbl&gt;           &lt;dbl&gt;
+## 1  2004           0.647
+## 2  2008           0.608
+## 3  2012           0.765
+## 4  2016           0.804
+## 5  2020           0.824
+</code></pre>
+<pre><code class="language-r"># Merge in voting data. 
+d_state_vote_wide &lt;- d_state_vote |&gt; 
+  select(state, year, R_pv2p, D_pv2p, R_pv2p_lag1, R_pv2p_lag2, D_pv2p_lag1, D_pv2p_lag2) |&gt;
+  mutate(margin = D_pv2p - R_pv2p, 
+         winner = ifelse(D_pv2p &gt; R_pv2p, &quot;D&quot;, &quot;R&quot;))
+d_state_vote_wide[d_state_vote_wide$state == &quot;District Of Columbia&quot;,]$state &lt;- &quot;District of Columbia&quot;
+d_expert &lt;- d_expert |&gt; 
+  left_join(d_state_vote_wide, 
+            by = c(&quot;state&quot;, &quot;year&quot;))
+d_expert &lt;- d_expert |&gt; 
+  mutate(cook_correct = as.numeric((winner == &quot;D&quot; &amp; cook_rating &lt; 4) | 
+                                     (winner == &quot;R&quot; &amp; cook_rating &gt; 4)),
+         sabato_correct = as.numeric((winner == &quot;D&quot; &amp; sabato_rating &lt; 4) | 
+                                       (winner == &quot;R&quot; &amp; sabato_rating &gt; 4)))
+
+d_expert |&gt;
+  select(cook_correct, sabato_correct) |&gt; 
+  colMeans()
+</code></pre>
+<pre><code>##   cook_correct sabato_correct 
+##      0.8549020      0.9137255
+</code></pre>
+<pre><code class="language-r">d_expert |&gt; 
+  group_by(year) |&gt; 
+  summarize(mean_cook_correct = mean(cook_correct),
+            mean_sabato_correct = mean(sabato_correct))
+</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##    year mean_cook_correct mean_sabato_correct
+##   &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;
+## 1  2004             0.824               0.961
+## 2  2008             0.804               0.784
+## 3  2012             0.863               0.961
+## 4  2016             0.902               0.882
+## 5  2020             0.882               0.980
+</code></pre>
+<h1 id="how-can-we-incorporate-expert-predictions-into-our-models">How can we incorporate expert predictions into our models?</h1>
+<h1 id="todo-1">TODO:</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="ensembling-at-the-national-level-incumbents-only">Ensembling at the national level (incumbents only).</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Split poll data into training and testing data based on inclusion or exclusion of 2024. 
+d_poll_weeks_train_inc &lt;- d_poll_weeks |&gt; 
+  filter(incumbent &amp; year &lt;= 2020)
+d_poll_weeks_test_inc &lt;- d_poll_weeks |&gt; 
+  filter(incumbent &amp; year == 2024)
+
+colnames(d_poll_weeks)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
+colnames(d_poll_weeks_train_inc)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
+colnames(d_poll_weeks_test_inc)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
+</code></pre>
+<pre><code class="language-r"># First check how many weeks of polling we have for 2024. 
+d_pollav_natl |&gt; 
+  filter(year == 2024) |&gt; 
+  select(weeks_left) |&gt; 
+  distinct() |&gt; 
+  range() # Let's take week 30 - 7 as predictors since those are the weeks we have polling data for 2024 and historically. 
+</code></pre>
+<pre><code>## [1]  7 36
+</code></pre>
+<pre><code class="language-r">x.train &lt;- d_poll_weeks_train_inc |&gt;
+  ungroup() |&gt; 
+  select(all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) |&gt; 
+  as.matrix()
+y.train &lt;- d_poll_weeks_train_inc$pv2p
+x.test &lt;- d_poll_weeks_test_inc |&gt;
+  ungroup() |&gt; 
+  select(all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) |&gt; 
+  as.matrix()
+</code></pre>
+<pre><code class="language-r"># Using elastic-net for simplicity. 
+set.seed(02138)
+enet.poll &lt;- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
+</code></pre>
+<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
+## fold
+</code></pre>
+<pre><code class="language-r">lambda.min.enet.poll &lt;- enet.poll$lambda.min
+</code></pre>
+<pre><code class="language-r"># Predict 2024 national pv2p share using elastic-net. 
+(polls.pred &lt;- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test))
+</code></pre>
+<pre><code>##            s1
+## [1,] 48.71603
+</code></pre>
+<pre><code class="language-r"># Estimate models using polls alone, fundamentals alone, and combined fundamentals and polls. 
+# Read economic data. 
+d_econ &lt;- read_csv(&quot;fred_econ.csv&quot;) |&gt; 
+  filter(quarter == 2)
+</code></pre>
+<pre><code>## Rows: 387 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (14): year, quarter, GDP, GDP_growth_quarterly, RDPI, RDPI_growth_quarte...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r"># Combine datasets and create vote lags. 
+d_combined &lt;- d_econ |&gt; 
+  left_join(d_poll_weeks, by = &quot;year&quot;) |&gt; 
+  filter(year %in% c(unique(d_vote$year), 2024)) |&gt; 
+  group_by(party) |&gt; 
+  mutate(pv2p_lag1 = lag(pv2p, 1), 
+         pv2p_lag2 = lag(pv2p, 2)) |&gt; 
+  ungroup() |&gt; 
+  mutate(gdp_growth_x_incumbent = GDP_growth_quarterly * incumbent, 
+         rdpi_growth_quarterly = RDPI_growth_quarterly * incumbent,
+         cpi_x_incumbent = CPI * incumbent,
+         unemployment_x_incumbent = unemployment * incumbent,
+         sp500_x_incumbent = sp500_close * incumbent) # Generate interaction effects.
+</code></pre>
+<pre><code class="language-r"># Create fundamentals-only dataset and split into training and test sets. 
+d_fund_inc &lt;- d_combined |&gt; 
+  filter(incumbent) |&gt; 
+  select(&quot;year&quot;, &quot;pv2p&quot;, &quot;GDP&quot;, &quot;GDP_growth_quarterly&quot;, &quot;RDPI&quot;, &quot;RDPI_growth_quarterly&quot;, &quot;CPI&quot;, &quot;unemployment&quot;, &quot;sp500_close&quot;,
+         &quot;rdpi_growth_quarterly&quot;, &quot;pv2p_lag1&quot;, &quot;pv2p_lag2&quot;) 
+x.train.fund &lt;- d_fund_inc |&gt; 
+  filter(year &lt;= 2020) |&gt;
+  select(-c(year, pv2p)) |&gt; 
+  slice(-1) |&gt; 
+  as.matrix()
+y.train.fund &lt;- d_fund_inc |&gt; 
+  filter(year &lt;= 2020) |&gt; 
+  select(pv2p) |&gt; 
+  slice(-1) |&gt; 
+  as.matrix()
+x.test.fund &lt;- d_fund_inc |&gt; 
+  filter(year == 2024) |&gt; 
+  select(-c(year, pv2p)) |&gt; 
+  drop_na() |&gt; 
+  as.matrix()
+</code></pre>
+<pre><code class="language-r"># Estimate elastic-net using fundamental variables only.
+set.seed(02138)
+enet.fund &lt;- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
+</code></pre>
+<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
+## fold
+</code></pre>
+<pre><code class="language-r">lambda.min.enet.fund &lt;- enet.fund$lambda.min
+</code></pre>
+<pre><code class="language-r"># Predict 2024 national pv2p share using elastic-net. 
+(fund.pred &lt;- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
+</code></pre>
+<pre><code>##            s1
+## [1,] 47.59299
+</code></pre>
+<pre><code class="language-r"># Sequester data for combined model.
+d_combo_inc &lt;- d_combined |&gt; 
+  filter(incumbent) |&gt; 
+  select(&quot;year&quot;, &quot;pv2p&quot;, &quot;GDP&quot;, &quot;GDP_growth_quarterly&quot;, &quot;RDPI&quot;, &quot;RDPI_growth_quarterly&quot;, &quot;CPI&quot;, &quot;unemployment&quot;, &quot;sp500_close&quot;,
+         &quot;rdpi_growth_quarterly&quot;, &quot;pv2p_lag1&quot;, &quot;pv2p_lag2&quot;, all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) 
+
+x.train.combined &lt;- d_combo_inc |&gt; 
+  filter(year &lt;= 2020) |&gt; 
+  select(-c(year, pv2p)) |&gt; 
+  slice(-1) |&gt; 
+  as.matrix()
+y.train.combined &lt;- d_combo_inc |&gt;
+  filter(year &lt;= 2020) |&gt; 
+  select(pv2p) |&gt; 
+  slice(-1) |&gt; 
+  as.matrix()
+x.test.combined &lt;- d_combo_inc |&gt;
+  filter(year == 2024) |&gt; 
+  select(-c(year, pv2p)) |&gt; 
+  drop_na() |&gt; 
+  as.matrix()
+</code></pre>
+<pre><code class="language-r"># Estimate combined model.
+set.seed(02138)
+enet.combined &lt;- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
+</code></pre>
+<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
+## fold
+</code></pre>
+<pre><code class="language-r">lambda.min.enet.combined &lt;- enet.combined$lambda.min
+</code></pre>
+<pre><code class="language-r"># Predict 2024 national pv2p share using elastic-net.
+(combo.pred &lt;- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined))
+</code></pre>
+<pre><code>##            s1
+## [1,] 44.81875
+</code></pre>
+<pre><code class="language-r"># Ensemble 1: Predict based on unweighted (or equally weighted) ensemble model between polls and fundamentals models. 
+(unweighted.ensemble.pred &lt;- (polls.pred + fund.pred)/2)
+</code></pre>
+<pre><code>##            s1
+## [1,] 48.15451
+</code></pre>
+<pre><code class="language-r"># Ensemble 2: Weight based on polls mattering closer to November. (Nate Silver)
+election_day_2024 &lt;- &quot;2024-11-05&quot;
+today &lt;- &quot;2024-09-18&quot;
+days_left &lt;- as.numeric(as.Date(election_day_2024) - as.Date(today))
+
+(poll_model_weight &lt;- 1- (1/sqrt(days_left)))
+</code></pre>
+<pre><code>## [1] 0.8556624
+</code></pre>
+<pre><code class="language-r">(fund_model_weight &lt;- 1/sqrt(days_left))
+</code></pre>
+<pre><code>## [1] 0.1443376
+</code></pre>
+<pre><code class="language-r">(ensemble.2.pred &lt;- polls.pred * poll_model_weight + fund.pred * fund_model_weight)  
+</code></pre>
+<pre><code>##            s1
+## [1,] 48.55393
+</code></pre>
+<pre><code class="language-r"># Ensemble 3. Weight based on fundamentals mattering closer to November. (Gelman &amp; King, 1993)
+(poll_model_weight &lt;- 1/sqrt(days_left))
+</code></pre>
+<pre><code>## [1] 0.1443376
+</code></pre>
+<pre><code class="language-r">(fund_model_weight &lt;- 1-(1/sqrt(days_left)))
+</code></pre>
+<pre><code>## [1] 0.8556624
+</code></pre>
+<pre><code class="language-r">(ensemble.3.pred &lt;- polls.pred * poll_model_weight + fund.pred * fund_model_weight)
+</code></pre>
+<pre><code>##            s1
+## [1,] 47.75509
+</code></pre>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="super-learning-at-the-state-level-for-swing-states">Super learning at the state level for swing states.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<pre><code class="language-r"># Get set of states where we have polling data for 2024 according to 538 poll averages.
+states_2024 &lt;- d_pollav_state$state[d_pollav_state$year == 2024] |&gt; unique()
+</code></pre>
+<pre><code class="language-r"># Predicting for Democratic incumbents.
+# Simplifications and assumptions: 
+  # Assuming Harris can be treated as incumbent for 2024 (could test either)
+  # Getting weights from testing models on 2020 (could do different years)
+  # Pooled models (could run state-specific models)
+  # Using LOO-CV on 2020 (could do K-fold CV)
+  # Using average poll support across all 30 weeks until election (could do weekly support, various imputation methods)
+d_state_combo &lt;- d_pollav_state |&gt; 
+  filter((state %in% states_2024)) |&gt; 
+  group_by(year, state, party) |&gt;
+  mutate(mean_pollav = mean(poll_support)) |&gt;
+  top_n(1, poll_date) |&gt; 
+  rename(latest_pollav = poll_support) |&gt; 
+  ungroup() |&gt; 
+  left_join(d_vote |&gt; select(-pv, -pv2p), by = c(&quot;year&quot;, &quot;party&quot;)) |&gt; 
+  filter(party == &quot;DEM&quot;) |&gt; 
+  left_join(d_state_vote_wide, by = c(&quot;year&quot;, &quot;state&quot;)) 
+</code></pre>
+<pre><code class="language-r"># Model 1. Polling averages only. 
+# Estimate model.
+mod_1 &lt;- lm(D_pv2p ~ latest_pollav + mean_pollav, 
+            data = subset(d_state_combo, year &lt; 2020))
+</code></pre>
+<pre><code class="language-r"># Model 2. Lagged vote model. 
+mod_2 &lt;- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2, 
+            data = subset(d_state_combo, year &lt; 2020))
+</code></pre>
+<pre><code class="language-r"># Model 3. Combined models. 
+mod_3 &lt;- lm(D_pv2p ~ incumbent + latest_pollav + mean_pollav + D_pv2p_lag1 + D_pv2p_lag2, 
+            data = subset(d_state_combo, year &lt; 2020))
+</code></pre>
+<pre><code class="language-r"># Predictions from each model. 
+pred_1 &lt;- as.numeric(predict(mod_1, newdata = subset(d_state_combo, year == 2020)))
+pred_2 &lt;- as.numeric(predict(mod_2, newdata = subset(d_state_combo, year == 2020)))
+pred_3 &lt;- as.numeric(predict(mod_3, newdata = subset(d_state_combo, year == 2020)))
+</code></pre>
+<pre><code class="language-r"># Get weights to build super learner. 
+d_weight &lt;- data.frame(&quot;truth&quot; = d_state_combo$D_pv2p[d_state_combo$year == 2020],
+                       &quot;polls&quot; = pred_1,
+                       &quot;lag_vote&quot; = pred_2,
+                       &quot;combo&quot; = pred_3)
+</code></pre>
+<pre><code class="language-r"># Constrained optimization for ensemble mod weights. 
+mod_ensemble &lt;- lm(truth ~ polls + lag_vote + combo, 
+                   data = d_weight)
+</code></pre>
+<pre><code class="language-r"># Get weights and estimated weighted ensemble via constrained regression.
+c &lt;- 3 # number of models
+predictions &lt;- cbind(pred_1, pred_2, pred_3)
+y.test &lt;- d_weight$truth
+w &lt;- lm(y.test ~ predictions-1)
+beta &lt;- Variable(c)
+objective &lt;- Minimize(sum_squares(y.test - predictions %*% beta))
+prob &lt;- Problem(objective)
+constraints(prob) &lt;- list(beta &gt;= 0, beta &lt;= 1)
+solution_prob &lt;- solve(prob)
+weights &lt;- solution_prob$getValue(beta)
+</code></pre>
+<pre><code class="language-r"># Predict using previous model output.
+ensemble_pred &lt;- cbind(&quot;state&quot; = subset(d_state_combo, year == 2020)$state,
+                       &quot;pred&quot; = round(as.numeric(t(weights) %*% t(predictions)), 3)) |&gt; 
+  as.data.frame()
+
+ensemble_pred &lt;- ensemble_pred |&gt; 
+  mutate(winner = ifelse(pred &gt; 50, &quot;D&quot;, &quot;R&quot;))
+
+ensemble_pred
+</code></pre>
+<pre><code>##             state   pred winner
+## 1       Wisconsin 52.277      D
+## 2        Virginia 54.681      D
+## 3           Texas 49.352      R
+## 4    Pennsylvania 50.596      D
+## 5            Ohio 46.866      R
+## 6  North Carolina 49.832      R
+## 7        New York  61.19      D
+## 8   New Hampshire 53.933      D
+## 9          Nevada 50.815      D
+## 10      Minnesota 51.821      D
+## 11       Michigan 51.114      D
+## 12        Georgia 50.206      D
+## 13        Florida 50.004      D
+## 14     California 61.701      D
+## 15        Arizona 50.292      D
+</code></pre>
+<h1 id="merge-with-electoral-college-dataset-and-make-plots">Merge with electoral college dataset and make plots.</h1>
+<h1 id="todo-2">TODO:</h1>
+<p>Citations
+[1] - <a href="https://www.opensecrets.org/elections-overview/reelection-rates">https://www.opensecrets.org/elections-overview/reelection-rates</a>
+[2] - <a href="https://slcc.pressbooks.pub/attenuateddemocracy/chapter/chapter-55/">https://slcc.pressbooks.pub/attenuateddemocracy/chapter/chapter-55/</a>
+[3] - <a href="https://www.opensecrets.org/political-action-committees-pacs/what-is-a-pac">https://www.opensecrets.org/political-action-committees-pacs/what-is-a-pac</a></p>
 
 </main>
 
