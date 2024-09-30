@@ -40,6 +40,8 @@ Lets talk about the infamous _pork barrel_. What an interesting phrase...with an
 
 Now, in the graph below, you will see how states receive funding depending on the nature of the election's status. By status I mean whether the race was contentious or if there was an election that year. You will see below that swing states during election years receive the most federal grant spending with core election and non-election states receive the least, by the amount of nearly $50 million. 
 
+Now, consider if incumbency matters...
+
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read incumbency/vote data.
 d_vote <- read_csv("popvote_1948-2020.csv")
@@ -139,13 +141,7 @@ d_vote |>
   as.data.frame()
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
-# How many post-war elections have there been where winner served in 
-# previous administration?
-100*round(prop.table(table(`prev_admin` = d_vote$prev_admin[d_vote$year > 1948 & 
-                                     d_vote$year < 2024 & 
-                                     d_vote$winner == TRUE])), 4)
-```
+
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read federal grants dataset from Kriner & Reeves (2008). 
@@ -166,9 +162,19 @@ d_pork_state |>
        y = "Federal Grant Spending (Millions of $)", 
        title = "Federal Grant Spending (Millions $) by State Election Type") + 
   theme_minimal() + 
-  theme(plot.title = element_text(size = 20),
+  theme(plot.title = element_text(size = 18),
         axis.title = element_text(size = 15),
         axis.text = element_text(size = 12))
+```
+
+To further illustrate investigate importance, see below. This demonstrates how many post-war elections yielded a winner who served in the administration of the former president. In this case, only 27% of the winners were in the previous admin. 
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+# How many post-war elections have there been where winner served in 
+# previous administration?
+100*round(prop.table(table(`prev_admin` = d_vote$prev_admin[d_vote$year > 1948 & 
+                                     d_vote$year < 2024 & 
+                                     d_vote$winner == TRUE])), 4)
 ```
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
@@ -206,7 +212,11 @@ pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year
 summary(pork_mod_county_2)
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+Below, you will see some analysis using the pork state model. With the data set used above, we see that a p-value of .92, the state's competitive status does not extensively impact the incumbent party's vote share. Additionally, we see that a change in grant money is not incredibly relevant to incumbent party's vote share.
+
+So, what does this mean? Does it seem that porking does not work? It seems as though candidates work hard to provide funding to swing states, but with no impact.
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Pork state model. 
 d_pork_state_model <- d_state_vote |>
   mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |>
@@ -518,7 +528,7 @@ lambda.min.enet.fund <- enet.fund$lambda.min
 (fund.pred <- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Sequester data for combined model.
 d_combo_inc <- d_combined |> 
   filter(incumbent) |> 
@@ -658,7 +668,14 @@ solution_prob <- solve(prob)
 weights <- solution_prob$getValue(beta)
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+
+**Prediction**
+
+Now, for 2024. In the same fashion as last week, it is time to predict the next President of the United States! Below, you will see a relevant state analysis of the next election. This is combining a few models, including the pork model we already discussed, as well as a model based on lagged vote, which considers results of past elections to project the next one!
+
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Predict using previous model output.
 ensemble_pred <- cbind("state" = subset(d_state_combo, year == 2020)$state,
                        "pred" = round(as.numeric(t(weights) %*% t(predictions)), 3)) |> 
@@ -669,11 +686,17 @@ ensemble_pred <- ensemble_pred |>
 
 ensemble_pred
 ```
+      
+**Trump vs. Harris Incumbency**
+
+   In my quasi-educated position, it feels as though Former President Trump feels a greater incumbency advantage than Vice President Harris. Trump had some hefty [5] goals, and he accomplished _some_ of them. When called upon for things he did not accomplish, like building a border wall-and making Mexico pay for it-he blamed Congress, or Obama, or someone else. His voter base generally believed this, meaning his track record was only positive-in the minds of those who would vote for him.
+   Vice President Harris, on the other hand, has been _less_ celebrated. Vice Presidents are typically blamed for failing at goals, but what goals do they really have? Often times, they are a failed presidential candidate that the nominee chooses to shape out a ticket. Pence is an example, Harris is another. It appears that VP Harris was blamed for a lot of things, especially things that perhaps VP Pence was not blamed for. Either way, she is far from a celebrated Vice President in the public opinion. She has the support of President Biden, but that is the only reason most people are supporting her, or because she is simply not Former President Donald Trump. 
+
                            
  Citations
  [1] - https://www.opensecrets.org/elections-overview/reelection-rates
  [2] - https://slcc.pressbooks.pub/attenuateddemocracy/chapter/chapter-55/ 
  [3] - https://www.opensecrets.org/political-action-committees-pacs/what-is-a-pac
- [4] - https://www.goldmansachs.com/insights/articles/us-president-incumbents-tend-to-win-elections-except-during-recessions                             
+ [4] - https://www.goldmansachs.com/insights/articles/us-president-incumbents-tend-to-win-elections-except-during-recessions   [5] - https://www.npr.org/2016/11/09/501451368/here-is-what-donald-trump-wants-to-do-in-his-first-100-days                     
                              
                              
