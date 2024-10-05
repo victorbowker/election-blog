@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/election-blog/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=election-blog/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Post 5 | Victor Bowker</title>
+    <link rel="stylesheet" href="/election-blog/css/style.css" />
+    <link rel="stylesheet" href="/election-blog/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Blog Post 5</span></h1>
+<h2 class="author">Package Build</h2>
+<h2 class="date">2024/10/05</h2>
+</div>
+
+<main>
+<p>#&rsquo; @title GOV 1347: Week 5 (Demographics) Laboratory Session
+#&rsquo; @author
+#&rsquo; @date October 2, 2024</p>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="preamble">Preamble</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h2 id="set-working-directory-here">set working directory here</h2>
+<h1 id="setwd">setwd(&quot;~&quot;)</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="replication-of-kim--zilinsky-2023">Replication of Kim &amp; Zilinsky (2023).</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<p><strong>Demographics</strong></p>
+<p>This week is <em>all about</em> demographics, so lets talk about it!</p>
+<p>When pollsters review data to make predictions, they have <em>a lot</em> of factors to consider. I have covered some of these in prior posts, including economic factors, public opinion polls, and historical trends. Today, I will explore trends that are impacted&ndash;or are not&ndash;by demographics. The primary demographics included in today&rsquo;s data are race, gender, education level, income, religion, and a few others!</p>
+<p>For the first regression of the way (woot woot we love regressions) take a look down below. This regression tells us which demographic factors have been historically most accurate, and which demonstrated less accurate results.</p>
+<p>Interestingly, this form shows that age is not statistically significant in which party a candidate votes for. I say this is interesting because the Harvard Kennedy School Institute of Politics Spring 2024 Poll demonstrated that likely young voters were much more likely to vote for the Democrat (Biden) compared to the Republican (Trump). For voters under 30, Biden had the lead of 8 percentage points, which seemingly demonstrates something different than this&ndash; <em>interesting</em>![1]</p>
+<p>Additionally, I see that gender and race are in fact quite demonstrative of voting patterns, with negative coefficients of -0.429 and -0.548 respectively. According to the Pew Research Center, data shows that black voters turnout less than white voters, but overwhelmingly vote for Democrats, with roughly 93% of black voters voting for Democrats in the 2022 midterm elections!</p>
+<pre><code>## 
+## Logistic Regression Results
+## =============================================
+##                       Dependent variable:    
+##                   ---------------------------
+##                            pres_vote         
+## ---------------------------------------------
+## age                          0.001           
+##                             (0.003)          
+##                                              
+## gender                     -0.429***         
+##                             (0.093)          
+##                                              
+## race                       -0.548***         
+##                             (0.061)          
+##                                              
+## educ                       -0.340***         
+##                             (0.061)          
+##                                              
+## income                       0.049           
+##                             (0.047)          
+##                                              
+## religion                   -0.215***         
+##                             (0.042)          
+##                                              
+## attend_church              -0.211***         
+##                             (0.033)          
+##                                              
+## southern                   -0.410***         
+##                             (0.105)          
+##                                              
+## region                                       
+##                                              
+##                                              
+## work_status                 0.096**          
+##                             (0.046)          
+##                                              
+## homeowner                  -0.177**          
+##                             (0.082)          
+##                                              
+## married                    -0.072***         
+##                             (0.028)          
+##                                              
+## Constant                   4.358***          
+##                             (0.437)          
+##                                              
+## ---------------------------------------------
+## Observations                 2,088           
+## Log Likelihood            -1,282.131         
+## Akaike Inf. Crit.          2,588.262         
+## =============================================
+## Note:             *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01
+</code></pre>
+<h1 id="can-also-write-loop-to-compute-values-by-year-and-replicate-plots-from-kim--zilinskys-2023-paper">Can also write loop to compute values by year and replicate plots from Kim &amp; Zilinsky&rsquo;s (2023) paper.</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="voterfile-loadingdescriptivesanalysis">Voterfile loading/descriptives/analysis.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h1 id="histograms-quantiles-prop-tables-maps-etc">Histograms, quantiles, prop tables, maps, etc.</h1>
+<h1 id="todo">TODO:</h1>
+<h1 id="what-state-do-you-want-to-exploreanalyze-for-2024">What state do you want to explore/analyze for 2024?</h1>
+<h1 id="todo-1">TODO:</h1>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h4 id="simulation-examples">Simulation examples.</h4>
+<p>####&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-#</p>
+<h1 id="most-demographic-variables-and-turnout-are-not-significant-for-democrats-but-they-are-for-republicans">Most demographic variables and turnout are not significant for Democrats, but they are for Republicans.</h1>
+<h1 id="problem-we-do-not-have-demographic-data-for-2024">Problem: we do not have demographic data for 2024.</h1>
+<h1 id="what-can-we-do">What can we do?</h1>
+<h1 id="a-few-options">A few options:</h1>
+<h1 id="1-estimate-state-level-demographics-from-voterfile-and-plug-in-for-2024">(1.) Estimate state-level demographics from voterfile and plug in for 2024.</h1>
+<h1 id="2-interpolate-census-demographics-using-a-spline-or-some-type-of-model">(2.) Interpolate Census demographics using a spline or some type of model.</h1>
+<h1 id="3-simulate-plausible-values-for-variables-based-on-historical-averages-or-more-advanced-model">(3.) Simulate plausible values for variables based on historical averages or more advanced model.</h1>
+<p>Citations
+[1] - <a href="https://iop.harvard.edu/youth-poll/47th-edition-spring-2024">https://iop.harvard.edu/youth-poll/47th-edition-spring-2024</a>
+[] - as always, code borrowed from Teaching Fellow Matthew Dardet, check him out here - <a href="https://www.matthewdardet.com">https://www.matthewdardet.com</a></p>
+
+</main>
+
+  <footer>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/auto-render.min.js,npm/@xiee/utils/js/render-katex.js" defer></script>
+
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.min.js" defer></script>
+
+  
+  <hr/>
+  Theme from Yihui Xie 2017 - 2024
+  
+  </footer>
+  </body>
+</html>
+
