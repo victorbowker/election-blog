@@ -156,14 +156,14 @@ d_pork_state |>
   summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
   ggplot(aes(x = state_year_type, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
   coord_flip() + 
-  geom_bar(stat = "identity", fill = "chartreuse4") + 
+  geom_bar(stat = "identity", fill = "blue") + 
   geom_errorbar(width = 0.2) + 
   labs(x = "Type of State & Year", 
        y = "Federal Grant Spending (Millions of $)", 
        title = "Federal Grant Spending (Millions $) by State Election Type") + 
   theme_minimal() + 
-  theme(plot.title = element_text(size = 18),
-        axis.title = element_text(size = 15),
+  theme(plot.title = element_text(size = 14),
+        axis.title = element_text(size = 12),
         axis.text = element_text(size = 12))
 ```
 
@@ -235,6 +235,8 @@ d_pork_state_model <- d_state_vote |>
 pork_state_mod <- lm(change_inc_pv2p ~ is_comp*change_grant_mil + as.factor(year),
                      data = d_pork_state_model)
 summary(pork_state_mod)
+
+
 ```
 
 
