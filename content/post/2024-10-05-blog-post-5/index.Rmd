@@ -1,18 +1,12 @@
 ---
 title: Blog Post 5
-author: Package Build
+author: Victor E. Bowker
 date: '2024-10-05'
 slug: blog-post-5
 categories: []
 tags: []
 ---
-#' @title GOV 1347: Week 5 (Demographics) Laboratory Session
-#' @author
-#' @date October 2, 2024
 
-####----------------------------------------------------------#
-#### Preamble
-####----------------------------------------------------------#
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
 ```
@@ -37,8 +31,7 @@ library(sf)
 library(tidyverse)
 library(viridis)
 ```
-## set working directory here
-# setwd("~")
+
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ####----------------------------------------------------------#
 #### Read, merge, and process data.
@@ -79,9 +72,7 @@ d_pollav_state <- d_state_polls |>
   select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
   pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
 ```
-####----------------------------------------------------------#
-#### Replication of Kim & Zilinsky (2023).
-####----------------------------------------------------------#
+
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read processed ANES data. 
 anes <- read_dta("anes_timeseries_cdf_stata_20220916.dta") # Total ANES Cumulative Data File. 
@@ -140,7 +131,7 @@ anes_test <- anes_year[-train.ind,]
 ```
 
 
-**Demographics**
+# Welcome Back
 
 This week is _all about_ demographics, so lets talk about it!
 
@@ -150,7 +141,7 @@ For the first regression of the way (woot woot we love regressions) take a look 
 
 Interestingly, this form shows that age is not statistically significant in which party a candidate votes for. I say this is interesting because the Harvard Kennedy School Institute of Politics Spring 2024 Poll demonstrated that likely young voters were much more likely to vote for the Democrat (Biden) compared to the Republican (Trump). For voters under 30, Biden had the lead of 8 percentage points, which seemingly demonstrates something different than this-- _interesting_![1]
 
-Additionally, I see that gender and race are in fact quite demonstrative of voting patterns, with negative coefficients of -0.429 and -0.548 respectively. According to the Pew Research Center, data shows that black voters turnout less than white voters, but overwhelmingly vote for Democrats, with roughly 93% of black voters voting for Democrats in the 2022 midterm elections!
+Additionally, I see that gender and race are in fact quite demonstrative of voting patterns, with negative coefficients of -0.429 and -0.548 respectively. According to the Pew Research Center, data shows that black voters turnout less than white voters, but overwhelmingly vote for Democrats, with roughly 93% of black voters voting for Democrats in the 2022 midterm elections![2]
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Logistic regression. 
@@ -177,13 +168,23 @@ logit_fit <- glm(pres_vote ~ ., family = "binomial", data = anes_train)
 stargazer(logit_fit, type = "text", title = "Logistic Regression Results")
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+
+# Moving On :)
+
+Next, take a look at this in-sample accuracy analysis, which will help us understand how succesful the regression model is in predicting the vote outcome!
+
+You will see first that the True Positives (positive meaning Democrat) came to 746, while True Negative (Republican) is 660. False positives (meaning they incorrectly guessed Republican) is 336, and the False negative is 346. These equate to a accuracy of 67.34%...which to me doesn't sound great. If we can only predict the outcome of the election correctly 67% of the time, what are we even here for!? (just kidding on the last part of course!) This model is useful, but not perfect!
+
+You will see an out of sample response below, and spoiler alert, it is not much different!
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # In-sample accuracy.
 logit.is <- factor(ifelse(predict(logit_fit, type = "response") > 0.5, 2, 1), 
                    levels = c(1, 2), labels = c("Democrat", "Republican"))
 (cm.rf.logit.is <- confusionMatrix(logit.is, anes_train$pres_vote))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Out-of-sample accuracy. 
 logit_pred <- factor(ifelse(predict(logit_fit, anes_test, type = "response") > 0.5, 2, 1), 
                      levels = c(1, 2), labels = c("Democrat", "Republican"))
@@ -191,7 +192,14 @@ logit_pred <- factor(ifelse(predict(logit_fit, anes_test, type = "response") > 0
 
 
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+
+# Other Avenues
+
+So, what about random forest? How accurate are random forest models in this projection? Take a look! Also, in case you were wondering, the Random Forest model is an ensemble learning tool that constructs decision trees, and then when it runs regressions or classifications it outputs the results of individual trees! Random forests are fun-and good for the environment (actually probably not considering the power used to run my computer, and the server, and github...but then again, this is a gov class, not a ESPP one!)
+
+In the random forest model you can see that the accuracy comes out to just above 70%, meaning it is the most accurate so far!
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Random forest: 
 rf_fit <- ranger(pres_vote ~ ., 
                  mtry = floor(n_features/3), 
@@ -200,7 +208,7 @@ rf_fit <- ranger(pres_vote ~ .,
                  classification = TRUE,
                  data = anes_train)
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # In-sample accuracy.
 (cm.rf.is <- confusionMatrix(rf_fit$predictions, anes_train$pres_vote))
 ```
@@ -209,11 +217,7 @@ rf_fit <- ranger(pres_vote ~ .,
 rf_pred <- predict(rf_fit, data = anes_test)
 (cm.rf.oos <- confusionMatrix(rf_pred$predictions, anes_test$pres_vote))
 ```
-# Can also write loop to compute values by year and replicate plots from Kim & Zilinsky's (2023) paper.
 
-####----------------------------------------------------------#
-#### Voterfile loading/descriptives/analysis. 
-####----------------------------------------------------------#
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read and merge 1% voterfile data into one dataset. 
 voterfile.sample.files <- list.files("state_1pc_samples_aug24")
@@ -224,20 +228,28 @@ for (i in 2:length(voterfile.sample.files)) {
   voterfile.complete <- rbind(voterfile.complete, temp)
 }
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
-# Florida example. 
-vf_fl <- read_csv("state_1pc_samples_aug24/FL_sample.csv")
+
+
+# What does data look like?
+
+I  often look at sites like 538 or CNN to view election projections and wonder what their data is, and where it comes from. There is so much available information in the world, not even including the data behind paywalls or copyrights. Just as an example, I have attached a tidbit of Massachusetts voter file information, which includes variables of age, age range, and gender, as well as if the voter is deceased or not. 
+
+As a Massachusetts resident, perhaps you could find my information in this data set, but I can confidently say that this small preview does not include me--considering there are no gender and age matches for me!
+
+Now, scroll on to see what I do with this data!
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+# Mass example. 
+vf_ma <- read_csv("state_1pc_samples_aug24/MA_sample.csv")
+
+vf_ma_1 <- vf_ma |>
+  select(1:5)
+
+head(vf_ma_1, 10)
+
 ```
 
-# Histograms, quantiles, prop tables, maps, etc. 
-# TODO: 
 
-# What state do you want to explore/analyze for 2024?
-# TODO: 
-
-####----------------------------------------------------------#
-#### Simulation examples. 
-####----------------------------------------------------------#
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Merge data.
 d <- d_pollav_state |> 
@@ -276,13 +288,12 @@ mod_lm_rep <- lm(R_pv2p ~ R_pv2p_lag1 + R_pv2p_lag2 + latest_pollav_REP + mean_p
                  data = d_train)
 summary(mod_lm_rep)
 ```
-# Most demographic variables and turnout are not significant for Democrats, but they are for Republicans.
-# Problem: we do not have demographic data for 2024. 
-# What can we do? 
-# A few options: 
-# (1.) Estimate state-level demographics from voterfile and plug in for 2024. 
-# (2.) Interpolate Census demographics using a spline or some type of model. 
-# (3.) Simulate plausible values for variables based on historical averages or more advanced model. 
+
+# Simulation Time!
+
+This week in lab, we learned how simulations work--and how sometimes maybe they don't work. Luckily, this one seems to work. After taking a little while to run on my computer (10,000 simulations!!), we have results to examine!
+
+ 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Simple simulation example: 
 simp.vars <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM",
@@ -360,6 +371,39 @@ win_pred |>
   summarize(n = n(), ec = sum(electors))
 ```
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+win_pred
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+us_states <- map_data("state")
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+# section written in consultation with ChatGPT
+win_pred$state <- tolower(win_pred$state) 
+map_data <- us_states |>
+  left_join(win_pred, by = c("region" = "state"))
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+projection_graph <- ggplot(map_data, aes(x = long, y = lat, group = group, fill = winner)) +
+  geom_polygon(color = "white") +
+  coord_fixed(1.3) +
+  labs(title = "               2024 Election Map Projection", 
+       fill = "Predicted Winner") +
+  scale_fill_manual(values = c("Democrat" = "blue4", "Republican" = "firebrick")) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank())
+```
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+projection_graph
+```
+
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Now let's simulate this with varying levels of turnout and get both confidence intervals on our predictions
 # and approximate win percentages for each state. 
 m <- 1e4 # Number of simulations.
@@ -410,6 +454,101 @@ pred.mat |>
   view()
 ```
 
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+
+win_summary <- pred.mat |>
+  group_by(state) |>
+  summarize(mean_dem = mean(simp_pred_dem),
+            mean_rep = mean(simp_pred_rep),
+            sd_dem = sd(simp_pred_dem),
+            sd_rep = sd(simp_pred_rep),
+            lower_dem = mean_dem - 1.96 * sd_dem,
+            upper_dem = mean_dem + 1.96 * sd_dem,
+            lower_rep = mean_rep - 1.96 * sd_rep,
+            upper_rep = mean_rep + 1.96 * sd_rep) |>
+  ungroup()
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+win_summary
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+install.packages("ggplot2")
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+library(ggplot2)
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+install.packages("tidyverse")
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+library(tidyverse)
+```
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+# Sample win summary data
+win_summary <- pred.mat |>
+  group_by(state, winner) |>
+  summarize(win_rate = n() / m, .groups = "drop")
+
+# Calculate mean predicted values for each party
+win_summary <- pred.mat |>
+  group_by(state) |>
+  summarize(
+    mean_dem = mean(simp_pred_dem),
+    mean_rep = mean(simp_pred_rep),
+    winner = ifelse(mean_dem > mean_rep, "Democrat", "Republican"),
+    .groups = "drop"
+  )
+
+```
+
+
+After all that _fun_ wrangling, you will see results below!
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+library(tidyr)
+
+# Reshape to long format
+win_long <- win_summary |>
+  pivot_longer(
+    cols = starts_with("mean_"),
+    names_to = "party",
+    values_to = "percentage",
+    names_prefix = "mean_"
+  )
+
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+```
+```{r}
+#small section written in consultation with ChatGPT
+ggplot(win_long, aes(x = state, y = percentage, fill = party)) +
+  geom_bar(stat = "identity") + 
+  labs(title = "Projected Election Outcomes by State (2024)",
+       x = "State",
+       y = "Projected Win Percentage",
+       fill = "Party") +
+  theme_minimal() +
+  scale_fill_manual(values = c("blue4", "firebrick")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  + 
+     geom_hline(yintercept = 50, linetype = "solid", color = "green") 
+```
+```{r}
+
+
+```
+```{r}
+
+
+```
 Citations
 [1] - https://iop.harvard.edu/youth-poll/47th-edition-spring-2024
+
+[2] - https://www.pewresearch.org/politics/2023/07/12/voting-patterns-in-the-2022-elections/
+
 [] - as always, code borrowed from Teaching Fellow Matthew Dardet, check him out here - https://www.matthewdardet.com
