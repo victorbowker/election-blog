@@ -522,10 +522,10 @@ win_long <- win_summary |>
   )
 
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 library(ggplot2)
 ```
-```{r}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 #small section written in consultation with ChatGPT
 ggplot(win_long, aes(x = state, y = percentage, fill = party)) +
   geom_bar(stat = "identity") + 
@@ -538,14 +538,7 @@ ggplot(win_long, aes(x = state, y = percentage, fill = party)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  + 
      geom_hline(yintercept = 50, linetype = "solid", color = "green") 
 ```
-```{r}
 
-
-```
-```{r}
-
-
-```
 Citations
 [1] - https://iop.harvard.edu/youth-poll/47th-edition-spring-2024
 
