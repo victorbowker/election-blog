@@ -43,5 +43,12 @@
       <guid>http://localhost:4321/election-blog/post/2024/09/08/blog-post-1/</guid>
       <description>&lt;p&gt;Hello all! I am so excited to begin on this journey of forecasting the 2024 Presidential Election. Please understand that this will be updated often, and I have no guarantee that this projection will be correct! Thanks for reading - VB&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Past Vote Share - Overall&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;One of the more critical aspects of forecasting is understanding the past. Data can be an incredible tool in understanding past elections, will will allow us to predict the next ones. Below, you will see the two party national vote distribution for the past ~70 years, from 1948 to 2020. You should note that elections are closer now than at most times in our recent history. This can make projections more difficult, as votes are less unanimous!&lt;/p&gt;</description>
     </item>
+    <item>
+      <title></title>
+      <link>http://localhost:4321/election-blog/post/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/election-blog/post/1/01/01/</guid>
+      <description>&lt;p&gt;#Victor Bowker&#xA;#Week 6&#xA;Almost there&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
