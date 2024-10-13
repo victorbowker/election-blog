@@ -238,7 +238,7 @@ ad_campaigns |>
         axis.ticks.x=element_blank())
 
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Visualizing Facebook ads and Biden Facebook ads in 2020. 
 d_facebook <- facebook_ads_2020 |> 
   rename(date = from_date, new_ads = num_of_new_ads) |> 
