@@ -61,6 +61,50 @@ Below, you will see a breakdown of campaign ads in the Presidential race, betwee
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 
+# Do Ads Matter?
+
+Now, after seeing some ads, and seeing how their tones vary, you may be wondering, do ads matter? There are a few historical examples that could shed some light on that question. 
+
+**Bush v. Dukakis**
+
+In 1988, George H. W. Bush beat Michael Dukakis for President. The reasons for this outcome are numerous, but the one I'd like to draw your attention to is Bush's attack ad campaigns. 
+
+Below you will see two ads, both attacking Dukakis on military support and crime, respectively. Dukakis himself reflected after the campaign and attributed his loss in great part to his campaign's restraint with returning hostile ads towards Bush. [2]
+
+*"Willie Horton"*
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/cnxbRoHtiDE" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+*"Tank"*
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/17k-kBpLwW0" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+
+
+
+
+
+Next, Trump equivalent GQJx64cUFb8
+
+Dukakis 
+
+Clinton aZ_z9Tpdl9A
+
+
+
+
 
 
 
@@ -70,5 +114,6 @@ Below, you will see a breakdown of campaign ads in the Presidential race, betwee
 Citations
 [1] - https://www.nytimes.com/2024/09/17/us/elections/presidential-campaign-advertising-spending.html
 
+[2] - https://www.politico.com/magazine/gallery/2013/11/how-bush-beat-dukakis-000005/?slide=0
 
 
