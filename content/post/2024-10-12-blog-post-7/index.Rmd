@@ -22,6 +22,7 @@ Excited? Great, me too, so lets go!
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 library(car)
+library(sjPlot)
 library(caret)
 library(cowplot)
 library(curl)
@@ -43,6 +44,8 @@ library(sf)
 library(shinystan)
 library(tidyverse)
 library(viridis)
+library(broom)
+library(DT)
 ```
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
@@ -430,6 +433,53 @@ As in similar fashion to the TV ads seen above, Facebook also experiences some i
 ad1
 ```
 
+# Electoral College Prediction
+
+Okay, regression time!
+I have switched gears on my modelling, to now work on a Electoral College prediction based on state data! The below diagram (which is in a new fancy table model that StackOverflow helped me discover) shows the regression results for Dem candidates popular vote share state by state in August, September, and October! This also includes historical data averages from past election years in the same months.
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+# build state model
+model1 <- d_state_polls |>
+  select(state, year, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(8, 9, 10), party == "DEM", year >= 1996) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+  values_from = poll_support, names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year, state, month_8, month_9, month_10, D_pv2p) |>
+  drop_na() |>
+  
+  rename(August_Results = month_8,
+    September_Results = month_9, 
+         October_Results = month_10)
+
+reg1 <- lm(D_pv2p ~ August_Results + September_Results + October_Results, 
+                data = model1)
+```
+
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+tidy_model <- tidy(reg1)
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+datatable(tidy_model, 
+          options = list(pageLength = 4), 
+          caption = "Regression Results for State Model (1996-2020)")
+```
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+summary(reg1)
+
+```
+
+
+*Analysis*
+
+First off, August is interesting, as it seems that Dems took a dip concurrent with polling data. In plain numbers, that means that for ever 1% increase of support, Dems would lose 1/3rd of a percent of popular vote share...interesting!
+
+Additionally, September seems to have little significance in the projection, while October has great significance! It appears that a 1% increase in October polling reflects a 1.3% increase in Dem popular vote share-how fun!!
 
 
 *Citations*
@@ -438,4 +488,5 @@ ad1
 
 [2] - https://www.politico.com/magazine/gallery/2013/11/how-bush-beat-dukakis-000005/?slide=0
 
+[3] - Kaitlyn Vu! She is great. Check our her blog here: https://kaitvu.github.io/election-blog/post/2024/10/09/blog-6/
 
