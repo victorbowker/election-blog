@@ -128,7 +128,7 @@ ad_campaigns |>
         strip.text.x = element_text(size = 15),
         panel.spacing = unit(1, "lines"))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The Purpose of Political Ads
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -168,7 +168,7 @@ top_issues <- ad_campaigns |>
   filter(!grepl("None|Other", ad_issue)) |>
   group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 plist <- lapply(c(2000, 2004, 2008, 2012), function(c) {
   top_issues |> filter(cycle == c) |> 
     ggplot(aes(x = reorder(ad_issue, n), y = n)) +
@@ -220,15 +220,34 @@ Below you will see two ads, both attacking Dukakis on military support and crime
 </iframe>
 
 
+**More Recent Times**
+
+Attack ads don't always work, however. 
+Below you will see an ad President Trump released before the 2018 midterms. Republicans lost the house in a big way during those elections...
+
+*"The New Willie Horton Ad"*
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/GQJx64cUFb8" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
 
 
+Sometimes, ads don't have to attack directly, but can take more subtle digs at the opponent. In the primaries of the 2008 Presidential Election, Fmr. Secretary of State Hillary Clinton released an ad, which I have attached below. As you may know, she did not win that race. Perhaps if it was more hostile towards then Senator Obama it would have worked? Who knows!
 
+*"3am Call"*
 
-Next, Trump equivalent GQJx64cUFb8
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/aZ_z9Tpdl9A" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
 
-Dukakis 
-
-Clinton aZ_z9Tpdl9A
 
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
@@ -271,7 +290,15 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   coord_flip() + 
   theme_bw()
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+
+
+# Bang for your Buck: TV
+
+When is the best time to purchase a time slot for an election? Is it months prior to November, when voters likely haven't put much thought into their vote? Or is it more likely the weeks and days leading up that fateful Tuesday? See below, a visualization of when most ads spend is allocated!
+
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ## When to Buy Ads? 
 ad_campaigns |>
   mutate(year = as.numeric(substr(air_date, 1, 4))) |>
@@ -291,6 +318,7 @@ ad_campaigns |>
         axis.text = element_text(size=11),
         strip.text.x = element_text(size = 20))
 ```
+
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## Tone in Political Ads
 ad_campaigns |>
@@ -306,8 +334,8 @@ ad_campaigns |>
   ungroup() |>
   ggplot(aes(x=air_date, y=total_cost, fill=ad_tone, color=ad_tone)) +
   # scale_x_date(date_labels = "%b") +
-  scale_fill_manual(values = c("purple","green"), name = "ad tone") +
-  scale_color_manual(values = c("purple","green"), name = "ad tone") +
+  scale_fill_manual(values = c("red","black"), name = "ad tone") +
+  scale_color_manual(values = c("red","lightyellow"), name = "ad tone") +
   geom_bar(stat = "identity") +
   facet_wrap(cycle ~ ., scales="free") +
   xlab("") + ylab("% of ads bought on day") +
@@ -358,7 +386,7 @@ d_facebook |>
        y = "New Facebook Ads") +
   theme_minimal()
 
-d_facebook |> 
+ad1 <- d_facebook |> 
   ggplot(aes(x = date, y = new_spend)) +
   geom_line() +
   scale_y_continuous(labels = dollar_format()) +
@@ -392,7 +420,20 @@ d_facebook_biden |>
 ```
 
 
-Citations
+
+# Bang for your Buck: Facebook
+
+As in similar fashion to the TV ads seen above, Facebook also experiences some incredible increase in Ad Spend prior to the General Election. See below!
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ad1
+```
+
+
+
+*Citations*
+
 [1] - https://www.nytimes.com/2024/09/17/us/elections/presidential-campaign-advertising-spending.html
 
 [2] - https://www.politico.com/magazine/gallery/2013/11/how-bush-beat-dukakis-000005/?slide=0

@@ -56,9 +56,9 @@ One is simply attacking the other candidate, reminding voters of past hostility 
 Below, you will see a breakdown of campaign ads in the Presidential race, between 2000 and 2012. The tone of each ad is presented as a percentage of total ads run by each party!
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+
+
 
 
 # Do Ads Matter?
@@ -92,18 +92,47 @@ Below you will see two ads, both attacking Dukakis on military support and crime
 </iframe>
 
 
+**More Recent Times**
+
+Attack ads don't always work, however. 
+Below you will see an ad President Trump released before the 2018 midterms. Republicans lost the house in a big way during those elections...
+
+*"The New Willie Horton Ad"*
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/GQJx64cUFb8" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+
+Sometimes, ads don't have to attack directly, but can take more subtle digs at the opponent. In the primaries of the 2008 Presidential Election, Fmr. Secretary of State Hillary Clinton released an ad, which I have attached below. As you may know, she did not win that race. Perhaps if it was more hostile towards then Senator Obama it would have worked? Who knows!
+
+*"3am Call"*
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/aZ_z9Tpdl9A" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
 
 
 
 
-Next, Trump equivalent GQJx64cUFb8
-
-Dukakis 
-
-Clinton aZ_z9Tpdl9A
 
 
 
+# Bang for your Buck: TV
+
+When is the best time to purchase a time slot for an election? Is it months prior to November, when voters likely haven't put much thought into their vote? Or is it more likely the weeks and days leading up that fateful Tuesday? See below, a visualization of when most ads spend is allocated!
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 
 
@@ -111,7 +140,26 @@ Clinton aZ_z9Tpdl9A
 
 
 
-Citations
+# Bang for your Buck: Facebook
+
+As in similar fashion to the TV ads seen above, Facebook also experiences some incredible increase in Ad Spend prior to the General Election. See below!
+
+
+
+```r
+ad1
+```
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+
+
+*Citations*
+
 [1] - https://www.nytimes.com/2024/09/17/us/elections/presidential-campaign-advertising-spending.html
 
 [2] - https://www.politico.com/magazine/gallery/2013/11/how-bush-beat-dukakis-000005/?slide=0
