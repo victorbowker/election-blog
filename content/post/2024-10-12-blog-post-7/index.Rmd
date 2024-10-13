@@ -75,7 +75,23 @@ d_state_polls <- read_csv("state_polls_1968-2024.csv")
 d_turnout <- read_csv("state_turnout_1980_2022.csv")
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+# Ad Tone
+
+Its safe to say that if you are interested enough in the election to read this blog then you probably have seen a campaign ad or two. 
+
+## Embedding a YouTube Video
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/watch?v=MOEMX6_A8MM" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Tone and Political Ads. 
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -85,13 +101,22 @@ ad_campaigns |>
   ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
   geom_bar(stat = "identity") +
   scale_x_continuous(breaks = seq(2000, 2012, 4)) +
-  ggtitle("Campaign Ads Aired By Tone") +
-  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "tone") +
-  xlab("") + ylab("%") +
+  ggtitle("Tone of Campaign Ads") +
+  scale_fill_manual(values = c("darkblue","blue","steelblue","lightblue","white"), name = "Ad Tone") +
+  xlab("Election Year") + ylab("% of Ad Total") +
   facet_wrap(~ party) + theme_minimal() +
-  theme(axis.title = element_text(size=20),
-        axis.text = element_text(size=15),
-        strip.text.x = element_text(size = 20))
+    facet_wrap(~ party, labeller = as_labeller(toupper)) +  #found with online research
+  theme(axis.title = element_text(size=15),
+        axis.text = element_text(size=10),
+        strip.text.x = element_text(size = 15)) +
+  theme(axis.title = element_text(size = 18, face = "bold"),
+        plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        legend.position = "top",
+        legend.title = element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 10),
+        strip.text.x = element_text(size = 15, face = "bold"),
+        panel.spacing = unit(1, "lines"))
 ```
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The Purpose of Political Ads
