@@ -37,7 +37,7 @@ Its safe to say that if you are interested enough in the election to read this b
 ## Embedding a YouTube Video
 
 <iframe width="560" height="315" 
-        src="https://www.youtube.com/watch?v=MOEMX6_A8MM" 
+        src="https://www.youtube.com/embed/MOEMX6_A8MM" 
         title="YouTube video player" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
