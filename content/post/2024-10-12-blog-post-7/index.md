@@ -16,6 +16,9 @@ tags: []
 <script src="{{< blogdown/postref >}}index_files/dt-core/js/jquery.dataTables.min.js"></script>
 <link href="{{< blogdown/postref >}}index_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
 <script src="{{< blogdown/postref >}}index_files/crosstalk/js/crosstalk.min.js"></script>
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 # Thanks for coming back
 
@@ -46,6 +49,7 @@ One is simply attacking the other candidate, reminding voters of past hostility 
 Below, you will see a breakdown of campaign ads in the Presidential race, between 2000 and 2012. The tone of each ad is presented as a percentage of total ads run by each party!
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+*Figure 1*
 
 # Do Ads Matter?
 
@@ -89,28 +93,315 @@ Sometimes, ads don’t have to attack directly, but can take more subtle digs at
 When is the best time to purchase a time slot for an election? Is it months prior to November, when voters likely haven’t put much thought into their vote? Or is it more likely the weeks and days leading up that fateful Tuesday? See below, a visualization of when most ads spend is allocated!
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+*Figure 2*
 
 # Bang for your Buck: Facebook
 
 As in similar fashion to the TV ads seen above, Facebook also experiences some incredible increase in Ad Spend prior to the General Election. See below!
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+*Figure 3*
 
 # Electoral College Prediction
 
 Okay, regression time!
 I have switched gears on my modelling, to now work on a Electoral College prediction based on state data! The below diagram (which is in a new fancy table model that StackOverflow helped me discover) shows the regression results for Dem candidates popular vote share state by state in August, September, and October! This also includes historical data averages from past election years in the same months.
 
+``` r
+head(model1)
+```
+
+    ## # A tibble: 6 × 19
+    ##    year state    September_Results October_Results D_pv2p.x  D_pv  R_pv D_pv2p.y
+    ##   <dbl> <chr>                <dbl>           <dbl>    <dbl> <dbl> <dbl>    <dbl>
+    ## 1  1996 Alabama               39.3            40.0     46.3  43.2  50.1     46.3
+    ## 2  1996 Alaska                36.2            35.2     39.6  33.3  50.8     39.6
+    ## 3  1996 Arizona               42.3            45.1     51.2  46.5  44.3     51.2
+    ## 4  1996 Arkansas              48.5            50.4     59.4  53.7  36.8     59.4
+    ## 5  1996 Califor…              49.2            49.6     57.2  51.1  38.2     57.2
+    ## 6  1996 Colorado              46.3            46.3     49.2  44.4  45.8     49.2
+    ## # ℹ 11 more variables: R_pv2p <dbl>, D_pv_lag1 <dbl>, R_pv_lag1 <dbl>,
+    ## #   D_pv2p_lag1 <dbl>, R_pv2p_lag1 <dbl>, D_pv_lag2 <dbl>, R_pv_lag2 <dbl>,
+    ## #   D_pv2p_lag2 <dbl>, R_pv2p_lag2 <dbl>, margin <dbl>, winner <chr>
+
+``` r
+reg1 <- lm(D_pv2p_lag1 ~ September_Results + October_Results, 
+                data = model1)
+```
+
 <div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Regression Results for State Model (1996-2020)<\/caption>","data":[["1","2","3","4"],["(Intercept)","August_Results","September_Results","October_Results"],[0.5057836008077878,-0.3314281431074581,0.05843117811641261,1.368689478644902],[1.123341783064726,0.1378314780721312,0.2325562413226826,0.1471492214367102],[0.4502490768463165,-2.40458963179668,0.2512561167315077,9.301370848459326],[0.6528445495728521,0.01677492803350885,0.8017820329372134,2.547832571989269e-18]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Regression Results for State Model (1996-2020)<\/caption>","data":[["1","2","3"],["(Intercept)","September_Results","October_Results"],[7.688764853062181,-0.4148443625087502,1.360130719155099],[1.528722149372118,0.2047165283151798,0.1995313091757767],[5.029537157043309,-2.026433165523692,6.81662805087343],[7.986236710074317e-07,0.04350296860134854,4.277889360760009e-11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 
-*Analysis*
+**Analysis**
 
-First off, August is interesting, as it seems that Dems took a dip concurrent with polling data. In plain numbers, that means that for ever 1% increase of support, Dems would lose 1/3rd of a percent of popular vote share…interesting!
+First off, September seems to have little significance in the projection, while October has great significance! It appears that a 1% increase in October polling reflects a 1.3% increase in Dem popular vote share-how fun!!
 
-Additionally, September seems to have little significance in the projection, while October has great significance! It appears that a 1% increase in October polling reflects a 1.3% increase in Dem popular vote share-how fun!!
+The r-squared is high! Great sign. That means this is roughly 86% accurate at predicting the two-party vote share for Dems, state by state.
 
-*Citations*
+# Toss Up States \#Failure!
+
+Some *interesting* things happened to the below data. I can’t fully understand what went wrong, but this does not look right to me. My plan is to evaluate my classmate’s submissions once they are uploaded to see if anyone had a similar set up to me. For now, however, the woes of coding have caught up with me!
+
+``` r
+new_table <- bind_cols(state_poll_24,
+  as.data.frame(new_pred) |> rename_with(~paste0("D_", .))) |>
+  mutate(D_fit = round(D_fit, 2), 
+         D_lwr = round(D_lwr, 2), 
+         D_upr = round(D_upr, 2), 
+         winner = if_else(D_fit>50, "Harris", "Trump")) |>
+  select(
+    -September_Results,
+         -October_Results, 
+         -year) |>
+filter(state %in% c("Wisconsin", "Virginia", "Texas", "Pennsylvania", "North Carolina", "New Mexico", "New Hampshire", "Nevada", "Minnesota", "Michigan", "Georgia", "Florida", "Arizona"))
+```
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:right;">
+Prediction
+</th>
+<th style="text-align:right;">
+Lower Bound
+</th>
+<th style="text-align:right;">
+Upper Bound
+</th>
+<th style="text-align:left;">
+Winner
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Arizona
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+53.49
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+43.22
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+63.75
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Florida
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+54.84
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+44.57
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+65.11
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Georgia
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+53.67
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+43.41
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+63.93
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Michigan
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+51.70
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+41.44
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+61.96
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: darkred !important;">
+Minnesota
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+49.65
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+39.39
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+59.91
+</td>
+<td style="text-align:left;background-color: darkred !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Nevada
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+52.10
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+41.83
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+62.36
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: darkred !important;">
+New Hampshire
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+49.51
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+39.25
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+59.78
+</td>
+<td style="text-align:left;background-color: darkred !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: darkred !important;">
+New Mexico
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+47.42
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+37.16
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+57.68
+</td>
+<td style="text-align:left;background-color: darkred !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+North Carolina
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+53.39
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+43.13
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+63.66
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Pennsylvania
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+52.61
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+42.35
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+62.88
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Texas
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+55.69
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+45.43
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+65.96
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: darkred !important;">
+Virginia
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+48.65
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+38.39
+</td>
+<td style="text-align:right;background-color: darkred !important;">
+58.91
+</td>
+<td style="text-align:left;background-color: darkred !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Wisconsin
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+52.25
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+41.99
+</td>
+<td style="text-align:right;background-color: DARKBLUE !important;">
+62.51
+</td>
+<td style="text-align:left;background-color: DARKBLUE !important;">
+Harris
+</td>
+</tr>
+</tbody>
+</table>
+
+\# Citations
 
 \[1\] - https://www.nytimes.com/2024/09/17/us/elections/presidential-campaign-advertising-spending.html
 
