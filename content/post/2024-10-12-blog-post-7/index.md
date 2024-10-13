@@ -1,13 +1,11 @@
 ---
 title: Blog Post 6
-author: Package Build
+author: Victor E. Bowker
 date: '2024-10-12'
 slug: blog-post-7
 categories: []
 tags: []
 ---
-Victor Bowker
-Week 6
 
 
 # Thanks for coming back
@@ -60,7 +58,7 @@ Below, you will see a breakdown of campaign ads in the Presidential race, betwee
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 
 
