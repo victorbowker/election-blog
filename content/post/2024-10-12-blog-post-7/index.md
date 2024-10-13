@@ -32,9 +32,7 @@ Excited? Great, me too, so lets go!
 
 # Ad Tone
 
-Its safe to say that if you are interested enough in the election to read this blog then you probably have seen a campaign ad or two. 
-
-## Embedding a YouTube Video
+Its safe to say that if you are interested enough in the election to read this blog then you probably have seen a campaign ad or two. In the case you have not, let me show you a somewhat hostile commercial released by the Biden Campaign, a few weeks prior to Biden's stepping down from the race.
 
 <iframe width="560" height="315" 
         src="https://www.youtube.com/embed/MOEMX6_A8MM" 
@@ -44,10 +42,23 @@ Its safe to say that if you are interested enough in the election to read this b
         allowfullscreen>
 </iframe>
 
+Next, take a look at a non-hostile ad, from Senior Senator of New Hampshire, Jeanne Shaheen.
 
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/W5nneOtfCXM" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+You can see the obvious differences between those two ads, right?
+One is simply attacking the other candidate, reminding voters of past hostility and reasons to not vote for Fmr. President Trump. The second, Shaheen's ad, is only touting her accomplishments, leveraging real voters to prove her lasting impact. 
+
+Below, you will see a breakdown of campaign ads in the Presidential race, between 2000 and 2012. The tone of each ad is presented as a percentage of total ads run by each party!
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 
 
