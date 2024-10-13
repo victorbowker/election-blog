@@ -6,11 +6,23 @@ slug: blog-post-7
 categories: []
 tags: []
 ---
-#Victor Bowker
-#Week 6
-Almost there
+Victor Bowker
+Week 6
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+
+# Thanks for coming back
+
+Welcome back! This is week 6, and I approve this message.
+(get it?)
+
+This week is all about campaign ads!!! Interestingly, my mention of campaign ads may cause groans from some, but others perhaps a mere nod; do you wonder why? Let me tell you!
+
+Campaigns spend incredible amounts of money (NYT says 500 million will be spent between early September and Election Day) but this money is not allocated evenly across the country.[1] In the following graphs, I will first explain how campaigns allocate ad spending across states. Next, I will show you how the tone of these ads can differ. Then I will wrap up with some of my _favorite_ campaign ads, then finally an update to my presidential projection!
+
+Excited? Great, me too, so lets go!
+
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 library(car)
 library(caret)
 library(cowplot)
@@ -35,16 +47,16 @@ library(tidyverse)
 library(viridis)
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read popular vote datasets. 
 d_popvote <- read_csv("popvote_1948_2020.csv")
 d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read elector distribution dataset. 
 d_ec <- read_csv("corrected_ec_1948_2024.csv")
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read ads datasets. 
 ad_campaigns <- read_csv("ad_campaigns_2000-2012.csv")
 ad_creative <- read_csv("ad_creative_2000-2012.csv")
@@ -53,17 +65,17 @@ facebook_ads_2020 <- read_csv("facebook_ads_2020.csv")
 facebook_ads_biden_2020 <- read_csv("facebook_ads_biden_2020.csv")
 campaign_spending <- read_csv("FEC_contributions_by_state_2008_2024.csv")
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read polling data. 
 d_polls <- read_csv("national_polls_1968-2024.csv")
 d_state_polls <- read_csv("state_polls_1968-2024.csv")
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Read turnout data. 
 d_turnout <- read_csv("state_turnout_1980_2022.csv")
 ```
 
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 # Tone and Political Ads. 
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -81,7 +93,7 @@ ad_campaigns |>
         axis.text = element_text(size=15),
         strip.text.x = element_text(size = 20))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The Purpose of Political Ads
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -107,14 +119,14 @@ ad_campaigns |>
         axis.text = element_text(size=15),
         strip.text.x = element_text(size = 20))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The Elections and Their Issues
 top_issues <- ad_campaigns |> 
   left_join(ad_creative) |>
   filter(!grepl("None|Other", ad_issue)) |>
   group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ### making each plot in a grid to have its own x-axis (issue name)
 ### is tricky with `facet_wrap`, so we use this package `cowplot`
 ### which allows us to take a list of separate plots and grid them together
@@ -127,7 +139,7 @@ plist <- lapply(c(2000,2004,2008,2012), function(c) {
 })
 cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## Campaign Ads Aired By Issue and Party: 2000
 party_issues2000 <- ad_campaigns |>
   filter(cycle == 2000) |>
@@ -149,7 +161,7 @@ ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   coord_flip() + 
   theme_bw()
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## Campaign Ads Aired By Issue and Party: 2012
 party_issues2012 <- ad_campaigns |>
   filter(cycle == 2012) |>
@@ -167,7 +179,7 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   coord_flip() + 
   theme_bw()
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## When to Buy Ads? 
 ad_campaigns |>
   mutate(year = as.numeric(substr(air_date, 1, 4))) |>
@@ -187,7 +199,7 @@ ad_campaigns |>
         axis.text = element_text(size=11),
         strip.text.x = element_text(size = 20))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## Tone in Political Ads
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -212,7 +224,7 @@ ad_campaigns |>
         axis.text = element_text(size=10),
         strip.text.x = element_text(size = 20))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The State-level Air War in 2008 (Obama vs. McCain)
 ad_campaigns |>
   mutate(year = as.numeric(substr(air_date, 1, 4))) |>
@@ -288,8 +300,8 @@ d_facebook_biden |>
 ```
 
 
-
-
+Citations
+[1] - https://www.nytimes.com/2024/09/17/us/elections/presidential-campaign-advertising-spending.html
 
 
 
