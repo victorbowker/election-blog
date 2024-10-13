@@ -1,13 +1,11 @@
 ---
 title: Blog Post 6
-author: Package Build
+author: Victor E. Bowker
 date: '2024-10-12'
 slug: blog-post-7
 categories: []
 tags: []
 ---
-Victor Bowker
-Week 6
 
 
 # Thanks for coming back
@@ -77,9 +75,7 @@ d_turnout <- read_csv("state_turnout_1980_2022.csv")
 
 # Ad Tone
 
-Its safe to say that if you are interested enough in the election to read this blog then you probably have seen a campaign ad or two. 
-
-## Embedding a YouTube Video
+Its safe to say that if you are interested enough in the election to read this blog then you probably have seen a campaign ad or two. In the case you have not, let me show you a somewhat hostile commercial released by the Biden Campaign, a few weeks prior to Biden's stepping down from the race.
 
 <iframe width="560" height="315" 
         src="https://www.youtube.com/embed/MOEMX6_A8MM" 
@@ -89,7 +85,20 @@ Its safe to say that if you are interested enough in the election to read this b
         allowfullscreen>
 </iframe>
 
+Next, take a look at a non-hostile ad, from Senior Senator of New Hampshire, Jeanne Shaheen.
 
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/W5nneOtfCXM" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+
+You can see the obvious differences between those two ads, right?
+One is simply attacking the other candidate, reminding voters of past hostility and reasons to not vote for Fmr. President Trump. The second, Shaheen's ad, is only touting her accomplishments, leveraging real voters to prove her lasting impact. 
+
+Below, you will see a breakdown of campaign ads in the Presidential race, between 2000 and 2012. The tone of each ad is presented as a percentage of total ads run by each party!
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE}
 # Tone and Political Ads. 
@@ -110,15 +119,16 @@ ad_campaigns |>
         axis.text = element_text(size=10),
         strip.text.x = element_text(size = 15)) +
   theme(axis.title = element_text(size = 18, face = "bold"),
-        plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
+        plot.title = element_text(size = 19
+                        , face = "bold", hjust = 0.5),
         plot.subtitle = element_text(size = 14, hjust = 0.5),
         legend.position = "top",
-        legend.title = element_text(size = 12, face = "bold"),
+        legend.title = element_text(size = 12),
         legend.text = element_text(size = 10),
-        strip.text.x = element_text(size = 15, face = "bold"),
+        strip.text.x = element_text(size = 15),
         panel.spacing = unit(1, "lines"))
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
 ## The Purpose of Political Ads
 ad_campaigns |>
   left_join(ad_creative) |>
@@ -133,16 +143,23 @@ ad_campaigns |>
     data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
     data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
   ) |>
-  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
-  # ggtitle("Campaign Ads Aired By Purpose") +
-  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "purpose") +
-  xlab("") + ylab("%") +
-  facet_wrap(~ party) + theme_minimal() +
-  theme(axis.title = element_text(size=20),
-        axis.text = element_text(size=15),
-        strip.text.x = element_text(size = 20))
+  ggplot(aes(x = factor(cycle), y = pct, fill = ad_purpose, group = party)) +
+  geom_bar(stat = "identity", position = position_stack(reverse = TRUE)) +
+  scale_x_discrete(breaks = seq(2000, 2016, 4)) +  # Breaks for x-axis
+  scale_fill_manual(values = c("darkblue","steelblue","blue","lightblue"), name = "Purpose") +
+  xlab("Election Year") + ylab("% of Ads") + 
+  ggtitle("Purpose of Campaign Ads by Party") + 
+  facet_wrap(~ toupper(party)) +
+  theme_minimal() +
+  theme(
+    axis.title = element_text(size = 18, face = "bold", hjust = .5),
+    axis.text.x = element_text(size = 14, angle = 45, hjust = 1), 
+    axis.text.y = element_text(size = 14, face = "bold"),
+    strip.text.x = element_text(size = 18),
+    legend.position = "top",
+    plot.title = element_text(size = 19, hjust = 0.5, face = "bold") 
+
+  )
 ```
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## The Elections and Their Issues
@@ -151,18 +168,24 @@ top_issues <- ad_campaigns |>
   filter(!grepl("None|Other", ad_issue)) |>
   group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
 ```
-```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
-### making each plot in a grid to have its own x-axis (issue name)
-### is tricky with `facet_wrap`, so we use this package `cowplot`
-### which allows us to take a list of separate plots and grid them together
-plist <- lapply(c(2000,2004,2008,2012), function(c) {
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+plist <- lapply(c(2000, 2004, 2008, 2012), function(c) {
   top_issues |> filter(cycle == c) |> 
     ggplot(aes(x = reorder(ad_issue, n), y = n)) +
-    geom_bar(stat = "identity") + coord_flip() + theme_bw() +
-    xlab("") + ylab("number ads aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
-  
+    geom_bar(stat = "identity", fill = "steelblue") +  # Bar color
+    coord_flip() + 
+    theme_minimal() +  # Cleaner theme
+    xlab("") + 
+    ylab("Number of Ads Aired") + 
+    ggtitle(paste("Top 5 Ad\nIssues in", c)) +
+    theme(
+      plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Center the title
+      axis.text.x = element_text(size = 10),  # Adjust the font size of x-axis labels
+      axis.text.y = element_text(size = 10)  # Adjust the font size of y-axis labels
+    )
 })
-cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
+
+cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv", rel_heights = c(1, 1), rel_widths = c(1, 1))
 ```
 ```{r, echo=FALSE, warning = FALSE, message = FALSE, include=FALSE}
 ## Campaign Ads Aired By Issue and Party: 2000
