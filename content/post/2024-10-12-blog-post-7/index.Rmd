@@ -462,11 +462,11 @@ model1 <- d_state_polls |>
     left_join(d_state_popvote, by = c("state", "year"))  # Change this if necessary to match keys
 
 ```
-```{r}
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
 head(model1)
 
 ```
-```{r}
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
 reg1 <- lm(D_pv2p_lag1 ~ September_Results + October_Results, 
                 data = model1)
 ```
@@ -512,7 +512,7 @@ state_poll_24 <- d_state_polls |>
 new_pred <- predict(reg1, state_poll_24, interval = "prediction")
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
 
 new_table <- bind_cols(state_poll_24,
   as.data.frame(new_pred) |> rename_with(~paste0("D_", .))) |>

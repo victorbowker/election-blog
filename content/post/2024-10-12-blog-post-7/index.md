@@ -107,28 +107,6 @@ As in similar fashion to the TV ads seen above, Facebook also experiences some i
 Okay, regression time!
 I have switched gears on my modelling, to now work on a Electoral College prediction based on state data! The below diagram (which is in a new fancy table model that StackOverflow helped me discover) shows the regression results for Dem candidates popular vote share state by state in August, September, and October! This also includes historical data averages from past election years in the same months.
 
-``` r
-head(model1)
-```
-
-    ## # A tibble: 6 × 19
-    ##    year state    September_Results October_Results D_pv2p.x  D_pv  R_pv D_pv2p.y
-    ##   <dbl> <chr>                <dbl>           <dbl>    <dbl> <dbl> <dbl>    <dbl>
-    ## 1  1996 Alabama               39.3            40.0     46.3  43.2  50.1     46.3
-    ## 2  1996 Alaska                36.2            35.2     39.6  33.3  50.8     39.6
-    ## 3  1996 Arizona               42.3            45.1     51.2  46.5  44.3     51.2
-    ## 4  1996 Arkansas              48.5            50.4     59.4  53.7  36.8     59.4
-    ## 5  1996 Califor…              49.2            49.6     57.2  51.1  38.2     57.2
-    ## 6  1996 Colorado              46.3            46.3     49.2  44.4  45.8     49.2
-    ## # ℹ 11 more variables: R_pv2p <dbl>, D_pv_lag1 <dbl>, R_pv_lag1 <dbl>,
-    ## #   D_pv2p_lag1 <dbl>, R_pv2p_lag1 <dbl>, D_pv_lag2 <dbl>, R_pv_lag2 <dbl>,
-    ## #   D_pv2p_lag2 <dbl>, R_pv2p_lag2 <dbl>, margin <dbl>, winner <chr>
-
-``` r
-reg1 <- lm(D_pv2p_lag1 ~ September_Results + October_Results, 
-                data = model1)
-```
-
 <div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Regression Results for State Model (1996-2020)<\/caption>","data":[["1","2","3"],["(Intercept)","September_Results","October_Results"],[7.688764853062181,-0.4148443625087502,1.360130719155099],[1.528722149372118,0.2047165283151798,0.1995313091757767],[5.029537157043309,-2.026433165523692,6.81662805087343],[7.986236710074317e-07,0.04350296860134854,4.277889360760009e-11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 
@@ -141,20 +119,6 @@ The r-squared is high! Great sign. That means this is roughly 86% accurate at pr
 # Toss Up States \#Failure!
 
 Some *interesting* things happened to the below data. I can’t fully understand what went wrong, but this does not look right to me. My plan is to evaluate my classmate’s submissions once they are uploaded to see if anyone had a similar set up to me. For now, however, the woes of coding have caught up with me!
-
-``` r
-new_table <- bind_cols(state_poll_24,
-  as.data.frame(new_pred) |> rename_with(~paste0("D_", .))) |>
-  mutate(D_fit = round(D_fit, 2), 
-         D_lwr = round(D_lwr, 2), 
-         D_upr = round(D_upr, 2), 
-         winner = if_else(D_fit>50, "Harris", "Trump")) |>
-  select(
-    -September_Results,
-         -October_Results, 
-         -year) |>
-filter(state %in% c("Wisconsin", "Virginia", "Texas", "Pennsylvania", "North Carolina", "New Mexico", "New Hampshire", "Nevada", "Minnesota", "Michigan", "Georgia", "Florida", "Arizona"))
-```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
