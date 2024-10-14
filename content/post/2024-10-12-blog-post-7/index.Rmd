@@ -15,7 +15,7 @@ Welcome back! This is week 6, and I approve this message.
 
 This week is all about campaign ads!!! Interestingly, my mention of campaign ads may cause groans from some, but others perhaps a mere nod; do you wonder why? Let me tell you!
 
-Campaigns spend incredible amounts of money (NYT says 500 million will be spent between early September and Election Day) but this money is not allocated evenly across the country.[1] In the following graphs, I will first explain how campaigns allocate ad spending across states. Next, I will show you how the tone of these ads can differ. Then I will wrap up with some of my _favorite_ campaign ads, then finally an update to my presidential projection!
+Campaigns spend incredible amounts of money (NYT says 500 million will be spent between early September and Election Day) but this money is not allocated evenly across the country.(1) In the following graphs, I will first explain how campaigns allocate ad spending across states. Next, I will show you how the tone of these ads can differ. Then I will wrap up with some of my _favorite_ campaign ads, then finally an update to my presidential projection!
 
 Excited? Great, me too, so lets go!
 
@@ -203,7 +203,7 @@ Now, after seeing some ads, and seeing how their tones vary, you may be wonderin
 
 In 1988, George H. W. Bush beat Michael Dukakis for President. The reasons for this outcome are numerous, but the one I'd like to draw your attention to is Bush's attack ad campaigns. 
 
-Below you will see two ads, both attacking Dukakis on military support and crime, respectively. Dukakis himself reflected after the campaign and attributed his loss in great part to his campaign's restraint with returning hostile ads towards Bush. [2]
+Below you will see two ads, both attacking Dukakis on military support and crime, respectively. Dukakis himself reflected after the campaign and attributed his loss in great part to his campaign's restraint with returning hostile ads towards Bush. (1)
 
 *"Willie Horton"*
 
@@ -493,9 +493,9 @@ First off, September seems to have little significance in the projection, while 
 The r-squared is high! Great sign. That means this is roughly 86% accurate at predicting the two-party vote share for Dems, state by state. 
 
 
-# Toss Up States #Failure!
+# Toss Up States!
 
-Some _interesting_ things happened to the below data. I can't fully understand what went wrong, but this does not look right to me. My plan is to evaluate my classmate's submissions once they are uploaded to see if anyone had a similar set up to me. For now, however, the woes of coding have caught up with me!
+Okay quick predictio time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning!
 
 ```{r, echo=FALSE, include=FALSE, warning=FALSE}
 state_poll_24 <- d_state_polls |>
