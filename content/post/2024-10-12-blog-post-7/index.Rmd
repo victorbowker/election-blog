@@ -495,7 +495,7 @@ The r-squared is high! Great sign. That means this is roughly 86% accurate at pr
 
 # Toss Up States!
 
-Okay quick predictio time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning!
+Okay quick prediction time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning!
 
 ```{r, echo=FALSE, include=FALSE, warning=FALSE}
 state_poll_24 <- d_state_polls |>
