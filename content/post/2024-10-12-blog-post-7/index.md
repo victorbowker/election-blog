@@ -116,9 +116,10 @@ First off, September seems to have little significance in the projection, while 
 
 The r-squared is high! Great sign. That means this is roughly 86% accurate at predicting the two-party vote share for Dems, state by state.
 
-# Toss Up States \#Failure!
+# Toss Up States!
 
-Some *interesting* things happened to the below data. I can’t fully understand what went wrong, but this does not look right to me. My plan is to evaluate my classmate’s submissions once they are uploaded to see if anyone had a similar set up to me. For now, however, the woes of coding have caught up with me!
+
+Okay quick prediction time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning!
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>

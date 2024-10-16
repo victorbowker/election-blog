@@ -1,8 +1,8 @@
 ---
-title: Blog Post 6
-author: Victor E. Bowker
-date: '2024-10-12'
-slug: blog-post-7
+title: "Blog Post 6"
+author: "Victor E. Bowker"
+date: "2024-10-12"
+slug: "blog-post-7"
 categories: []
 tags: []
 ---
