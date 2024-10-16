@@ -300,7 +300,7 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
 
 # Bang for your Buck: TV
 
-When is the best time to purchase a time slot for an election? Is it months prior to November, when voters likely haven't put much thought into their vote? Or is it more likely the weeks and days leading up that fateful Tuesday? See below, a visualization of when most ads spend is allocated!
+When is the best time to purchase a time slot for an election? Is it months prior to November, when voters likely haven't put much thought into their vote? Or is it more likely the weeks and days leading up that fateful Tuesday? See below, a visualization of when most ads spend is allocated! 
 
 
 
@@ -536,7 +536,7 @@ knitr::kable(new_table,
 
 
 
-
+ 
 
 
  # Citations
