@@ -1,0 +1,9 @@
+---
+title: Blog Post 7
+author: Package Build
+date: '2024-10-19'
+slug: 7th-blog-post
+categories: []
+tags: []
+---
+testing 7
