@@ -480,28 +480,96 @@ us_geo <- states(cb = TRUE) |>
   shift_geometry() |> 
   filter(STUSPS %in% unique(fo_add$state))
 
-d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
+d_campaign_events <- d_campaign_events |> 
+  filter(between(longitude, -180, -60), between(latitude, 20, 72))
+
+d_ev_transformed <- st_as_sf(d_campaign_events |> 
+                               drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
   st_transform(crs = st_crs(us_geo)) |>
   shift_geometry() |> 
   st_make_valid()
 
-(ev16 <- ggplot() +
-   geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
-   ggtitle("2016 Campaign Events") +
-   theme_void())
+ev16 <- ggplot() +
+  geom_sf(data = us_geo, fill = "gray95", color = "black", size = 0.5) +  
+  geom_sf(data = d_ev_transformed |> 
+            filter(year == 2016), aes(color = party), size = 2, alpha = 0.6) +
+  ggtitle("2016") +
+  labs(subtitle = " ") +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +  
+  theme(legend.position = "bottom", legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8)) +
+  theme_void() +
+    theme(legend.position = "bottom", 
+        legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.subtitle = element_text(hjust = 0.5, size = 12))   
 
-(ev20 <- ggplot() +
-   geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
-   ggtitle("2020 Campaign Events") +
-   theme_void())
+ev20 <- ggplot() +
+  geom_sf(data = us_geo, fill = "gray95", color = "black", size = 0.5) +  
+  geom_sf(data = d_ev_transformed |> 
+            filter(year == 2020), aes(color = party), size = 2, alpha = 0.6) +
+  ggtitle("2020") +
+  labs(subtitle = " ") +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +  
+  theme(legend.position = "bottom", legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8)) +
+  theme_void() +
+    theme(legend.position = "bottom", 
+        legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.subtitle = element_text(hjust = 0.5, size = 12))   
 
-(ev24 <- ggplot() +
-   geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
-   ggtitle("2024 Campaign Events") +
-   theme_void())
+ev24 <- ggplot() +
+  geom_sf(data = us_geo, fill = "gray95", color = "black", size = 0.5) +  
+  geom_sf(data = d_ev_transformed |> 
+            filter(year == 2024), aes(color = party), size = 2, alpha = 0.6) +
+  ggtitle("2024") +
+  labs(subtitle = " ") +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +  
+  theme(legend.position = "bottom", legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8)) +
+  theme_void() +
+    theme(legend.position = "bottom", 
+        legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.subtitle = element_text(hjust = 0.5, size = 12)) 
+
+
+ev16
+ev20
+ev24
+
+
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+install.packages("patchwork")
+library(patchwork)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Load the patchwork library to combine ggplots
+library(patchwork)
+
+ev16 <- ev16 + theme(legend.position = "none")
+ev20 <- ev20 + theme(legend.position = "bottom")
+ev24 <- ev24 + theme(legend.position = "none")
+
+combined_plot_side_by_side <- ev16 + ev20 + ev24 + 
+  plot_layout(ncol = 3) +  # Combine into one row (side by side)
+  plot_annotation(
+    title = "Location of Campaign Events (2016-2024)",
+    theme = theme(
+      plot.title = element_text(hjust = 0.5, size = 18, face = "bold")
+    )
+  )
+
+# Display the combined plot
+combined_plot_side_by_side
+
 ```
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Can the number of campaign events predict state-level vote share? 
