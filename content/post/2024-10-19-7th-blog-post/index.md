@@ -7,6 +7,12 @@ categories: []
 tags: []
 ---
 
+# Welcome Back!
+
+Election day is _so soon_ and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the **ground game**, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on!
+
+
+
 
 
 
@@ -18,7 +24,7 @@ tags: []
 
 # The Countdown is ON!
 
-Are you wondering how many days there are until the election? I know I am! Check below to see
+Are you wondering how many days there are until the election? I know I am! Check below to see.
 
 
 
@@ -28,83 +34,34 @@ Are you wondering how many days there are until the election? I know I am! Check
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-2.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-2.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-2.png" width="672" />
 
 
 
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-25-1.png" width="672" />
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" />
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-1.png" width="672" />
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-28-2.png" width="672" />
 
-```
-## 
-## \begin{table}[!htbp] \centering 
-##   \caption{Placement of Field Offices (2012)} 
-##   \label{} 
-## \scriptsize 
-## \begin{tabular}{@{\extracolsep{3pt}}lcc} 
-## \\[-1.8ex]\hline 
-## \hline \\[-1.8ex] 
-##  & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
-## \cline{2-3} 
-## \\[-1.8ex] & obama12fo & romney12fo \\ 
-## \\[-1.8ex] & (1) & (2)\\ 
-## \hline \\[-1.8ex] 
-##  romney12fo & 2.546$^{***}$ (0.114) &  \\ 
-##   obama12fo &  & 0.374$^{***}$ (0.020) \\ 
-##   swing & 0.001 (0.055) & $-$0.012 (0.011) \\ 
-##   core\_rep & 0.007 (0.061) &  \\ 
-##   core\_dem &  & 0.004 (0.027) \\ 
-##   battle & 0.541$^{***}$ (0.096) & 0.014 (0.042) \\ 
-##   medage08 &  &  \\ 
-##   romney12fo:swing & $-$0.765$^{***}$ (0.116) &  \\ 
-##   romney12fo:core\_rep & $-$1.875$^{***}$ (0.131) &  \\ 
-##   obama12fo:swing &  & $-$0.081$^{***}$ (0.020) \\ 
-##   obama12fo:core\_dem &  & $-$0.164$^{***}$ (0.023) \\ 
-##   Constant & $-$0.340$^{*}$ (0.196) & 0.001 (0.079) \\ 
-##  \hline \\[-1.8ex] 
-## \hline 
-## \hline \\[-1.8ex] 
-## \end{tabular} 
-## \end{table}
-```
 
-```
-## 
-## \begin{table}[!htbp] \centering 
-##   \caption{Effect of DEM Field Offices on Turnout and DEM Vote Share (2004-2012)} 
-##   \label{} 
-## \scriptsize 
-## \begin{tabular}{@{\extracolsep{3pt}}lcc} 
-## \\[-1.8ex]\hline 
-## \hline \\[-1.8ex] 
-##  & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
-## \cline{2-3} 
-## \\[-1.8ex] & turnout\_change & dempct\_change \\ 
-## \\[-1.8ex] & (1) & (2)\\ 
-## \hline \\[-1.8ex] 
-##  dummy\_fo\_change & 0.004$^{***}$ (0.001) & 0.009$^{***}$ (0.002) \\ 
-##   battle & 0.024$^{***}$ (0.002) & 0.043$^{***}$ (0.003) \\ 
-##   as.factor(state)Arizona &  &  \\ 
-##   dummy\_fo\_change:battle & $-$0.002 (0.002) & 0.007$^{**}$ (0.003) \\ 
-##   Constant & 0.029$^{***}$ (0.002) & 0.022$^{***}$ (0.003) \\ 
-##  \hline \\[-1.8ex] 
-## Observations & 6,224 & 6,224 \\ 
-## Adjusted R$^{2}$ & 0.419 & 0.469 \\ 
-## \hline 
-## \hline \\[-1.8ex] 
-## \textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-## \end{tabular} 
-## \end{table}
-```
+
+
+
+
+
+
+
+
+
+
+
+
+# Campaign Events
+
+Have you ever been to a campaign event? Sometimes they are in big hotels, or small cafes, or even in the candidates home. They are created to bring voters together in support for the candidate. Sometimes, these are informal gatherings of top donors and supporters, created to rally funding around the candidate to hit vital funding goals. Other times, these are events to allow the candidate to show another side of themselves. They can be used to convince unlikely voters by establishing a true, one-on-one connection that is normally not found in large presidential campaigns.
+
+Below, you will see the frequency of campaign events in the four months before the past 2 Presidential Elections, as well as the past three months of this cycle. You will not be at all surprised to see that campaign events always occur more often in the weeks leading up to the election. Candidates know there is always another vote they could receive, so they work tirelessly to mobilize voters in the final minutes before the big day. Check it out below!
+
+
+
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-32-1.png" width="672" />
 
@@ -132,6 +89,8 @@ Are you wondering how many days there are until the election? I know I am! Check
   |=====                                                                 |   6%
   |                                                                            
   |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
   |                                                                            
   |======                                                                |   8%
   |                                                                            
@@ -174,6 +133,8 @@ Are you wondering how many days there are until the election? I know I am! Check
   |===============                                                       |  22%
   |                                                                            
   |================                                                      |  23%
+  |                                                                            
+  |================                                                      |  24%
   |                                                                            
   |=================                                                     |  24%
   |                                                                            
@@ -258,6 +219,8 @@ Are you wondering how many days there are until the election? I know I am! Check
   |======================================                                |  54%
   |                                                                            
   |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
   |                                                                            
   |=======================================                               |  56%
   |                                                                            
