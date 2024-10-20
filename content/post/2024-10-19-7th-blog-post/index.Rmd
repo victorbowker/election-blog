@@ -11,7 +11,7 @@ tags: []
 
 Election day is _so soon_ and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the **ground game**, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on!
 
-```{r}
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 ```
@@ -473,7 +473,7 @@ summarize(n_events = n(), year) |>
 
 ggarrange(p.ev.1, p.ev.2, p.ev.3, ncol = 1, nrow = 3)
 ```
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 # Mapping campaign events. 
 
 
@@ -507,7 +507,7 @@ ev16 <- ggplot() +
     theme(legend.position = "bottom", 
         legend.title = element_text(size = 10), 
         legend.text = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
         plot.subtitle = element_text(hjust = 0.5, size = 12))   
 
 ev20 <- ggplot() +
@@ -523,7 +523,7 @@ ev20 <- ggplot() +
     theme(legend.position = "bottom", 
         legend.title = element_text(size = 10), 
         legend.text = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
         plot.subtitle = element_text(hjust = 0.5, size = 12))   
 
 ev24 <- ggplot() +
@@ -539,7 +539,7 @@ ev24 <- ggplot() +
     theme(legend.position = "bottom", 
         legend.title = element_text(size = 10), 
         legend.text = element_text(size = 8),
-        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center title
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"), 
         plot.subtitle = element_text(hjust = 0.5, size = 12)) 
 
 
