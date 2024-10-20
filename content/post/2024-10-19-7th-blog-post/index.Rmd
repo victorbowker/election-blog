@@ -19,10 +19,12 @@ options(repos = c(CRAN = "https://cloud.r-project.org"))
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 install.packages("patchwork")
 library(patchwork)
+library(broom)
 library(geofacet)
 library(ggpubr)
 library(ggthemes)
 library(haven)
+library(DT)
 library(kableExtra)
 library(maps)
 library(mgcv)
@@ -38,6 +40,7 @@ library(tigris)
 library(tmap)
 library(tmaptools)
 library(viridis)
+library(tidyverse)
 ```
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read popular vote datasets. 
@@ -410,7 +413,7 @@ fo_add <- read_csv("fieldoffice_2012-2016_byaddress.csv")
 ```
 
 
-# Campaign Events
+# When Do Campaign Events Happen?
 
 Have you ever been to a campaign event? Sometimes they are in big hotels, or small cafes, or even in the candidates home. They are created to bring voters together in support for the candidate. Sometimes, these are informal gatherings of top donors and supporters, created to rally funding around the candidate to hit vital funding goals. Other times, these are events to allow the candidate to show another side of themselves. They can be used to convince unlikely voters by establishing a true, one-on-one connection that is normally not found in large presidential campaigns. Finally, likely the largest, and most prominent, type of campaign event is the infamous rally! In key states, locals should not be surprised to pass large stages adorned with red, white, and blue. 
 
@@ -601,4 +604,136 @@ stargazer(lm_ev_D, lm_ev_R, header=FALSE, type='latex', no.space = TRUE,
           column.sep.width = "3pt", font.size = "scriptsize", single.row = TRUE,
           keep.stat = c("n", "adj.rsq", "res.dev"),
           title = "Association Between Campaign Events and Voting Outcomes of Interest")
+```
+
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+d_state_popvote$state_abbreviation <- state.abb[match(d_state_popvote$state, state.name)]
+
+d_campaign_events <-
+  d_campaign_events |>
+  rename("state_abbreviation" = "state")
+```
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+state_events <- d_campaign_events |>
+  left_join(d_state_popvote, by = "state_abbreviation") 
+```
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+state_events <-
+  state_events |>
+  group_by(year.y, state) |>
+  filter(party == "DEM") |>
+  summarize(d_campaign_events = n()) 
+```
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+
+state_events <-
+  state_events |>
+  rename("year" = "year.y")
+
+```
+
+```{r}
+state_poll_24
+
+```
+
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+model2 <- d_state_polls |>
+  select(state, year, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10), party == "DEM", year >= 1996) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 3), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+  values_from = poll_support, names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year, state, month_9, month_10, D_pv2p) |>
+  rename(September_Results = month_9, 
+         October_Results = month_10) |>
+    left_join(state_events, by = c("state", "year"))
+```
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+reg2 <- lm(D_pv2p ~ September_Results + October_Results + d_campaign_events, 
+                data = model2)
+```
+
+# Prediction Time!
+
+Okay okay time for the fun stuff. You will see below a regression table including last weeks data as well as an added coefficient for campaign events. I apologize that the term label is not updated to something cleaner than d_campaign_events, but I had the darndest trouble trying to change it!
+
+Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation, though the estimate is negative, meaning an increase in Sept polling will lead to a decrease in Dem popular vote share. Next, October Results, which are incredibly statistically significant, and they account for a 1.5 point dependent variable increase. Finally, the Campaign Events coefficient is statistically significant, signifying a negative change of .04 points for every increase in campaign events. I would venture to say this very small difference is likely not 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+tidy_model <- tidy(reg2)
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+datatable(tidy_model, 
+          options = list(pageLength = 4), 
+          caption = "Updated Regression Results")
+```
+```{r}
+d_state_polls
+```
+```{r}
+d_state_polls$state_abbreviation <- state.abb[match(d_state_polls$state, state.name)]
+
+d_state_polls
+```
+
+```{r}
+state_events$state_abbreviation <- state.abb[match(state_events$state, state.name)]
+state_events
+```
+```{r, echo=FALSE, include=FALSE, warning=FALSE, message=FALSE}
+state_poll_24 <- d_state_polls |>
+  select(year, state_abbreviation, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "REP", 
+         year == 2024) |>
+  group_by(year, state_abbreviation, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, values_from = poll_support, names_prefix = "month_") |>
+  drop_na() |>
+  rename(September_Results = month_9, October_Results = month_10) |>
+  left_join(state_events, by = c("year", "state_abbreviation"))
+
+pred2 <- predict(reg2, state_poll_24, interval = "prediction")
+```
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+
+new_table <- bind_cols(state_poll_24,
+  as.data.frame(pred2) |> rename_with(~paste0("D_", .))) |>
+  mutate(D_fit = round(D_fit, 2), 
+         D_lwr = round(D_lwr, 2), 
+         D_upr = round(D_upr, 2), 
+         winner = if_else(D_fit>50, "Harris", "Trump")) |>
+  select(
+    -September_Results,
+         -October_Results, 
+         -year,
+    -d_campaign_events
+    ) |>
+filter(state %in% c("AZ", "CA", "FL", "GA", "MD", "MI"))
+```
+
+
+# Toss Up States
+
+Now, on to the toss up states. There are some very interesting projections here this time. You will see that I am currently projecting Vice President Harris to flip Florida and Texas, two states which most pollsters have as strongly Republican. If these projections are correct, Harris would _easily_ win the White House. 
+
+```{r}
+colnames(state_poll_24)
+head(state_poll_24) 
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::kable(new_table, 
+             col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>  kableExtra::kable_styling() |>
+  kableExtra::row_spec(row = which(new_table$winner == "Harris"), background = "darkblue") |>
+  kableExtra::row_spec(row = which(new_table$winner == "Trump"), background = "darkred")
 ```
