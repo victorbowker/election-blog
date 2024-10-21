@@ -2,10 +2,12 @@
 title: "Blog Post 7"
 author: "Victor Bowker"
 date: "2024-10-19"
-slug: "7th-blog-post"
-output: blogdown::html_page
+output:
+  html_document:
+    df_print: paged
 categories: []
 tags: []
+slug: "7th-blog-post"
 ---
 
 # Welcome Back!
@@ -606,32 +608,7 @@ combined_plot_side_by_side
 
 ```
 
-```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
-# Can the number of campaign events predict state-level vote share? 
-d_ev_state <- d_campaign_events |> 
-  group_by(year, state, party) |> 
-  summarize(n_events = n()) |> 
-  pivot_wider(names_from = party, values_from = n_events) |> 
-  rename(n_ev_D = DEM, n_ev_R = REP)
-d_ev_state$n_ev_D[which(is.na(d_ev_state$n_ev_D))] <- 0
-d_ev_state$n_ev_R[which(is.na(d_ev_state$n_ev_R))] <- 0
-d_ev_state$ev_diff_D_R <- d_ev_state$n_ev_D - d_ev_state$n_ev_R
-d_ev_state$ev_diff_R_D <- d_ev_state$n_ev_R - d_ev_state$n_ev_D
 
-d <- d |> 
-  left_join(d_ev_state, by = c("year", "state_abb" = "state"))
-
-lm_ev_D <- lm(D_pv2p ~ n_ev_D + ev_diff_D_R, data = d)
-lm_ev_R <- lm(R_pv2p ~ n_ev_R + ev_diff_R_D, data = d)
-
-summary(lm_ev_D)
-summary(lm_ev_R)
-
-stargazer(lm_ev_D, lm_ev_R, header=FALSE, type='latex', no.space = TRUE,
-          column.sep.width = "3pt", font.size = "scriptsize", single.row = TRUE,
-          keep.stat = c("n", "adj.rsq", "res.dev"),
-          title = "Association Between Campaign Events and Voting Outcomes of Interest")
-```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
@@ -643,9 +620,7 @@ state_abb_xwalk[51,]$state <- "District Of Columbia"
 state_abb_xwalk[51,]$state_abb <- "DC"
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-state_abb_xwalk
-```
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 d_campaign_events <-
@@ -653,9 +628,7 @@ d_campaign_events <-
   rename("state_abb" = "state")
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-d_state_popvote
-```
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 kaitlyn_dataset <- 
@@ -667,9 +640,7 @@ kaitlyn_dataset <-
   summarize(fun_campaign_events = n()) 
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-kaitlyn_dataset
-```
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 library(dplyr)
@@ -695,10 +666,6 @@ model44 <- d_state_polls |>
 
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-model44
-
-```
 
 ```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
 reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events, 
