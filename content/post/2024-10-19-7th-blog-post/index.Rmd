@@ -690,9 +690,9 @@ reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events,
 
 # Prediction Time!
 
-Okay okay time for the fun stuff. You will see below a regression table including last weeks data as well as an added coefficient for campaign events. I apologize that the term label is not updated to something cleaner than d_campaign_events, but I had the darndest trouble trying to change it!
+Okay okay time for the fun stuff. You will see below a regression table including last weeks data as well as an added coefficient for campaign events. I apologize that the term label is not updated to something cleaner than fun_campaign_events, but I had the darndest trouble trying to change it!
 
-Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation, though the estimate is negative, meaning an increase in Sept polling will lead to a decrease in Dem popular vote share. Next, October Results, which are incredibly statistically significant, and they account for a 1.5 point dependent variable increase. Finally, the Campaign Events coefficient is statistically significant, signifying a negative change of .04 points for every increase in campaign events. I would venture to say this very small difference is likely not 
+Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation. Next, October Results, which are only minorly significant in this prediction. Finally, the Campaign Events coefficient is not statistically significant. As you will see below, my prediction overall did not go well this week. This is certainly an allusion to that.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 tidy_model44 <- tidy(reg44)
@@ -748,8 +748,14 @@ swing_state_predictions <- swing_state_predictions |>
 
 swing_state_predictions
 ```
+
+# Results: Do You Believe It??
+
+Answer: I do not believe it. In this weeks prediction, you will see results for top swing states. Clearly, the lower and upper bounds of this prediction are _irregular_ which I believe makes this prediction less than good science. I worked with my amazing classmate, Kaitlyn Vu, to try to correct these challenges, but was unable to do so. In any case, this is my prediction for the week!
+
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-# Generate a formatted table using gt
+#chat gpt
 swing_state_predictions |>
   select(state, Prediction, Lower_Bound, Upper_Bound, Winner) |>
   gt() |>
@@ -788,25 +794,4 @@ swing_state_predictions |>
 
 
 
-
-
-# Toss Up States
-
-Now, on to the toss up states. There are some very interesting projections here this time. You will see that I am currently projecting Vice President Harris to flip Florida and Texas, two states which most pollsters have as strongly Republican. If these projections are correct, Harris would _easily_ win the White House. 
-
-
-
-
-
-
-**Analysis**
-
-First off, September seems to have little significance in the projection, while October has great significance! It appears that a 1% increase in October polling reflects a 1.3% increase in Dem popular vote share-how fun!!
-
-The r-squared is high! Great sign. That means this is roughly 86% accurate at predicting the two-party vote share for Dems, state by state. 
-
-
-# Toss Up States!
-
-Okay quick prediction time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning! 
 
