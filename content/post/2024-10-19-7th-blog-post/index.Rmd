@@ -792,6 +792,7 @@ swing_state_predictions |>
 ```
 
 
-
+Citations - Assistance from Kaitlyn Vu with troubleshooting and code!
+  - Chat GPT was used for the new table creation!
 
 

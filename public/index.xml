@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Election Blog 2024 on Victor Bowker</title>
-    <link>http://localhost:4321/election-blog/</link>
+    <link>https://victorbowker.github.io/election-blog/</link>
     <description>Recent content in Election Blog 2024 on Victor Bowker</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 19 Oct 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:4321/election-blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://victorbowker.github.io/election-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog Post 7</title>
-      <link>http://localhost:4321/election-blog/post/2024/10/19/7th-blog-post/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/10/19/7th-blog-post/</link>
       <pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/10/19/7th-blog-post/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/10/19/7th-blog-post/</guid>
       <description>&lt;h1 id=&#34;welcome-back&#34;&gt;Welcome Back!&lt;/h1&gt;&#xA;&lt;p&gt;Election day is &lt;em&gt;so soon&lt;/em&gt; and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the &lt;strong&gt;ground game&lt;/strong&gt;, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 6</title>
-      <link>http://localhost:4321/election-blog/post/2024/10/12/blog-post-7/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/</link>
       <pubDate>Sat, 12 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/10/12/blog-post-7/</guid>
-      <description>&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/datatables-css/datatables-crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/datatables-binding/datatables.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/jquery/jquery-3.6.0.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/css/jquery.dataTables.min.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;link href=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/css/jquery.dataTables.extra.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/js/jquery.dataTables.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/crosstalk/css/crosstalk.min.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;http://localhost:4321/election-blog/election-blog/post/2024/10/12/blog-post-7/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;h1 id=&#34;thanks-for-coming-back&#34;&gt;Thanks for coming back&lt;/h1&gt;&#xA;&lt;p&gt;Welcome back! This is week 6, and I approve this message.&#xA;(get it?)&lt;/p&gt;&#xA;&lt;p&gt;This week is all about campaign ads!!! Interestingly, my mention of campaign ads may cause groans from some, but others perhaps a mere nod; do you wonder why? Let me tell you!&lt;/p&gt;</description>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/</guid>
+      <description>&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/datatables-css/datatables-crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/datatables-binding/datatables.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/jquery/jquery-3.6.0.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/css/jquery.dataTables.min.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;link href=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/css/jquery.dataTables.extra.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/dt-core/js/jquery.dataTables.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/crosstalk/css/crosstalk.min.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://victorbowker.github.io/election-blog/post/2024/10/12/blog-post-7/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;h1 id=&#34;thanks-for-coming-back&#34;&gt;Thanks for coming back&lt;/h1&gt;&#xA;&lt;p&gt;Welcome back! This is week 6, and I approve this message.&#xA;(get it?)&lt;/p&gt;&#xA;&lt;p&gt;This week is all about campaign ads!!! Interestingly, my mention of campaign ads may cause groans from some, but others perhaps a mere nod; do you wonder why? Let me tell you!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 5</title>
-      <link>http://localhost:4321/election-blog/post/2024/10/05/blog-post-5/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/10/05/blog-post-5/</link>
       <pubDate>Sat, 05 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/10/05/blog-post-5/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/10/05/blog-post-5/</guid>
       <description>&lt;h1 id=&#34;welcome-back&#34;&gt;Welcome Back&lt;/h1&gt;&#xA;&lt;p&gt;This week is &lt;em&gt;all about&lt;/em&gt; demographics, so lets talk about it!&lt;/p&gt;&#xA;&lt;p&gt;When pollsters review data to make predictions, they have &lt;em&gt;a lot&lt;/em&gt; of factors to consider. I have covered some of these in prior posts, including economic factors, public opinion polls, and historical trends. Today, I will explore trends that are impacted&amp;ndash;or are not&amp;ndash;by demographics. The primary demographics included in today&amp;rsquo;s data are race, gender, education level, income, religion, and a few others!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 4</title>
-      <link>http://localhost:4321/election-blog/post/2024/09/28/blog-4/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/09/28/blog-4/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/09/28/blog-4/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/09/28/blog-4/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Welcome&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Hello and thank you for coming back to another week of election predictions! This week, I am primarily focusing on incumbency, and the impacts it can have on an election. In general ways, incumbents are given &lt;em&gt;a lot&lt;/em&gt; of advantages. This can make it very difficult for new, emerging canddiates to get a foothold in the race, lending an explanation to usually over 90% of all Congressional incumbents winning their re-election bids.[1]&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 3</title>
-      <link>http://localhost:4321/election-blog/post/2024/09/18/blog-post-3/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/</link>
       <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/09/18/blog-post-3/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Poll Averages by Date from 2020&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Take a look at this graph below, showing party polling in the year leading up to the Election in November of 2020. Check out the increases and decreases and scroll further to find some important dates and how that impacted polling!&lt;/p&gt;&#xA;&lt;img src=&#34;http://localhost:4321/election-blog/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&#xA;&lt;p&gt;Next, see where the DNC and RNC were held. Notice that while it was not instant, there is a minor increase in support for both parties following their debates. You will find in my analysis of 538&amp;rsquo;s polling forecast tool that they specifically tone down polling increases in the week following a party&amp;rsquo;s convention. 538 journalist G. Elliot Morris says that this section of the foreceast is important as both Clinton and Trump showed their greatest polling in the week following their respective conventions in 2016.&lt;/p&gt;</description>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Poll Averages by Date from 2020&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Take a look at this graph below, showing party polling in the year leading up to the Election in November of 2020. Check out the increases and decreases and scroll further to find some important dates and how that impacted polling!&lt;/p&gt;&#xA;&lt;img src=&#34;https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&#xA;&lt;p&gt;Next, see where the DNC and RNC were held. Notice that while it was not instant, there is a minor increase in support for both parties following their debates. You will find in my analysis of 538&amp;rsquo;s polling forecast tool that they specifically tone down polling increases in the week following a party&amp;rsquo;s convention. 538 journalist G. Elliot Morris says that this section of the foreceast is important as both Clinton and Trump showed their greatest polling in the week following their respective conventions in 2016.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 2</title>
-      <link>http://localhost:4321/election-blog/post/2024/09/14/blog-post-2/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/09/14/blog-post-2/</link>
       <pubDate>Sat, 14 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/09/14/blog-post-2/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/09/14/blog-post-2/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;It is no surprise, nor a secret, that most Americans vote with their pocketbook in mind.&#xA;According to the Pew Research Center in a poll from September 9th of this year, the &lt;em&gt;greatest&lt;/em&gt; concern among both Trump and Harris supporters is the economy. The next greatest issue, health care, is only ranked at highly concerning to 65% of voters, compared to the 81% when asked about the American economy.[1]&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 1</title>
-      <link>http://localhost:4321/election-blog/post/2024/09/08/blog-post-1/</link>
+      <link>https://victorbowker.github.io/election-blog/post/2024/09/08/blog-post-1/</link>
       <pubDate>Sun, 08 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/2024/09/08/blog-post-1/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/2024/09/08/blog-post-1/</guid>
       <description>&lt;p&gt;Hello all! I am so excited to begin on this journey of forecasting the 2024 Presidential Election. Please understand that this will be updated often, and I have no guarantee that this projection will be correct! Thanks for reading - VB&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Past Vote Share - Overall&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;One of the more critical aspects of forecasting is understanding the past. Data can be an incredible tool in understanding past elections, will will allow us to predict the next ones. Below, you will see the two party national vote distribution for the past ~70 years, from 1948 to 2020. You should note that elections are closer now than at most times in our recent history. This can make projections more difficult, as votes are less unanimous!&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>
-      <link>http://localhost:4321/election-blog/post/1/01/01/</link>
+      <link>https://victorbowker.github.io/election-blog/post/1/01/01/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/election-blog/post/1/01/01/</guid>
+      <guid>https://victorbowker.github.io/election-blog/post/1/01/01/</guid>
       <description>&lt;p&gt;#Victor Bowker&#xA;#Week 6&#xA;Almost there&lt;/p&gt;</description>
     </item>
   </channel>
