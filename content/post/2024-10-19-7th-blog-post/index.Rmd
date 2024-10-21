@@ -1,8 +1,8 @@
 ---
-title: Blog Post 7
-author: Victor Bowker
-date: '2024-10-19'
-slug: 7th-blog-post
+title: "Blog Post 7"
+author: "Victor Bowker"
+date: "2024-10-19"
+slug: "7th-blog-post"
 categories: []
 tags: []
 ---
@@ -700,7 +700,7 @@ tidy_model44 <- tidy(reg44)
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 datatable(tidy_model44, 
           options = list(pageLength = 4), 
-          caption = "Updated Regression Results")
+          caption = "Updated Regression Results") 
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
