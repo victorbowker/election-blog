@@ -1,15 +1,15 @@
 ---
 title: Blog Post 7
-author: Package Build
+author: Victor Bowker
 date: '2024-10-19'
 slug: 7th-blog-post
 categories: []
 tags: []
 ---
-
+   
 # Welcome Back!
 
-Election day is _so soon_ and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the **ground game**, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on!
+Election day is _so soon_ and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the **ground game**, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on! 
 
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 options(repos = c(CRAN = "https://cloud.r-project.org"))
@@ -41,6 +41,7 @@ library(tmap)
 library(tmaptools)
 library(viridis)
 library(tidyverse)
+library(gt)
 ```
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read popular vote datasets. 
@@ -606,59 +607,85 @@ stargazer(lm_ev_D, lm_ev_R, header=FALSE, type='latex', no.space = TRUE,
           title = "Association Between Campaign Events and Voting Outcomes of Interest")
 ```
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-d_state_popvote$state_abbreviation <- state.abb[match(d_state_popvote$state, state.name)]
+state_abb_xwalk <- d_state_popvote |>
+  mutate(state_abb = state.abb[match(d_state_popvote$state, state.name)]) |> 
+  select(state, state_abb) |> 
+  distinct() 
+state_abb_xwalk[51,]$state <- "District Of Columbia"
+state_abb_xwalk[51,]$state_abb <- "DC"
+```
 
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+state_abb_xwalk
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 d_campaign_events <-
   d_campaign_events |>
-  rename("state_abbreviation" = "state")
+  rename("state_abb" = "state")
 ```
 
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-state_events <- d_campaign_events |>
-  left_join(d_state_popvote, by = "state_abbreviation") 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+d_state_popvote
 ```
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-state_events <-
-  state_events |>
-  group_by(year.y, state) |>
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+kaitlyn_dataset <- 
+  d_campaign_events |> 
   filter(party == "DEM") |>
-  summarize(d_campaign_events = n()) 
-```
-
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-
-state_events <-
-  state_events |>
-  rename("year" = "year.y")
-
-```
-
-```{r}
-state_poll_24
-
+  left_join(state_abb_xwalk, by = "state_abb") |> 
+  left_join(d_state_popvote, by = c("state", "year")) |>
+  group_by(state, year) |>
+  summarize(fun_campaign_events = n()) 
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-model2 <- d_state_polls |>
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+kaitlyn_dataset
+```
+
+
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(lubridate)
+
+model44 <- d_state_polls |>
   select(state, year, weeks_left, poll_date, poll_support, party) |>
-  filter(month(poll_date) %in% c(9, 10), party == "DEM", year >= 1996) |>
-  group_by(year, state, month = month(poll_date)) |>
+  filter(month(as.Date(poll_date)) %in% c(9, 10), party == "DEM", year >= 2016) |>
+  filter(year < 2024) |>
+  group_by(year, state, month = month(as.Date(poll_date))) |>
   summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 3), .groups = "drop") |>
   pivot_wider(names_from = month, 
-  values_from = poll_support, names_prefix = "month_") |>
+              values_from = poll_support, 
+              names_prefix = "month_") |>
   left_join(d_state_popvote, by = c("year", "state")) |>
-  select(year, state, month_9, month_10, D_pv2p) |>
+  select(year,state, month_9, month_10, D_pv2p) |>
   rename(September_Results = month_9, 
          October_Results = month_10) |>
-    left_join(state_events, by = c("state", "year"))
+  left_join(kaitlyn_dataset, by = c("state", "year")) |>
+  mutate(across(everything(), ~ replace_na(., 0))) 
+
+
 ```
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+model44
+
+```
+
+
+
 ```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
-reg2 <- lm(D_pv2p ~ September_Results + October_Results + d_campaign_events, 
-                data = model2)
+reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events, 
+                data = model44)
 ```
 
 # Prediction Time!
@@ -668,72 +695,118 @@ Okay okay time for the fun stuff. You will see below a regression table includin
 Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation, though the estimate is negative, meaning an increase in Sept polling will lead to a decrease in Dem popular vote share. Next, October Results, which are incredibly statistically significant, and they account for a 1.5 point dependent variable increase. Finally, the Campaign Events coefficient is statistically significant, signifying a negative change of .04 points for every increase in campaign events. I would venture to say this very small difference is likely not 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-tidy_model <- tidy(reg2)
+tidy_model44 <- tidy(reg44)
 ```
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-datatable(tidy_model, 
+datatable(tidy_model44, 
           options = list(pageLength = 4), 
           caption = "Updated Regression Results")
 ```
-```{r}
-d_state_polls
-```
-```{r}
-d_state_polls$state_abbreviation <- state.abb[match(d_state_polls$state, state.name)]
 
-d_state_polls
-```
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
-```{r}
-state_events$state_abbreviation <- state.abb[match(state_events$state, state.name)]
-state_events
-```
-```{r, echo=FALSE, include=FALSE, warning=FALSE, message=FALSE}
-state_poll_24 <- d_state_polls |>
-  select(year, state_abbreviation, weeks_left, poll_date, poll_support, party) |>
-  filter(month(poll_date) %in% c(9, 10),
-         party == "REP", 
-         year == 2024) |>
-  group_by(year, state_abbreviation, month = month(poll_date)) |>
-  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
-  pivot_wider(names_from = month, values_from = poll_support, names_prefix = "month_") |>
-  drop_na() |>
-  rename(September_Results = month_9, October_Results = month_10) |>
-  left_join(state_events, by = c("year", "state_abbreviation"))
+prediction_data <- d_state_polls |>
+  select(state, year, weeks_left, poll_date, poll_support, party) |>
+  filter(month(as.Date(poll_date)) %in% c(9, 10), party == "DEM", year == 2024) |>
+  group_by(year, state, month = month(as.Date(poll_date))) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 3), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  select(year,state, month_9, month_10) |>
+  rename(September_Results = month_9, 
+         October_Results = month_10) |>
+  left_join(kaitlyn_dataset, by = c("state", "year")) |>
+  mutate(across(everything(), ~ replace_na(., 0))) 
 
-pred2 <- predict(reg2, state_poll_24, interval = "prediction")
 ```
 
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
 
-new_table <- bind_cols(state_poll_24,
-  as.data.frame(pred2) |> rename_with(~paste0("D_", .))) |>
-  mutate(D_fit = round(D_fit, 2), 
-         D_lwr = round(D_lwr, 2), 
-         D_upr = round(D_upr, 2), 
-         winner = if_else(D_fit>50, "Harris", "Trump")) |>
-  select(
-    -September_Results,
-         -October_Results, 
-         -year,
-    -d_campaign_events
-    ) |>
-filter(state %in% c("AZ", "CA", "FL", "GA", "MD", "MI"))
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+prediction_data
+
 ```
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+# Calculate predictions and confidence intervals
+predictions <- predict(reg44, prediction_data, interval = "prediction")
+
+# Convert predictions to a data frame and rename columns to avoid conflicts
+predictions_df <- as.data.frame(predictions) |>
+  rename(Prediction = fit, Lower_Bound = lwr, Upper_Bound = upr)
+
+# Combine predictions with the original data
+swing_state_predictions <- cbind(prediction_data, predictions_df)
+
+# Add winner column based on the predicted vote share
+swing_state_predictions <- swing_state_predictions |>
+  mutate(Winner = ifelse(Prediction > 50, "Harris", "Trump")) |>
+  filter(state %in% c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")) |>
+  select(year, state, Prediction, Lower_Bound, Upper_Bound, Winner)
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+swing_state_predictions
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Generate a formatted table using gt
+swing_state_predictions |>
+  select(state, Prediction, Lower_Bound, Upper_Bound, Winner) |>
+  gt() |>
+  cols_label(
+    state = "State",
+    Prediction = "Prediction",
+    Lower_Bound = "Lower Bound",
+    Upper_Bound = "Upper Bound",
+    Winner = "Winner"
+  ) |>
+  fmt_number(
+    columns = c(Prediction, Lower_Bound, Upper_Bound),
+    decimals = 2
+  ) |>
+  tab_style(
+    style = cell_fill(color = "blue"),
+    locations = cells_body(
+      columns = Winner,
+      rows = Winner == "Harris"
+    )
+  ) |>
+  tab_style(
+    style = cell_fill(color = "red"),
+    locations = cells_body(
+      columns = Winner,
+      rows = Winner == "Trump"
+    )
+  ) |>
+  tab_header(
+    title = "Predicted Vote Share by State",
+    subtitle = "Including Confidence Intervals and Winner Prediction"
+  )
+ 
+```
+
+
+
+
 
 
 # Toss Up States
 
 Now, on to the toss up states. There are some very interesting projections here this time. You will see that I am currently projecting Vice President Harris to flip Florida and Texas, two states which most pollsters have as strongly Republican. If these projections are correct, Harris would _easily_ win the White House. 
 
-```{r}
-colnames(state_poll_24)
-head(state_poll_24) 
-```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-knitr::kable(new_table, 
-             col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>  kableExtra::kable_styling() |>
-  kableExtra::row_spec(row = which(new_table$winner == "Harris"), background = "darkblue") |>
-  kableExtra::row_spec(row = which(new_table$winner == "Trump"), background = "darkred")
-```
+
+
+
+
+**Analysis**
+
+First off, September seems to have little significance in the projection, while October has great significance! It appears that a 1% increase in October polling reflects a 1.3% increase in Dem popular vote share-how fun!!
+
+The r-squared is high! Great sign. That means this is roughly 86% accurate at predicting the two-party vote share for Dems, state by state. 
+
+
+# Toss Up States!
+
+Okay quick prediction time. In the below table you will see that Harris wins most of the toss up states, except Minnesota, New Hampshire, New Mexico, and Virginia. These projections are not completely in line with most online projections, so I am not fully confident in this diagnosis. Considering this projection has Harris winning Texas and Florida, I am not too confident in this projection. But, for this week, we have Harris winning! 
+

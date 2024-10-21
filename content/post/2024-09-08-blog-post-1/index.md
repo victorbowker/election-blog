@@ -65,7 +65,8 @@ Next, see how this same presidential vote share can be broken down by each, by y
 Now, on to our current prediction, for the 2024 National Election. Per the tibble below, Kamala Harris and the Democrats will narrowly take the lead over Donald Trump. Now, what do we see? First, there are the expected Democrat strongholds in the Northeast and West Coast. In Wisconsin, my forecast agrees with the newest CNN poll that VP Harris will narrowly take the lead.* Interestingly, CNN is more confident in their projection that President Trump can clinch Arizona, where my data is not as certain. This race will be _close_, and I am excited to continue updating projections as we get closer to Election Day!
 
 ```
-## Warning: Removed 12 rows containing missing values (`geom_text()`).
+## Warning: Removed 12 rows containing missing values or values outside the scale range
+## (`geom_text()`).
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
