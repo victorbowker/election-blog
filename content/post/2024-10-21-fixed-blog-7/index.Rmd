@@ -10,7 +10,6 @@ tags: []
 slug: "fixed-blog-7"
 ---
 
-
 # Welcome Back!
 
 Election day is *so soon* and I am overjoyed! There are so many things at stake, and I am excited to see the results. Today, I will focus on the **ground game**, which is everything a campaign does via the ground! This includes door knocking, holding signs at intersections, setting up field offices, giving out signs, and many more fun campaign activities! If you want to know whether the ground game matters, read on!
@@ -609,8 +608,6 @@ combined_plot_side_by_side
 
 ```
 
-
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
 state_abb_xwalk <- d_state_popvote |>
@@ -621,15 +618,11 @@ state_abb_xwalk[51,]$state <- "District Of Columbia"
 state_abb_xwalk[51,]$state_abb <- "DC"
 ```
 
-
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 d_campaign_events <-
   d_campaign_events |>
   rename("state_abb" = "state")
 ```
-
-
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 kaitlyn_dataset <- 
@@ -640,8 +633,6 @@ kaitlyn_dataset <-
   group_by(state, year) |>
   summarize(fun_campaign_events = n()) 
 ```
-
-
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 library(dplyr)
@@ -666,7 +657,6 @@ model44 <- d_state_polls |>
 
 
 ```
-
 
 ```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
 reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events, 
