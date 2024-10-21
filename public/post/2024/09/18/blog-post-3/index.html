@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+  <head><script src="/election-blog/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=election-blog/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog Post 3 | Victor Bowker</title>
@@ -26,18 +26,18 @@
 <main>
 <p><strong>Poll Averages by Date from 2020</strong></p>
 <p>Take a look at this graph below, showing party polling in the year leading up to the Election in November of 2020. Check out the increases and decreases and scroll further to find some important dates and how that impacted polling!</p>
-<img src="https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 <p>Next, see where the DNC and RNC were held. Notice that while it was not instant, there is a minor increase in support for both parties following their debates. You will find in my analysis of 538&rsquo;s polling forecast tool that they specifically tone down polling increases in the week following a party&rsquo;s convention. 538 journalist G. Elliot Morris says that this section of the foreceast is important as both Clinton and Trump showed their greatest polling in the week following their respective conventions in 2016.</p>
-<img src="https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 <p><strong>Interesting Factors-Do They Matter?</strong></p>
 <p>Next, you will see some added dates that pollsters assumed might impact results. Check out how they really did impact it!
-<img src="https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<img src="/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Allow me to point you to a few key dates that had an incredible impact! First, when Bernie Sanders dropped out, Biden&rsquo;s polling first dropped, but then elevated quite quickly. I believe there was this delay because Sanders waited at least 6 days to officially endorse Biden, meaning his supporters had not yet moved to support Biden.</p>
 <p>Next, see where the elevation of COVID deaths, tied in with the death of George Floyd, Trump&rsquo;s poll approval dropped quite heavily, allowing the Democrats to swoop in and elevate their polling quite substantially. Also, the Dems rode an impressive wave of increasing approval through a serious of Presidential and Vice Presidential debates.</p>
 <p>Finally, Trump&rsquo;s bought with COVID did not help his polling. Especially considering his position on COVID, calling some victims weak or obese, it was not helpful for him to then fall ill with the very disease!</p>
 <p><strong>Now Considering 2024 Facts</strong></p>
 <p>You will see below the data <em>so far</em> from this election cycle. The data is loud, and it is telling us that the Democrats switching to Vice President Kamala Harris was the <em>only</em> choice. We see the Dem&rsquo;s approval skyrocket from 40, to 45 percent points. Trump experienced some impressive gains as Biden fell, though VP Harris was able to take off quite well once she gained a footing in the race.</p>
-<img src="https://victorbowker.github.io/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="/election-blog/post/2024/09/18/blog-post-3/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <p><strong>Projection</strong></p>
 <p>Utilizing some intense code that was lovingly provided by Teaching Fellow Matthew Dardet, we run a regularized regression from current polling data to find who is looking best in the polls. Code is accesible via GitHub, but allow me to briefly explain.</p>
 <p>First, we are using a datset that includes all popular voteshare data from 1948 to 2020. Using poll data from the above datasets, we can start to merge and focus on November information. As we get closer to the election, every week counts, so we split up data by week. Nearly ever news cycle could reflect updated polling data, but lets not get <em>too</em> intense. Then, we run regressions, with the normal foreceast as well as an OLS (ordinary least squares) forecast. Finally, with some intense math that a <em>mere</em> Gov concentrator such as myself may not fully understand, we have results!</p>
