@@ -22,6 +22,10 @@ election.day-current.date
 # 20 days!!!!!!
 ```
 
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+```
 
 # Shocks
 
@@ -37,7 +41,218 @@ Well, let me tell you! First, I will discuss apolitical shocks--things that occu
   
   That is a hefty accusation, and I am in no place to take a side, but let me leave you with this. Last week, in Florida, a young man was attacked by a shark when surfing. (4) If I was feeling particularly Achen-ish, I might declare this to be the reason the incumbent Democrats won't win Florida this time--but I bet you could come up with a few other reasons why Harris won't receive Florida's 30 Electoral Votes. But, in any case, now I have published my declaration that this shark attack will flip Florida (but lets see if I come back on November 6th and delete this post)
 
-  I mentioned apolitical events, but what about purely political ones? In the past week, Former President Trump's Former Chief of Staff, John Kelly, claimed that if elected, Trump would "meet the definition of a fascist" and historically has glorified the actions of Adolf Hitler. (5) Now, in the past few days, 13 former Trump aides ended their potential for a job in another Trump admin by releasing a statement echoing the worries of Kelly. (6) These statements have been discussed widely in the past week, but one thing working against the validity of the claims is at least a few of the signers are outspoken Harris advocates, paving the way for Trump to write this off as a political move. 
+  I mentioned apolitical events, but what about purely political ones? In the past week, Former President Trump's Former Chief of Staff, John Kelly, claimed that if elected, Trump would "meet the definition of a fascist" and historically has glorified the actions of Adolf Hitler. (5) Now, in the past few days, 13 former Trump aides ended their potential for a job in another Trump admin by releasing a statement echoing the worries of Kelly. (6) These statements have been discussed widely in the past week, but one thing working against the validity of the claims is at least a few of the signers are outspoken Harris advocates, paving the way for Trump to write this off as a political move. Examples of historical political events include in Comey Letter in the days leading up to the 2016 Election, where FBI Director James Comey notified Congress that the bureau had launched an investigation into then candidate for President, Hillary Clinton. Just da4ys before the election, 538 analysts have attributed a "3 or 4 percentage point shift towards Donald Trump, swinging Michigan, Pennsylvania, Wisconsin, and Florida." (7)
+  
+  With that, *do you think these shock events will sway the election?* I, for one, am not too sure.
+
+# Projection Time!
+
+We are less than 10 days away from the 2024 Presidential Election. I have been thinking about this race since the time I have started to think, or since 2020, whichever came second :). 
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+install.packages("patchwork")
+library(patchwork)
+library(broom)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(DT)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+library(tidyverse)
+library(gt)
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read popular vote datasets. 
+d_popvote <- read_csv("popvote_1948_2020.csv")
+d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
+d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read elector distribution dataset. 
+d_ec <- read_csv("corrected_ec_1948_2024.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read polling data. 
+d_polls <- read_csv("national_polls_1968-2024.csv")
+d_state_polls <- read_csv("state_polls_1968-2024.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read turnout data. 
+d_turnout <- read_csv("state_turnout_1980_2022.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read county turnout. 
+d_county_turnout <- read_csv("county_turnout.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read state-level demographics.
+d_state_demog <- read_csv("demographics.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read county demographics. 
+d_county_demog <- read_csv("county_demographics.csv")
+```
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+# Read campaign events datasets. 
+d_campaign_events <- read_csv("campaigns_2016_2024.csv")[,-1]
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+state_abb_xwalk <- d_state_popvote |>
+  mutate(state_abb = state.abb[match(d_state_popvote$state, state.name)]) |> 
+  select(state, state_abb) |> 
+  distinct() 
+state_abb_xwalk[51,]$state <- "District Of Columbia"
+state_abb_xwalk[51,]$state_abb <- "DC"
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+d_campaign_events <-
+  d_campaign_events |>
+  rename("state_abb" = "state")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
+d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+kaitlyn_dataset <- 
+  d_campaign_events |> 
+  filter(party == "DEM") |>
+  left_join(state_abb_xwalk, by = "state_abb") |> 
+  left_join(d_state_popvote, by = c("state", "year")) |>
+  group_by(state, year) |>
+  summarize(fun_campaign_events = n()) 
+
+kaitlyn_dataset
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(lubridate)
+
+model88 <- d_state_polls |>
+  select(state, year, weeks_left, poll_date, poll_support, party) |>
+  filter(month(as.Date(poll_date)) %in% c(9, 10), party == "DEM", year >= 2016) |>
+  filter(year < 2024) |>
+  group_by(year, state, month = month(as.Date(poll_date))) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 3), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year,state, month_9, month_10, D_pv2p) |>
+  rename(September_Results = month_9, 
+         October_Results = month_10) |>
+  left_join(d_popvote |>
+  select(year, party, incumbent_party) |>
+  filter(party == "DEM") |>
+  mutate(incumbent_party = if_else(incumbent_party == "TRUE", 1, 0)) |>
+  select(-party), by = "year")
+
+
+
+```
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+reg88 <- lm(D_pv2p ~ September_Results + October_Results, 
+                data = subset(model88, year <= 2020))
+```
+
+# Prediction Time!
+
+Okay okay time for the fun stuff. You will see below a regression table including last weeks data as well as an added coefficient for campaign events. I apologize that the term label is not updated to something cleaner than fun_campaign_events, but I had the darndest trouble trying to change it!
+
+Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation. Next, October Results, which are only minorly significant in this prediction. Finally, the Campaign Events coefficient is not statistically significant. As you will see below, my prediction overall did not go well this week. This is certainly an allusion to that.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+tidy_model88 <- tidy(reg88)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+datatable(tidy_model88, 
+          options = list(pageLength = 4), 
+          caption = "Updated Regression Results") 
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+prediction_data88 <- d_state_polls |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "DEM", 
+         year == 2024) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  drop_na() |>
+  rename(September_Results = month_9, 
+         October_Results = month_10)
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+prediction_data88
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+# Calculate predictions and confidence intervals
+pred88 <- predict(reg88, prediction_data88, interval = "prediction")
+
+table88 <- bind_cols(prediction_data88,
+  as.data.frame(pred88) |> rename_with(~paste0("D_", .))) |>
+  mutate(D_fit = round(D_fit, 2), 
+         D_lwr = round(D_lwr, 2), 
+         D_upr = round(D_upr, 2), 
+         winner = if_else(D_fit>50, "Harris", "Trump")) |>
+  select(-September_Results,
+         -October_Results, 
+         -year, ) |>
+  filter(state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Mexico", "North Carolina", "Pennsylvania", "Texas", "Virginia", "Wisconsin"))
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::kable(table88, 
+             col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>
+  kableExtra::kable_styling(full_width = FALSE) |>
+  kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "#D3E5FF") |>
+  kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "#FFD1D1")
+```
+
+
+
+
 
  
  Citations:
@@ -48,6 +263,7 @@ Well, let me tell you! First, I will discuss apolitical shocks--things that occu
 4 - https://www.foxnews.com/us/florida-teen-surfer-attacked-shark-says-could-have-been-so-much-worse
 5 - https://www.nytimes.com/2024/10/22/us/politics/john-kelly-trump-fitness-character.html
 6 - https://www.nytimes.com/2024/10/25/us/politics/trump-officials-letter-fascist-john-kelly.html
+7 - https://fivethirtyeight.com/features/the-comey-letter-probably-cost-clinton-the-election/
 
  
  
