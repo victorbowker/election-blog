@@ -85,6 +85,8 @@ d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "Dist
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read elector distribution dataset. 
 d_ec <- read_csv("corrected_ec_1948_2024.csv")
+
+
 ```
 
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
@@ -185,11 +187,6 @@ reg88 <- lm(D_pv2p ~ September_Results + October_Results,
                 data = subset(model88, year <= 2020))
 ```
 
-# Prediction Time!
-
-Okay okay time for the fun stuff. You will see below a regression table including last weeks data as well as an added coefficient for campaign events. I apologize that the term label is not updated to something cleaner than fun_campaign_events, but I had the darndest trouble trying to change it!
-
-Alas, below you will see the data. Some key results are as follows. First, the September Polling results continue to be statistically significant in this situation. Next, October Results, which are only minorly significant in this prediction. Finally, the Campaign Events coefficient is not statistically significant. As you will see below, my prediction overall did not go well this week. This is certainly an allusion to that.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 tidy_model88 <- tidy(reg88)
@@ -242,15 +239,13 @@ table88 <- bind_cols(prediction_data88,
   filter(state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Mexico", "North Carolina", "Pennsylvania", "Texas", "Virginia", "Wisconsin"))
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 knitr::kable(table88, 
              col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>
   kableExtra::kable_styling(full_width = FALSE) |>
-  kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "#D3E5FF") |>
-  kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "#FFD1D1")
+  kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "blue") |>
+  kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "red") 
 ```
-
-
 
 
 
