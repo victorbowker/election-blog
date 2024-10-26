@@ -200,6 +200,11 @@ reg88 <- lm(D_pv2p ~ September_Results + October_Results,
 tidy_model88 <- tidy(reg88)
 ```
 
+
+
+As with most of my past posts, and with the general understanding of voters making decisions based on recent events and opinions, October is must more significant than September. See below!
+
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 datatable(tidy_model88, 
           options = list(pageLength = 4), 
