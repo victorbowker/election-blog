@@ -315,7 +315,7 @@ As of now, I have Harris with 319 Electoral Votes, compared to Trump’s 219. VP
 On a less analytical note, I have been watching forecasts from many more professional sources who are starting to give Trump the upper hand. It is obvious this will be a close race, but perhaps closer than I expected.
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 
-\# What if they tie?
+# What If They Tie?
 
 I mentioned the race is close-but what if it is so close that they tie? According to CNN, “If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there’s a tie, 269-269.” (8)
 If this does in fact happen, the 12th Amendment will kick in and allow the newly elected Congress to vote for the next president. This *probably* won’t happen, but if it did, it would be a great time to be concentrating in Government!
@@ -330,3 +330,4 @@ Citations:
 6 - https://www.nytimes.com/2024/10/25/us/politics/trump-officials-letter-fascist-john-kelly.html
 7 - https://fivethirtyeight.com/features/the-comey-letter-probably-cost-clinton-the-election/
 8 - https://www.cnn.com/2024/08/04/politics/tie-presidential-election-what-matters/index.html
+9 - Kaitlyn Vu - check her out here -\> https://kaitvu.github.io/election-blog/

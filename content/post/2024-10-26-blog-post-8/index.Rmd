@@ -236,8 +236,6 @@ prediction_data88
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-
-# Calculate predictions and confidence intervals
 pred88 <- predict(reg88, prediction_data88, interval = "prediction")
 
 table88 <- bind_cols(prediction_data88,
@@ -261,7 +259,6 @@ knitr::kable(table88,
 ```
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
-# tidy state-level prediction
 map88 <- expert |>
   mutate(winner = if_else(cook_text_rating == "Solid Democrat", 
                           "Harris", 
@@ -285,7 +282,7 @@ Thanks to my dear friend Kaitlyn Vu's incredible Excel abilities, I have been ab
 Below you will see a map of the election outcome per my latest prediction. First big thing to notice is the most important state(at least in my opinion), Pennsylvania, goes to Harris. She also seized Michigan, Wisconsin, North Carolina, Georgia, Arizona, and basically every other toss up. So, you probably already know, but keep scrolling to see who I have forecasted to win this race.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-# figure 6: week 8 predicted electoral map
+#written in consultation with Kaitlyn Vu
 map88 |> 
   left_join(states, by = "state") |>
   ggplot(aes(long, lat, group = group)) + 
@@ -301,7 +298,7 @@ map88 |>
   theme_void() +
   theme(
     plot.title = element_text(
-      hjust = 0.5, face = "bold", size = 16, color = "gray20", vjust = 2
+      hjust = 0.5, face = "bold", size = 16, color = "black", vjust = 2
     ), 
     legend.title = element_text(size = 12, face = "bold"),
     legend.text = element_text(size = 11),
@@ -334,7 +331,7 @@ electoral_table <- map88 |>
 electoral_table |>
   ggplot(aes(x = reorder(winner, -count), y = count, fill = winner)) +
   geom_bar(stat = "identity", width = 0.6, color = "black") +
-    geom_hline(yintercept = 270, color = "red", linetype = "solid", size = 1) +  # Adds red line at 270
+    geom_hline(yintercept = 270, color = "red", linetype = "solid", size = 1) + 
   scale_fill_manual(values = c(
     "Kamala Harris" = "dodgerblue3",
     "Donald Trump" = "firebrick3"
@@ -356,10 +353,7 @@ electoral_table |>
   )
 ```
  
- 
- # What if they tie?
- 
- 
+# What If They Tie?
  
  I mentioned the race is close-but what if it is so close that they tie? According to CNN, "If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there's a tie, 269-269." (8) 
  If this does in fact happen, the 12th Amendment will kick in and allow the newly elected Congress to vote for the next president. This _probably_ won't happen, but if it did, it would be a great time to be concentrating in Government!
@@ -375,6 +369,7 @@ electoral_table |>
 6 - https://www.nytimes.com/2024/10/25/us/politics/trump-officials-letter-fascist-john-kelly.html
 7 - https://fivethirtyeight.com/features/the-comey-letter-probably-cost-clinton-the-election/
 8 - https://www.cnn.com/2024/08/04/politics/tie-presidential-election-what-matters/index.html
+9 - Kaitlyn Vu - check her out here -> https://kaitvu.github.io/election-blog/
 
  
  
