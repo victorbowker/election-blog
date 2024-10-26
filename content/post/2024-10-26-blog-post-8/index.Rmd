@@ -73,19 +73,27 @@ library(tmaptools)
 library(viridis)
 library(tidyverse)
 library(gt)
+install.packages("readxl")
+library(readxl)
 ```
 
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read popular vote datasets. 
 d_popvote <- read_csv("popvote_1948_2020.csv")
 d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
+states <- map_data("state") |>
+  rename(state = region)
+states$state <- str_to_title(states$state)
 d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
 ```
 
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read elector distribution dataset. 
 d_ec <- read_csv("corrected_ec_1948_2024.csv")
-
+d_ec <- d_ec |>
+  filter(year == 2024)
+library(readxl)
+expert <- read_excel("/Users/victorbowker/Fall 2024/election-blog/content/post/2024-10-26-blog-post-8/expert_2024-2.xlsx")
 
 ```
 
@@ -246,9 +254,94 @@ knitr::kable(table88,
   kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "blue") |>
   kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "red") 
 ```
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+
+# tidy state-level prediction
+map88 <- expert |>
+  mutate(winner = if_else(cook_text_rating == "Solid Democrat", 
+                          "Harris", 
+                          if_else(cook_text_rating == "Solid Republican", 
+                                  "Trump", 
+                                  NA_character_))) |>
+  slice(-c(52:56)) |>
+  select(state, winner) |>
+  left_join(table88 |> select(state, winner88 = winner), by = "state") |>
+  mutate(winner = coalesce(winner, winner88)) |>
+  select(state, winner) |>
+  mutate(winner = if_else(state == "Maine", "Harris", winner))
+```
 
 
 
+
+
+```{r}
+# figure 6: week 8 predicted electoral map
+map88 |> 
+  left_join(states, by = "state") |>
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = winner), color = "white", size = 0.4) +  
+  scale_fill_manual(values = c(
+    "Harris" = "dodgerblue3",
+    "Trump" = "firebrick3"    
+  )) +
+  labs(
+    title = "Electoral Projection",
+    fill = "Predicted Winner" 
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5, face = "bold", size = 16, color = "gray20", vjust = 2
+    ), 
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 11),
+    legend.key.size = unit(0.8, "cm"),
+    legend.position = "bottom",
+    plot.margin = margin(20, 20, 20, 20)
+  )
+
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+electoral_table <- map88 |>
+  left_join(d_ec, by = "state") |>
+  select(state, winner, electors) |>
+  mutate(winner = case_when(
+    winner == "Harris" ~ "Kamala Harris",
+    winner == "Trump" ~ "Donald Trump",
+    TRUE ~ winner
+  )) |>
+  group_by(winner) |>
+  summarize(count = sum(electors)) |>
+  arrange(desc(count))
+
+electoral_table
+
+electoral_table |>
+  ggplot(aes(x = reorder(winner, -count), y = count, fill = winner)) +
+  geom_bar(stat = "identity", width = 0.6, color = "black") +
+    geom_hline(yintercept = 270, color = "red", linetype = "solid", size = 1) +  # Adds red line at 270
+  scale_fill_manual(values = c(
+    "Kamala Harris" = "dodgerblue3",
+    "Donald Trump" = "firebrick3"
+  )) +
+  labs(
+    title = "Electoral Vote Distribution",
+    x = "Candidate",
+    y = "Total Electoral Votes",
+    fill = "Candidate"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(size = 11),
+    axis.text.y = element_text(size = 11),
+    legend.position = "none"
+  )
+```
  
  Citations:
  
