@@ -312,6 +312,7 @@ As of now, I have Harris with 319 Electoral Votes, compared to Trump’s 219. VP
 
 On a less analytical note, I have been watching forecasts from many more professional sources who are starting to give Trump the upper hand. It is obvious this will be a close race, but perhaps closer than I expected.
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" />
+
 \# What if they tie?
 
 I mentioned the race is close-but what if it is so close that they tie? According to CNN, “If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there’s a tie, 269-269.” (8)

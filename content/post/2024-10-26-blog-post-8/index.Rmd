@@ -350,7 +350,11 @@ electoral_table |>
     legend.position = "none"
   )
 ```
+ 
+ 
  # What if they tie?
+ 
+ 
  
  I mentioned the race is close-but what if it is so close that they tie? According to CNN, "If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there's a tie, 269-269." (8) 
  If this does in fact happen, the 12th Amendment will kick in and allow the newly elected Congress to vote for the next president. This _probably_ won't happen, but if it did, it would be a great time to be concentrating in Government!
