@@ -247,7 +247,7 @@ table88 <- bind_cols(prediction_data88,
   filter(state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Mexico", "North Carolina", "Pennsylvania", "Texas", "Virginia", "Wisconsin"))
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::kable(table88, 
              col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>
   kableExtra::kable_styling(full_width = FALSE) |>
@@ -273,7 +273,11 @@ map88 <- expert |>
 
 
 
+# Map!
 
+Thanks to my dear friend Kaitlyn Vu's incredible Excel abilities, I have been able to now make a map! She combined expert predictions and historical data to fill in a few blanks-meaning I am pretty confident that Massachusetts will remain blue, so I won't run a regression on that. This sheet has all the solid states already imported!
+
+Below you will see a map of the election outcome per my latest prediction. First big thing to notice is the most important state(at least in my opinion), Pennsylvania, goes to Harris. She also seized Michigan, Wisconsin, North Carolina, Georgia, Arizona, and basically every other toss up. So, you probably already know, but keep scrolling to see who I have forecasted to win this race.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # figure 6: week 8 predicted electoral map
@@ -303,6 +307,11 @@ map88 |>
 
 ```
 
+# Winner: Harris
+
+As of now, I have Harris with 319 Electoral Votes, compared to Trump's 219. VP Harris easily surpasses the 270 threshold in this situation and takes the White House!
+
+On a less analytical note, I have been watching forecasts from many more professional sources who are starting to give Trump the upper hand. It is obvious this will be a close race, but perhaps closer than I expected.
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 electoral_table <- map88 |>
   left_join(d_ec, by = "state") |>
@@ -316,7 +325,6 @@ electoral_table <- map88 |>
   summarize(count = sum(electors)) |>
   arrange(desc(count))
 
-electoral_table
 
 electoral_table |>
   ggplot(aes(x = reorder(winner, -count), y = count, fill = winner)) +
@@ -342,6 +350,11 @@ electoral_table |>
     legend.position = "none"
   )
 ```
+ # What if they tie?
+ 
+ I mentioned the race is close-but what if it is so close that they tie? According to CNN, "If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there's a tie, 269-269." (8) 
+ If this does in fact happen, the 12th Amendment will kick in and allow the newly elected Congress to vote for the next president. This _probably_ won't happen, but if it did, it would be a great time to be concentrating in Government!
+ 
  
  Citations:
  
@@ -352,6 +365,7 @@ electoral_table |>
 5 - https://www.nytimes.com/2024/10/22/us/politics/john-kelly-trump-fitness-character.html
 6 - https://www.nytimes.com/2024/10/25/us/politics/trump-officials-letter-fascist-john-kelly.html
 7 - https://fivethirtyeight.com/features/the-comey-letter-probably-cost-clinton-the-election/
+8 - https://www.cnn.com/2024/08/04/politics/tie-presidential-election-what-matters/index.html
 
  
  

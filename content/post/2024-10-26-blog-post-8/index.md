@@ -53,16 +53,269 @@ We are less than 10 days away from the 2024 Presidential Election. I have been t
 
 <div class="datatables html-widget html-fill-item" id="htmlwidget-1" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Updated Regression Results<\/caption>","data":[["1","2","3"],["(Intercept)","September_Results","October_Results"],[2.282644075352613,-0.4930025587285782,1.520408518925726],[2.444238400919505,0.3560524316813045,0.3380622646293033],[0.933887657805351,-1.38463471910748,4.497421564021367],[0.3527802658988687,0.1694772690824088,1.983294708572872e-05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:right;">
+Prediction
+</th>
+<th style="text-align:right;">
+Lower Bound
+</th>
+<th style="text-align:right;">
+Upper Bound
+</th>
+<th style="text-align:left;">
+Winner
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Arizona
+</td>
+<td style="text-align:right;background-color: blue !important;">
+50.35
+</td>
+<td style="text-align:right;background-color: blue !important;">
+41.22
+</td>
+<td style="text-align:right;background-color: blue !important;">
+59.48
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: red !important;">
+Florida
+</td>
+<td style="text-align:right;background-color: red !important;">
+49.16
+</td>
+<td style="text-align:right;background-color: red !important;">
+40.05
+</td>
+<td style="text-align:right;background-color: red !important;">
+58.27
+</td>
+<td style="text-align:left;background-color: red !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Georgia
+</td>
+<td style="text-align:right;background-color: blue !important;">
+50.77
+</td>
+<td style="text-align:right;background-color: blue !important;">
+41.64
+</td>
+<td style="text-align:right;background-color: blue !important;">
+59.90
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Michigan
+</td>
+<td style="text-align:right;background-color: blue !important;">
+51.56
+</td>
+<td style="text-align:right;background-color: blue !important;">
+42.42
+</td>
+<td style="text-align:right;background-color: blue !important;">
+60.69
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Minnesota
+</td>
+<td style="text-align:right;background-color: blue !important;">
+53.56
+</td>
+<td style="text-align:right;background-color: blue !important;">
+44.42
+</td>
+<td style="text-align:right;background-color: blue !important;">
+62.71
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Nevada
+</td>
+<td style="text-align:right;background-color: blue !important;">
+51.71
+</td>
+<td style="text-align:right;background-color: blue !important;">
+42.59
+</td>
+<td style="text-align:right;background-color: blue !important;">
+60.82
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+New Hampshire
+</td>
+<td style="text-align:right;background-color: blue !important;">
+54.77
+</td>
+<td style="text-align:right;background-color: blue !important;">
+45.61
+</td>
+<td style="text-align:right;background-color: blue !important;">
+63.93
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+New Mexico
+</td>
+<td style="text-align:right;background-color: blue !important;">
+53.80
+</td>
+<td style="text-align:right;background-color: blue !important;">
+44.65
+</td>
+<td style="text-align:right;background-color: blue !important;">
+62.96
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+North Carolina
+</td>
+<td style="text-align:right;background-color: blue !important;">
+51.01
+</td>
+<td style="text-align:right;background-color: blue !important;">
+41.89
+</td>
+<td style="text-align:right;background-color: blue !important;">
+60.14
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Pennsylvania
+</td>
+<td style="text-align:right;background-color: blue !important;">
+51.73
+</td>
+<td style="text-align:right;background-color: blue !important;">
+42.61
+</td>
+<td style="text-align:right;background-color: blue !important;">
+60.85
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: red !important;">
+Texas
+</td>
+<td style="text-align:right;background-color: red !important;">
+47.75
+</td>
+<td style="text-align:right;background-color: red !important;">
+38.63
+</td>
+<td style="text-align:right;background-color: red !important;">
+56.86
+</td>
+<td style="text-align:left;background-color: red !important;">
+Trump
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Virginia
+</td>
+<td style="text-align:right;background-color: blue !important;">
+53.94
+</td>
+<td style="text-align:right;background-color: blue !important;">
+44.80
+</td>
+<td style="text-align:right;background-color: blue !important;">
+63.08
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: blue !important;">
+Wisconsin
+</td>
+<td style="text-align:right;background-color: blue !important;">
+51.73
+</td>
+<td style="text-align:right;background-color: blue !important;">
+42.57
+</td>
+<td style="text-align:right;background-color: blue !important;">
+60.88
+</td>
+<td style="text-align:left;background-color: blue !important;">
+Harris
+</td>
+</tr>
+</tbody>
+</table>
+
+# Map!
+
+Thanks to my dear friend Kaitlyn Vu’s incredible Excel abilities, I have been able to now make a map! She combined expert predictions and historical data to fill in a few blanks-meaning I am pretty confident that Massachusetts will remain blue, so I won’t run a regression on that. This sheet has all the solid states already imported!
+
+Below you will see a map of the election outcome per my latest prediction. First big thing to notice is the most important state(at least in my opinion), Pennsylvania, goes to Harris. She also seized Michigan, Wisconsin, North Carolina, Georgia, Arizona, and basically every other toss up. So, you probably already know, but keep scrolling to see who I have forecasted to win this race.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
-    ## # A tibble: 2 × 2
-    ##   winner        count
-    ##   <chr>         <dbl>
-    ## 1 Kamala Harris   319
-    ## 2 Donald Trump    219
+# Winner: Harris
 
+As of now, I have Harris with 319 Electoral Votes, compared to Trump’s 219. VP Harris easily surpasses the 270 threshold in this situation and takes the White House!
+
+On a less analytical note, I have been watching forecasts from many more professional sources who are starting to give Trump the upper hand. It is obvious this will be a close race, but perhaps closer than I expected.
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" />
+\# What if they tie?
+
+I mentioned the race is close-but what if it is so close that they tie? According to CNN, “If Harris wins Wisconsin, Michigan, Arizona and Nevada and a single electoral vote in Nebraska, all of which Joe Biden won in 2020, but she loses Pennsylvania and Georgia, there’s a tie, 269-269.” (8)
+If this does in fact happen, the 12th Amendment will kick in and allow the newly elected Congress to vote for the next president. This *probably* won’t happen, but if it did, it would be a great time to be concentrating in Government!
 
 Citations:
 
@@ -73,3 +326,4 @@ Citations:
 5 - https://www.nytimes.com/2024/10/22/us/politics/john-kelly-trump-fitness-character.html
 6 - https://www.nytimes.com/2024/10/25/us/politics/trump-officials-letter-fascist-john-kelly.html
 7 - https://fivethirtyeight.com/features/the-comey-letter-probably-cost-clinton-the-election/
+8 - https://www.cnn.com/2024/08/04/politics/tie-presidential-election-what-matters/index.html
