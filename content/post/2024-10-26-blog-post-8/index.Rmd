@@ -275,7 +275,7 @@ map88 <- expert |>
 
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # figure 6: week 8 predicted electoral map
 map88 |> 
   left_join(states, by = "state") |>

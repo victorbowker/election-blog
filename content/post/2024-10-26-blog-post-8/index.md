@@ -54,39 +54,6 @@ We are less than 10 days away from the 2024 Presidential Election. I have been t
 <div class="datatables html-widget html-fill-item" id="htmlwidget-1" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Updated Regression Results<\/caption>","data":[["1","2","3"],["(Intercept)","September_Results","October_Results"],[2.282644075352613,-0.4930025587285782,1.520408518925726],[2.444238400919505,0.3560524316813045,0.3380622646293033],[0.933887657805351,-1.38463471910748,4.497421564021367],[0.3527802658988687,0.1694772690824088,1.983294708572872e-05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 
-``` r
-# figure 6: week 8 predicted electoral map
-map88 |> 
-  left_join(states, by = "state") |>
-  ggplot(aes(long, lat, group = group)) + 
-  geom_polygon(aes(fill = winner), color = "white", size = 0.4) +  
-  scale_fill_manual(values = c(
-    "Harris" = "dodgerblue3",
-    "Trump" = "firebrick3"    
-  )) +
-  labs(
-    title = "Electoral Projection",
-    fill = "Predicted Winner" 
-  ) +
-  theme_void() +
-  theme(
-    plot.title = element_text(
-      hjust = 0.5, face = "bold", size = 16, color = "gray20", vjust = 2
-    ), 
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 11),
-    legend.key.size = unit(0.8, "cm"),
-    legend.position = "bottom",
-    plot.margin = margin(20, 20, 20, 20)
-  )
-```
-
-    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `linewidth` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
     ## # A tibble: 2 × 2
