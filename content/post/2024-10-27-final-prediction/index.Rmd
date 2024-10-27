@@ -9,21 +9,21 @@ tags: []
 
 # Disregard - Incomplete
 
-(1) model formula (or procedure for obtaining prediction), 
-(2) model description and justification, 
+(1) model formula (or procedure for obtaining prediction),
+(2) model description and justification,
 (3) coefficients (if using singular regression) and/or weights (if using ensemble of different models) and/or feature importance (if using machine learning)
-(4) interpretation of coefficients, feature importance, and/or justification of weights, 
-(5) model validation (recommended to include both in-sample and out-of-sample performance unless it is impossible due to the characteristics of model and related data availability), 
+(4) interpretation of coefficients, feature importance, and/or justification of weights,
+(5) model validation (recommended to include both in-sample and out-of-sample performance unless it is impossible due to the characteristics of model and related data availability),
 (6) uncertainty around prediction (e.g. predictive interval)
 (7) graphic(s) showing your prediction
 
-
 # Welcome, Again
 
-Can you believe it? This is my final post before the 2024 Presidential General Election, where either Former President Donald Trump, or Vice President Kamala Harris, will be elected the next President of the United States. I think
+Can you believe it? This is my final post before the 2024 Presidential General Election, where either Former President Donald Trump, or Vice President Kamala Harris, will be elected the next President of the United States.
 
+Below, you will find a culmination of nearly a semester of learning and projecting. I want to extend a special shout out to the teaching team of Gov 1347: Election Analytics, including Professor Ryan Enos, Teaching Fellow Matthew Dardet, and Course Assistants Yusuf Mian and Ethan Jasny! Over the past two months, we have met weekly to discuss each aspect of a political campaign, through guest speakers and in class discussions. I have enjoyed this class incredibly, and I am so excited to see how my projection matches up with the professional ones! Last person I will shout out before getting to the projection is my dear friend Kaitlyn Vu, a fellow Gov concentrating sophomore in Gov 1347 - she is great, and you can check out here projection here: <https://kaitvu.github.io/election-blog/>
 
-
+# The Model I Used
 
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 options(repos = c(CRAN = "https://cloud.r-project.org"))
@@ -110,7 +110,6 @@ d_county_demog <- read_csv("county_demographics.csv")
 d_campaign_events <- read_csv("campaigns_2016_2024.csv")[,-1]
 ```
 
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
 state_abb_xwalk <- d_state_popvote |>
@@ -121,14 +120,11 @@ state_abb_xwalk[51,]$state <- "District Of Columbia"
 state_abb_xwalk[51,]$state_abb <- "DC"
 ```
 
-
-
-```{r}
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 d_campaign_events <- read_csv("campaign_events_geocoded.csv")
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
 
-d_campaign_events
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
@@ -165,12 +161,24 @@ model44 <- d_state_polls |>
 
 ```
 
-```{r, echo=FALSE, warning=FALSE, include=FALSE, message=FALSE}
+```{r}
 reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events, 
                 data = model44)
 ```
 
+This model is a multiple linear regression aimed at predicting the Democratic popular vote share (`D_pv2p)` using polling data and campaign events. September and October Polling results come from data published on *FiveThirtyEight* which was organized by CAs Ethan Jasny and Yusuf Mian. Campaign event data was tidied by our lovely 1347 CAs as well!
 
+# Analysis of Regression
+
+This regression was run with four (4) variables, including the intercept, September Polling Results, October Polling Results, and a variable on the location and timing of campaign events.
+
+First, you will see that the intercept's p-value is .203, which is above the 0.05 threshold, meaning it is not statistically significant at the expected 5% value.
+
+Alternatively, September Results yield more encouraging results, showing that with a p-value of 4.38e-7, the effects of September polling is incredibly significant in the final projection of the dependent variable! You will see that with an estimate of 0.61, each point increase in September polling reflects the Democratic vote share to increase by 0.61 points!
+
+Next up, October Results are not as impactful—but I have kept them in. In class, we discussed heavily how often voters are swayed in the weeks leading up to an election: they generally don't consider events of 1 or 2 years ago, when they can think about what happened this week. With a p-value of 0.103, the regression model finds the variable to be not statistically significant.
+
+Finally, it is time to discuss the campaign events. You will notice something particularly strange about the estimate in this line. With a low p-value, the variable is seen to be statistically significant. With the estimate, it appears that for every additional campaign event held, the Democrats party vote share will decrease by nearly 42 units. We learned during the ground game discussion in class that the impact of campaign offices and events can be great-but my model does not agree. We know that funding for events has skyrocketed, but perhaps my model is correct in knowing that these events are merely a spectacle—or as we recently saw, a chance to assassinate the Former President.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 tidy_model44 <- tidy(reg44)
@@ -201,11 +209,6 @@ prediction_data <- d_state_polls |>
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-prediction_data
-
-```
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 pred44 <- predict(reg44, prediction_data, interval = "prediction")
 
 table44 <- bind_cols(prediction_data,
@@ -219,9 +222,6 @@ table44 <- bind_cols(prediction_data,
          -year, ) |>
   filter(state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Mexico", "North Carolina", "Pennsylvania", "Texas", "Virginia", "Wisconsin"))
 ```
-
-
-
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
@@ -267,9 +267,6 @@ map44 |>
 
 ```
 
-
-
-
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 electoral_table <- map44 |>
   left_join(d_ec, by = "state") |>
@@ -287,7 +284,7 @@ electoral_table <- map44 |>
 electoral_table |>
   ggplot(aes(x = reorder(winner, -count), y = count, fill = winner)) +
   geom_bar(stat = "identity", width = 0.6, color = "black") +
-    geom_hline(yintercept = 270, color = "red", linetype = "solid", size = 1) + 
+    geom_hline(yintercept = 270, color = "green4", linetype = "dashed", size = 1) + 
   scale_fill_manual(values = c(
     "Kamala Harris" = "dodgerblue3",
     "Donald Trump" = "firebrick3"
@@ -298,6 +295,7 @@ electoral_table |>
     y = "Total Electoral Votes",
     fill = "Candidate"
   ) +
+    geom_text(aes(label = count), vjust = -0.5, size = 4, fontface = "bold") + 
   theme_minimal() +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
@@ -308,6 +306,3 @@ electoral_table |>
     legend.position = "none"
   )
 ```
-
-
-
