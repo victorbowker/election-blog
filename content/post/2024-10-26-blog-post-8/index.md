@@ -27,7 +27,7 @@ Are you getting excited? This election is *SO SOON*, and I do not know how to fe
 
 If you are wondering how many days until that fateful Tuesday, check here! (This was written on Saturday, October 26th!)
 
-    ## Time difference of 10 days
+    ## Time difference of 9 days
 
 # Shocks
 
@@ -77,223 +77,223 @@ Winner
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Arizona
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 50.35
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 41.22
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 59.48
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: red !important;">
+<td style="text-align:left;color: white !important;background-color: red !important;">
 Florida
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 49.16
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 40.05
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 58.27
 </td>
-<td style="text-align:left;background-color: red !important;">
+<td style="text-align:left;color: white !important;background-color: red !important;">
 Trump
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Georgia
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 50.77
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 41.64
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 59.90
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Michigan
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 51.56
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 42.42
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 60.69
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Minnesota
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 53.56
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 44.42
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 62.71
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Nevada
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 51.71
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 42.59
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 60.82
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 New Hampshire
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 54.77
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 45.61
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 63.93
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 New Mexico
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 53.80
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 44.65
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 62.96
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 North Carolina
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 51.01
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 41.89
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 60.14
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Pennsylvania
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 51.73
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 42.61
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 60.85
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: red !important;">
+<td style="text-align:left;color: white !important;background-color: red !important;">
 Texas
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 47.75
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 38.63
 </td>
-<td style="text-align:right;background-color: red !important;">
+<td style="text-align:right;color: white !important;background-color: red !important;">
 56.86
 </td>
-<td style="text-align:left;background-color: red !important;">
+<td style="text-align:left;color: white !important;background-color: red !important;">
 Trump
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Virginia
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 53.94
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 44.80
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 63.08
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>
 <tr>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Wisconsin
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 51.73
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 42.57
 </td>
-<td style="text-align:right;background-color: blue !important;">
+<td style="text-align:right;color: white !important;background-color: blue !important;">
 60.88
 </td>
-<td style="text-align:left;background-color: blue !important;">
+<td style="text-align:left;color: white !important;background-color: blue !important;">
 Harris
 </td>
 </tr>

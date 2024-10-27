@@ -254,8 +254,9 @@ table88 <- bind_cols(prediction_data88,
 knitr::kable(table88, 
              col.names = c("State", "Prediction", "Lower Bound", "Upper Bound", "Winner")) |>
   kableExtra::kable_styling(full_width = FALSE) |>
-  kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "blue") |>
-  kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "red") 
+  kableExtra::row_spec(row = which(table88$winner == "Harris"), background = "blue", color = "white") |>
+  kableExtra::row_spec(row = which(table88$winner == "Trump"), background = "red", color = "white") 
+
 ```
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 
