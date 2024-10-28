@@ -20,14 +20,6 @@ tags: []
 
 # Disregard - Incomplete
 
-1)  model formula (or procedure for obtaining prediction),
-2)  model description and justification,
-3)  coefficients (if using singular regression) and/or weights (if using ensemble of different models) and/or feature importance (if using machine learning)
-4)  interpretation of coefficients, feature importance, and/or justification of weights,
-5)  model validation (recommended to include both in-sample and out-of-sample performance unless it is impossible due to the characteristics of model and related data availability),
-6)  uncertainty around prediction (e.g. predictive interval)
-7)  graphic(s) showing your prediction
-
 # Welcome, Again
 
 Can you believe it? This is my final post before the 2024 Presidential General Election, where either Former President Donald Trump, or Vice President Kamala Harris, will be elected the next President of the United States.
@@ -58,6 +50,18 @@ Finally, it is time to discuss the campaign events. You will notice something pa
 <div class="datatables html-widget html-fill-item" id="htmlwidget-1" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Updated Regression Results<\/caption>","data":[["1","2","3","4"],["(Intercept)","September_Results","October_Results","fun_campaign_events"],[8.34395344745049,0.611420704539272,0.2241231547885874,-41.8521345306346],[6.523508463530661,0.113605110172749,0.1365874817597192,14.82973552224305],[1.27905918940658,5.381982409149902,1.64087624942715,-2.822176731868265],[0.2036431587206929,4.384318365979549e-07,0.103759502500305,0.005687984014582276]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"term","targets":1},{"name":"estimate","targets":2},{"name":"std.error","targets":3},{"name":"statistic","targets":4},{"name":"p.value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 
+# 2024 Election Projection
+
+On the map below, you will see my final projection for the 2024 Presidential Election. As you will see, this has taken a turn from my past projections, as I now have Trump heavily winning the race. I have since re-added the Campaign Events variable, which I believe is the primary reason for the shift
+
+Clearly, Trump wins this projection. Specifically, I have him seizing his typical red states, as well as Arizona, Pennsylvania, Michigan, Wisconsin, North Carolina, Georgia, Minnesota, and Nevada, while Harris takes Virginia, New Mexico, New Hampshire, and her solid blue states.
+
+Take a look for yourself below!
+
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+
+# Electoral College Roundup
+
+Below you will see a bar chart with my final projection for the 2024 Presidential Election. The green dashed line shows the threshold of 270 electoral votes — the amount needed to win the White House. In this case, Former President Trump clearly takes the votes, with a total of 322 votes, compared to Vice President Harris’ 216.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-22-1.png" width="672" />
