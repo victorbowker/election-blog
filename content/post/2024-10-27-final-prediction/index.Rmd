@@ -7,8 +7,6 @@ categories: []
 tags: []
 ---
 
-# Disregard - Incomplete
-
 # Welcome, Again
 
 Can you believe it? This is my final post before the 2024 Presidential General Election, where either Former President Donald Trump, or Vice President Kamala Harris, will be elected the next President of the United States.
@@ -54,6 +52,8 @@ library(readxl)
 ```{r, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
 # Read popular vote datasets. 
 d_popvote <- read_csv("popvote_1948_2020.csv")
+ d_popvote$party[d_popvote$party == "democrat"] <- "DEM"
+  d_popvote$party[d_popvote$party == "republican"] <- "REP"
 d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
 states <- map_data("state") |>
   rename(state = region)
@@ -148,29 +148,34 @@ model44 <- d_state_polls |>
   rename(September_Results = month_9, 
          October_Results = month_10) |>
   left_join(kaitlyn_dataset, by = c("state", "year")) |>
+  left_join(d_popvote |>
+  select(year, party, incumbent_party) |>
+  filter(party == "DEM") |>
+  mutate(incumbent_party = if_else(incumbent_party == "TRUE", 1, 0)) |>
+  select(-party), by = "year") |>
   mutate(across(everything(), ~ replace_na(., 0))) 
 
 
 ```
 
 ```{r}
-reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events, 
+reg44 <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events + incumbent_party, 
                 data = model44)
 ```
 
-This model is a multiple linear regression aimed at predicting the Democratic popular vote share (`D_pv2p)` using polling data and campaign events. September and October Polling results come from data published on *FiveThirtyEight* which was organized by CAs Ethan Jasny and Yusuf Mian. Campaign event data was tidied by our lovely 1347 CAs as well!
+This model is a multiple linear regression aimed at predicting the Democratic popular vote share (`D_pv2p)` using polling data, campaign events, and the status of whether the party is an incumbent or challenger. September and October Polling results come from data published on *FiveThirtyEight* which was organized by CAs Ethan Jasny and Yusuf Mian. Campaign event data was tidied by our lovely 1347 CAs as well! Incumbent party data is compiled from history!
 
 # Analysis of Regression
 
-This regression was run with four (4) variables, including the intercept, September Polling Results, October Polling Results, and a variable on the location and timing of campaign events.
+This regression was run with five (5) variables, including the intercept, September Polling Results, October Polling Results, whether the Democrats are the incumbent, and a variable on the location and timing of campaign events.
 
-First, you will see that the intercept's p-value is .203, which is above the 0.05 threshold, meaning it is not statistically significant at the expected 5% value.
+First, you will see that the intercept's p-value is .62, which is above the 0.05 threshold, meaning it is not statistically significant at the expected 5% value.
 
-Alternatively, September Results yield more encouraging results, showing that with a p-value of 4.38e-7, the effects of September polling is incredibly significant in the final projection of the dependent variable! You will see that with an estimate of 0.61, each point increase in September polling reflects the Democratic vote share to increase by 0.61 points!
+Alternatively, September Results yield more encouraging results, showing that with a p-value of 3.16×10\^−7, the effects of September polling is incredibly significant in the final projection of the dependent variable! You will see that with an estimate of 0.62, each point increase in September polling reflects the Democratic vote share to increase by 0.62 points!
 
-Next up, October Results are not as impactful—but I have kept them in. In class, we discussed heavily how often voters are swayed in the weeks leading up to an election: they generally don't consider events of 1 or 2 years ago, when they can think about what happened this week. With a p-value of 0.103, the regression model finds the variable to be not statistically significant.
+Next up, October Results are not as impactful—but I have kept them in. In class, we discussed heavily how often voters are swayed in the weeks leading up to an election: they generally don't consider events of 1 or 2 years ago, when they can think about what happened this week. With a p-value of 0.055, the regression model finds the variable to be marginally statistically significant. This means that while influential, the results of October Results are less informative than September - *interesting*!
 
-Finally, it is time to discuss the campaign events. You will notice something particularly strange about the estimate in this line. With a low p-value, the variable is seen to be statistically significant. With the estimate, it appears that for every additional campaign event held, the Democrats party vote share will decrease by nearly 42 units. We learned during the ground game discussion in class that the impact of campaign offices and events can be great-but my model does not agree. We know that funding for events has skyrocketed, but perhaps my model is correct in knowing that these events are merely a spectacle—or as we recently saw, a chance to assassinate the Former President.
+Finally, it is time to discuss the campaign events. You will notice something particularly strange about the estimate in this line. With a low p-value, the variable is seen to be statistically significant. With the estimate, it appears that for every additional campaign event held, the Democrats party vote share will decrease by nearly 43 units. We learned during the ground game discussion in class that the impact of campaign offices and events can be great-but my model does not agree. We know that funding for events has skyrocketed, but perhaps my model is correct in knowing that these events are merely a spectacle—or as we recently saw, a chance to assassinate the Former President. I will be interested to see this outcome specifically, considering Former President Trump's recent rally at Madison Square Garden, where a comedian shared some disrespectful jokes towards key demographics in Trumps reelection strategy.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 tidy_model44 <- tidy(reg44)
@@ -178,7 +183,7 @@ tidy_model44 <- tidy(reg44)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 datatable(tidy_model44, 
-          options = list(pageLength = 4), 
+          options = list(pageLength = 5), 
           caption = "Updated Regression Results") 
 ```
 
@@ -196,6 +201,11 @@ prediction_data <- d_state_polls |>
   rename(September_Results = month_9, 
          October_Results = month_10) |>
   left_join(kaitlyn_dataset, by = c("state", "year")) |>
+    left_join(d_popvote |>
+  select(year, party, incumbent_party) |>
+  filter(party == "DEM") |>
+  mutate(incumbent_party = if_else(incumbent_party == "TRUE", 1, 0)) |>
+  select(-party), by = "year") |>
   mutate(across(everything(), ~ replace_na(., 0))) 
 
 ```
@@ -213,6 +223,8 @@ table44 <- bind_cols(prediction_data,
          -October_Results, 
          -year, ) |>
   filter(state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Mexico", "North Carolina", "Pennsylvania", "Texas", "Virginia", "Wisconsin"))
+
+head(table44)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
@@ -225,19 +237,21 @@ map44 <- expert |>
                                   NA_character_))) |>
   slice(-c(52:56)) |>
   select(state, winner) |>
-  left_join(table44 |> select(state, winner88 = winner), by = "state") |>
+  left_join(table44 |> 
+              select(state, winner88 = winner), by = "state") |>
   mutate(winner = coalesce(winner, winner88)) |>
   select(state, winner) |>
   mutate(winner = if_else(state == "Maine", "Harris", winner))
 
+map44
 
 ```
 
 # 2024 Election Projection
 
-On the map below, you will see my final projection for the 2024 Presidential Election. As you will see, this has taken a turn from my past projections, as I now have Trump heavily winning the race. I have since re-added the Campaign Events variable, which I believe is the primary reason for the shift
+On the map below, you will see my final projection for the 2024 Presidential Election. As you will see, this has taken a turn from my past projections, where Harris now has an incredibly narrow lead. This has changed now that I have added in campaign events, as well as the incumbent advantage.
 
-Clearly, Trump wins this projection. Specifically, I have him seizing his typical red states, as well as Arizona, Pennsylvania, Michigan, Wisconsin, North Carolina, Georgia, Minnesota, and Nevada, while Harris takes Virginia, New Mexico, New Hampshire, and her solid blue states.
+Barely, Harris wins this projection. Specifically, I have her seizing her typical blue states, as well as Wisconsin, Michigan, Pennsylvania. Trump takes Nevada, North Carolina, Arizona, and Georgia as well as his typical red states.
 
 Take a look for yourself below!
 
@@ -270,7 +284,7 @@ map44 |>
 
 # Electoral College Roundup
 
-Below you will see a bar chart with my final projection for the 2024 Presidential Election. The green dashed line shows the threshold of 270 electoral votes — the amount needed to win the White House. In this case, Former President Trump clearly takes the votes, with a total of 322 votes, compared to Vice President Harris' 216.
+Below you will see a bar chart with my final projection for the 2024 Presidential Election. The green dashed line shows the threshold of 270 electoral votes — the amount needed to win the White House. Clearly, this election is *incredibly close*, at least according to my projection. Here, you will see that Harris takes the lead by only two electoral votes, winning 270 to 268.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 electoral_table <- map44 |>
@@ -310,4 +324,28 @@ electoral_table |>
     axis.text.y = element_text(size = 11),
     legend.position = "none"
   )
+```
+
+# Is This A Strong Formula?
+
+Not really. I worked quite hard to investigate reasons for this disappointing R^2^ , mostly to no avail. Below you will see results for an in-sample validation. The R^2^ is 0.33, meaning it only accounts for 33% of outcomes in the Democratic two party vote share. That means this is not a highly consistent model, but in elections that are increasingly difficult to project, it happens sometimes! Either way, I know others used the exact same variables and had R^2^ in the 0.8 region, but alas.
+
+```{r, echo=FALSE, message=FALSE}
+summary(reg44)
+```
+
+```{r, include=FALSE, echo=FALSE, message=FALSE}
+# Fit the model on the entire dataset
+mod_full <- lm(D_pv2p ~ September_Results + October_Results + fun_campaign_events + incumbent_party, 
+               data = model44)
+
+# In-sample predictions
+in_samp_pred <- predict(mod_full)
+in_samp_truth <- model44$D_pv2p
+
+# Calculate in-sample mean absolute error (MAE)
+in_samp_error <- mean(abs(in_samp_pred - in_samp_truth))
+print(paste("In-sample Mean Absolute Error:", round(in_samp_error, 2)))
+
+
 ```
